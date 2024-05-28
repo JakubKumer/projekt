@@ -1,5 +1,6 @@
 <?php 
-    $hash_pass = password_hash('12345',PASSWORD_DEFAULT);
+    session_start();
+    if(!isset($_SESSION['id_user']) && !isset($_SESSION['email'])){
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,3 +49,8 @@
     </div>
 </body>
 </html>
+<?php
+    }else{
+        header("Location: loggin.php");
+    }
+?>

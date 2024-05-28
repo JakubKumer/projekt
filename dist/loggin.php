@@ -1,3 +1,8 @@
+<?php
+    session_start();
+    if(isset($_SESSION['id_user']) && isset($_SESSION['email'])){
+        ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +19,11 @@
             <div class="text-white">profile</div>
         </div>
     </header>
-    
+    <div class="container w-1/4 m-auto ">
+        <p><?=$_SESSION['firstName']?></p>
+        <p><?=$_SESSION['lastName']?></p>
+        <div class="bg-blue-500 w-5"><a href="../scripts/logout.php">Wyloguj</a></div>
+    </div>
     <main class="container w-4/5 m-auto flex">
         <aside class="bg-gray-200 w-1/4 mt-20 mr-5 h-48 ">
             <ul class="text-center p-3">
@@ -59,3 +68,8 @@
     </main>
 </body>
 </html>
+<?php
+    }else{
+        header("Location: loggin.php");
+    }
+?>

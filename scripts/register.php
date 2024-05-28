@@ -74,7 +74,9 @@ if (isset($_POST["email"])) {
             if ($fine) {
                 if ($conn->query("INSERT INTO `users` (`id_user`, `firstName`, `lastName`, `email`, `pass`, `passwordrepeat`) VALUES (NULL, '$name', '$surname', '$email', '$passhash', '$passhash');")) {
                     $_SESSION['registersucced'] = true;
-                    header('Location:login.php');
+                    $_SESSION['success']= "Rejestracja zakończona sukcesem. Możesz się zalogować.";
+                    header('Location: ../dist/register.php');
+                    exit();
                 } else {
                     throw new Exception($conn->error);
                 }
@@ -84,6 +86,12 @@ if (isset($_POST["email"])) {
         }
     } catch (Exception $e) {
         $errors[] = 'Ups, coś poszło nie tak!';
+    }
+
+    if (!empty($errors)) {
+        $_SESSION['errors'] = $errors;
+        header('Location: ../dist/register.php');
+        exit();
     }
 }
 ?>
