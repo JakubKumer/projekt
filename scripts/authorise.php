@@ -25,7 +25,7 @@ if(isset($_POST['email'])&&isset($_POST['password'])){
             $user_surname = $user['lastName'];
             
             if ($email === $user_email){    
-                if($password === $user_password){
+                if(password_verify($password, $user_password)){
                     $_SESSION['id_user'] =  $user_id;
                     $_SESSION['email'] =  $user_email;
                     $_SESSION['pass'] =  $user_password;
