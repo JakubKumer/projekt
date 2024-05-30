@@ -12,15 +12,14 @@
         $firstName = $row["firstName"];
         $lastName = $row["lastName"];
         $email = $row["email"];
-        include_once "update.php";
+       
     } else {
         echo "Użytkownik o podanym identyfikatorze nie istnieje.";
         exit();
-        }    
-}
- else {
+    }
+
+}else{
         echo "Nieprawidłowe żądanie.";
         exit();
     }
-
 ?>
