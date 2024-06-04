@@ -27,12 +27,16 @@ h1 {
 .box
 {
     position: relative;
-    margin: auto;
-    width: 50%;
-    height: 450px;
+    width: 400px;
+    height: 420px;
     background: #1c1c1c;
     border-radius: 8px;
     overflow: hidden;
+}
+
+.error {
+    color: red;
+    margin-top: 10%;
 }
 .box::before
 {
@@ -40,9 +44,9 @@ h1 {
     position: absolute;
     top: -50%;
     left: -50%;
-    width: 380px;
-    height: 420px;
-    background: linear-gradient(0deg,transparent, transparent, #2bbcff,#2bbcff,#2bbcff);
+    width: 400px;
+    height: 800px;
+    background: linear-gradient(0deg, transparent, transparent, #2bbcff, #2bbcff, #2bbcff);
     z-index: 1;
     transform-origin: bottom right;
     animation: animate 6s linear infinite;
@@ -53,8 +57,8 @@ h1 {
     position: absolute;
     top: -50%;
     left: -50%;
-    width: 380px;
-    height: 420px;
+    width: 400px;
+    height: 800px;
     background: linear-gradient(0deg,transparent, transparent,  #2bbcff,#2bbcff,#2bbcff);
     z-index: 1;
     transform-origin: bottom right;
@@ -73,8 +77,8 @@ h1 {
     position: absolute;
     top: -50%;
     left: -50%;
-    width: 380px;
-    height: 420px;
+    width: 400px;
+    height: 800px;
     background: linear-gradient(0deg,transparent, transparent, #2256ff,#2256ff,#2256ff);
     z-index: 1;
     transform-origin: bottom right;
@@ -87,9 +91,9 @@ h1 {
     position: absolute;
     top: -50%;
     left: -50%;
-    width: 380px;
-    height: 420px;
-    background: linear-gradient(0deg,transparent, transparent, #2256ff,#2256ff,#2256ff);
+    width: 400px;
+    height: 800px;
+    background: linear-gradient(0deg, transparent, transparent, #2256ff, #2256ff, #2256ff);
     z-index: 1;
     transform-origin: bottom right;
     animation: animate 6s linear infinite;
@@ -108,7 +112,6 @@ h1 {
 }
 .box form
 {
-    margin: auto;
     position: absolute;
     inset: 4px;
     background: #c9c9c9;
@@ -133,7 +136,6 @@ h1 {
     position: relative;
     width: 300px;
     margin-top: 35px;
-    margin: auto;
 }
 .box form .inputBox input
 {
@@ -194,7 +196,7 @@ h1 {
 }
 .box form .links a
 {
-    margin: auto;
+    margin: 10px 0;
     font-size: 0.75em;
     color: #000000;
     text-decoration: none;
@@ -216,7 +218,6 @@ h1 {
     font-weight: 600;
     width: 300px;
     margin-top: 10px;
-    margin: auto;
 }
 .box form input[type="submit"]:active
 {

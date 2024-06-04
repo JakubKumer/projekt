@@ -20,7 +20,7 @@ unset($_SESSION['success']);
     <div class="container">
         <h1>Sklep internetowy</h1>
         <?php if(!empty($errors)){?>
-            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 w-auto m-auto" role="alert">
+            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 w-auto m-auto lg:w-1/3" role="alert">
                 <p class="font-bold">Błąd</p>
                 <ul><?php foreach($errors as $error){?>
                    <li> <?php echo $error; ?> <?php } ?></li>
@@ -29,7 +29,7 @@ unset($_SESSION['success']);
        <?php }
         ?>
         <?php if (!empty($successMessage)) { ?>
-            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 w-auto m-auto" role="alert">
+            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 w-auto m-auto lg:w-1/3" role="alert">
                 <p class="font-bold">Sukces</p>
                 <p><?php echo $successMessage; ?></p>
             </div>
