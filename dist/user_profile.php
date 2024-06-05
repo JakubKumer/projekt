@@ -48,69 +48,84 @@ $auctions = $stmt->get_result();
 <!DOCTYPE html>
 <html>
     <title>Profil użytkownika</title>
-    <link rel="stylesheet" href="../src/user_profile.css">
+    <link rel="stylesheet" href="../src/user_profile2.css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
     <header class="bg-blue-950">       
         <div class=" container w-4/5 m-auto bg-blue-950 flex justify-around  p-8">
             <div class="text-white ">logo</div>
-            <div class="text-white">profile</div>
+            <div class="text-white"><a href="">Moje Dane</a></div>
+            <div class="text-white"><a href="">Twoje Aukcje</a></div>
         </div>
     </header>
    <div class="kontener">
-   <h1 class="font-bold text-lg">Profil użytkownika</h1>
-    <h2>Twoje dane</h2>
-    <form method="POST" action="user_profile.php">
-        <label for="firstName">Imię:</label>
-        <input type="text" name="firstName" id="firstName" value="<?php echo $user['firstName']; ?>" readonly><br>
+    <h1 class="font-bold text-lg">Profil użytkownika</h1>
+        <h2>Twoje dane</h2>
+        <form class="w-3/4 m-auto" method="POST" action="user_profile.php">
+           <div class="block w-1/2">
+                <label for="firstName">Imię:</label>
+                <input type="text" name="firstName" id="firstName" value="<?php echo $user['firstName']; ?>" readonly><br>
+           </div>
+            <div class="block w-1/2">
+                <label for="lastName">Nazwisko:</label>
+                <input type="text" name="lastName" id="lastName" value="<?php echo $user['lastName']; ?>" readonly><br>
+            </div>                       
+            <div class="block w-1/2">
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" value="<?php echo $user['email']; ?>" readonly><br>
+            </div>
 
-        <label for="lastName">Nazwisko:</label>
-        <input type="text" name="lastName" id="lastName" value="<?php echo $user['lastName']; ?>" readonly><br>
+            <div class="block w-1/2">
+                <label for="city">Miasto:</label>
+                <input type="text" name="city" id="city" value="<?php echo $user['city']; ?>"><br>
+            </div>
 
-        <label for="email">Email:</label>
-        <input type="email" name="email" id="email" value="<?php echo $user['email']; ?>" readonly><br>
+            <div class="block w-1/2">
+                <label for="street">Ulica:</label>
+                <input type="text" name="street" id="street" value="<?php echo $user['street']; ?>"><br>
+            </div>
 
-        <label for="city">Miasto:</label>
-        <input type="text" name="city" id="city" value="<?php echo $user['city']; ?>"><br>
+            <div class="block w-1/2">
+                <label for="house_number">Nr domu:</label>
+                <input type="text" name="house_number" id="house_number" value="<?php echo $user['house_number']; ?>"><br>
+            </div>
 
-        <label for="street">Ulica:</label>
-        <input type="text" name="street" id="street" value="<?php echo $user['street']; ?>"><br>
+            <div class="block w-1/2">
+                <label for="postal_code">Kod pocztowy:</label>
+                <input type="text" name="postal_code" id="postal_code" value="<?php echo $user['postal_code']; ?>"><br>
+            </div>
 
-        <label for="house_number">Nr domu:</label>
-        <input type="text" name="house_number" id="house_number" value="<?php echo $user['house_number']; ?>"><br>
+            <div class="block w-1/2">
+                <label for="phone_number">Nr telefonu:</label>
+                <input type="text" name="phone_number" id="phone_number" value="<?php echo $user['phone_number']; ?>"><br>
+            </div>
 
-        <label for="postal_code">Kod pocztowy:</label>
-        <input type="text" name="postal_code" id="postal_code" value="<?php echo $user['postal_code']; ?>"><br>
+            <input type="submit" value="Zaktualizuj dane">
+        </form>
 
-        <label for="phone_number">Nr telefonu:</label>
-        <input type="text" name="phone_number" id="phone_number" value="<?php echo $user['phone_number']; ?>"><br>
-
-        <input type="submit" value="Zaktualizuj dane">
-    </form>
-
-    <h2>Twoje aukcje</h2>
-    <table>
-        <tr>
-            <th>ID aukcji</th>
-            <th>Tytuł</th>
-            <th>Opis</th>
-            <th>Cena początkowa</th>
-            <th>Akcje</th>
-        </tr>
-        <?php while ($auction = $auctions->fetch_assoc()): ?>
+        <h2>Twoje aukcje</h2>
+        <table>
             <tr>
-                <td><?php echo $auction['id_auction']; ?></td>
-                <td><?php echo $auction['title']; ?></td>
-                <td><?php echo $auction['description']; ?></td>
-                <td><?php echo $auction['start_price']; ?></td>
-                <td>
-                    <a href="edit_auction.php?id=<?php echo $auction['id_auction']; ?>">Edytuj</a> | 
-                    <a href="delete_auction.php?id=<?php echo $auction['id_auction']; ?>">Usuń</a>
-                </td>
+                <th>ID aukcji</th>
+                <th>Tytuł</th>
+                <th>Opis</th>
+                <th>Cena początkowa</th>
+                <th>Akcje</th>
             </tr>
-        <?php endwhile; ?>
-    </table>
+            <?php while ($auction = $auctions->fetch_assoc()): ?>
+                <tr>
+                    <td><?php echo $auction['id_auction']; ?></td>
+                    <td><?php echo $auction['title']; ?></td>
+                    <td><?php echo $auction['description']; ?></td>
+                    <td><?php echo $auction['start_price']; ?></td>
+                    <td>
+                        <a href="edit_auction.php?id=<?php echo $auction['id_auction']; ?>">Edytuj</a> | 
+                        <a href="delete_auction.php?id=<?php echo $auction['id_auction']; ?>">Usuń</a>
+                    </td>
+                </tr>
+            <?php endwhile; ?>
+        </table>
    </div>
 </body>
 </html>

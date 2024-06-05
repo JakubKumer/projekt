@@ -10,13 +10,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../src/output.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
-    <header class="bg-blue-950">
+<header class="bg-blue-950">
         <div class=" container w-4/5 m-auto bg-blue-950 flex justify-around  p-8">
-            <div class="text-white ">logo</div>
+            <div class="text-white "><a href="">logo</a></div>
             <div class=""><input class="bg-slate-400 text-black rounded-md" type="text" placeholder="" value="text"></div>
-            <div class="text-white">profile</div>
+            <div id="dropdownButton" class=" text-black font-bold">
+                <div onclick="myDropdown()" class="block w-12 h-12 rounded-full overflow-hidden border-2 border-blue-300 focus:outline-none focus:border-white">
+                    <img class="h-full w-full object-cover" src="https://cdn.pixabay.com/photo/2017/03/04/20/50/pale-2116960_640.jpg" alt="">
+                </div>
+                <div id="dropdown" class="absolute bg-blue-300 rounded-lg p-2 mt-1 hidden w-40">
+                    <p class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white" href="">Witaj <?=$_SESSION['firstName']?></p>
+                    <a class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white" href="user_profile.php">Mój profil</a>
+                    <a class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white" href="../scripts/logout.php">Wyloguj</a>          
+                </div>
+            </div>
         </div>
     </header>
     <div class="container w-1/4 m-auto ">
@@ -66,6 +76,7 @@
             </ul>
         </div>
     </main>
+    <script src="../js/dropdown.js"></script>
 </body>
 </html>
 <?php

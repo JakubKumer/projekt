@@ -57,35 +57,41 @@ if (isset($_POST["email"])) {
     }
 
     require_once "connect.php";
-    mysqli_report(MYSQLI_REPORT_STRICT);
+
     try {
-        $conn = new mysqli($servername, $username, $password, $dbname);
-        if ($conn->connect_errno != 0) {
-            throw new Exception(mysqli_connect_errno());
-        } else {
-            $result = $conn->query("SELECT id_user FROM users WHERE email='$email'");
-            if (!$result) throw new Exception($conn->error);
-            $emailcount = $result->num_rows;
-            if ($emailcount > 0) {
-                $fine = false;
-                $errors[] = "Podany email jest już zajęty.";
-            }
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            if ($fine) {
-                if ($conn->query("INSERT INTO `users` (`id_user`, `firstName`, `lastName`, `email`, `pass`, `passwordrepeat`) VALUES (NULL, '$name', '$surname', '$email', '$passhash', '$passhash');")) {
-                    $_SESSION['registersucced'] = true;
-                    $_SESSION['success']= "Rejestracja zakończona sukcesem. Możesz się zalogować.";
-                    header('Location: ../dist/register.php');
-                    exit();
-                } else {
-                    throw new Exception($conn->error);
-                }
-            }
+        $stmt = $conn->prepare("SELECT id_user FROM users WHERE email = :email");
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
 
-            $conn->close();
+        $emailcount = $stmt->rowCount();
+        if ($emailcount > 0) {
+            $fine = false;
+            $errors[] = "Podany email jest już zajęty.";
         }
-    } catch (Exception $e) {
+
+        if ($fine) {
+            $stmt = $conn->prepare("INSERT INTO users (firstName, lastName, email, pass, passwordrepeat) VALUES (:name, :surname, :email, :passhash, :passhash)");
+            $stmt->bindParam(':name', $name);
+            $stmt->bindParam(':surname', $surname);
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':passhash', $passhash);
+
+            if ($stmt->execute()) {
+                $_SESSION['registersucced'] = true;
+                $_SESSION['success'] = "Rejestracja zakończona sukcesem. Możesz się zalogować.";
+                header('Location: ../dist/register.php');
+                exit();
+            } else {
+                throw new Exception("Insert query failed");
+            }
+        }
+    } catch (PDOException $e) {
         $errors[] = 'Ups, coś poszło nie tak!';
+        // Optional: Log the error message for debugging
+        // error_log($e->getMessage());
     }
 
     if (!empty($errors)) {
