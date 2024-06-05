@@ -1,22 +1,8 @@
 <?php
 session_start();
-
-
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "projektinz";
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Sprawdzenie połączenia
-if ($conn->connect_error) {
-    die("Błąd połączenia z bazą danych: " . $conn->connect_error);
-}
-
+include_once "../scripts/connect.php";
 $user_id = $_SESSION['id_user'];
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Aktualizacja danych użytkownika
     $email = $_POST['email'];
     $city = $_POST['city'];
     $street = $_POST['street'];
@@ -24,26 +10,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $postal_code = $_POST['postal_code'];
     $phone_number = $_POST['phone_number'];
 
-    $sql = "UPDATE users SET email=?, city=?, street=?, house_number=?, postal_code=?, phone_number=? WHERE id_user=?";
+    $sql = "UPDATE users SET email = :email, city = :city, street = :street, house_number = :house_number, postal_code = :postal_code, phone_number = :phone_number WHERE id_user = :user_id";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssssi", $email, $city, $street, $house_number, $postal_code, $phone_number, $user_id);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':city', $city);
+    $stmt->bindParam(':street', $street);
+    $stmt->bindParam(':house_number', $house_number);
+    $stmt->bindParam(':postal_code', $postal_code);
+    $stmt->bindParam(':phone_number', $phone_number);
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
 }
-
-// Pobieranie danych użytkownika
-$sql = "SELECT * FROM users WHERE id_user=?";
+$sql = "SELECT * FROM users WHERE id_user = :user_id";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id);
+$stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
 $stmt->execute();
-$result = $stmt->get_result();
-$user = $result->fetch_assoc();
-
-// Pobieranie aukcji użytkownika
-$sql = "SELECT * FROM auctions WHERE id_user=?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $id_user);
-$stmt->execute();
-$auctions = $stmt->get_result();
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -56,8 +38,9 @@ $auctions = $stmt->get_result();
     <header class="bg-blue-950">       
         <div class=" container w-4/5 m-auto bg-blue-950 flex justify-around  p-8">
             <div class="text-white ">logo</div>
-            <div class="text-white"><a href="">Moje Dane</a></div>
-            <div class="text-white"><a href="">Twoje Aukcje</a></div>
+            <div class="text-white"><a href="loggin.php">Strona Główna</a></div>
+            <div class="text-white"><a href="user_profile.php">Moje Dane</a></div>
+            <div class="text-white"><a href="user_profile_auctions.php">Twoje Aukcje</a></div>           
         </div>
     </header>
    <div class="kontener">
@@ -103,30 +86,7 @@ $auctions = $stmt->get_result();
             </div>
 
             <input type="submit" value="Zaktualizuj dane">
-        </form>
-
-        <h2>Twoje aukcje</h2>
-        <table>
-            <tr>
-                <th>ID aukcji</th>
-                <th>Tytuł</th>
-                <th>Opis</th>
-                <th>Cena początkowa</th>
-                <th>Akcje</th>
-            </tr>
-            <?php while ($auction = $auctions->fetch_assoc()): ?>
-                <tr>
-                    <td><?php echo $auction['id_auction']; ?></td>
-                    <td><?php echo $auction['title']; ?></td>
-                    <td><?php echo $auction['description']; ?></td>
-                    <td><?php echo $auction['start_price']; ?></td>
-                    <td>
-                        <a href="edit_auction.php?id=<?php echo $auction['id_auction']; ?>">Edytuj</a> | 
-                        <a href="delete_auction.php?id=<?php echo $auction['id_auction']; ?>">Usuń</a>
-                    </td>
-                </tr>
-            <?php endwhile; ?>
-        </table>
+        </form>       
    </div>
 </body>
 </html>
