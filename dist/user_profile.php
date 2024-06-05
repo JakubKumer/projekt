@@ -82,15 +82,10 @@ $auctions = $stmt->get_result();
                 <input type="text" name="city" id="city" value="<?php echo $user['city']; ?>"><br>
             </div>
 
-<<<<<<< HEAD
             <div class="block w-1/2">
                 <label for="street">Ulica:</label>
                 <input type="text" name="street" id="street" value="<?php echo $user['street']; ?>"><br>
             </div>
-=======
-        <label for="email">Email:</label>
-        <input type="email" name="email" id="email" value="<?php echo $user['email']; ?>"><br>
->>>>>>> e14a70c4c2b6d7b1d069d543fdd2b6da668bf48f
 
             <div class="block w-1/2">
                 <label for="house_number">Nr domu:</label>
@@ -102,20 +97,14 @@ $auctions = $stmt->get_result();
                 <input type="text" name="postal_code" id="postal_code" value="<?php echo $user['postal_code']; ?>"><br>
             </div>
 
-<<<<<<< HEAD
             <div class="block w-1/2">
                 <label for="phone_number">Nr telefonu:</label>
                 <input type="text" name="phone_number" id="phone_number" value="<?php echo $user['phone_number']; ?>"><br>
             </div>
-=======
-        <label for="house_number">Nr domu / mieszkania:</label>
-        <input type="text" name="house_number" id="house_number" value="<?php echo $user['house_number']; ?>"><br>
->>>>>>> e14a70c4c2b6d7b1d069d543fdd2b6da668bf48f
 
             <input type="submit" value="Zaktualizuj dane">
         </form>
 
-<<<<<<< HEAD
         <h2>Twoje aukcje</h2>
         <table>
             <tr>
@@ -123,37 +112,15 @@ $auctions = $stmt->get_result();
                 <th>Tytuł</th>
                 <th>Opis</th>
                 <th>Cena początkowa</th>
-=======
-        <label for="phone_number">Nr telefonu:</label>
-        <input type="text" name="phone_number" id="phone_number" value="<?php echo $user['phone_number']; ?>"><br>
-
-        <input type="submit" value="Zaktualizuj dane">
-    </form>
-
-    <h2>Twoje aukcje</h2>
-        <table>
-            <tr>
-                <th>Numer aukcji</th>
-                <th>Nazwa</th>
-                <th>Kategoria</th>
-                <th>Data zakończenia</th>
->>>>>>> e14a70c4c2b6d7b1d069d543fdd2b6da668bf48f
                 <th>Akcje</th>
             </tr>
             <?php while ($auction = $auctions->fetch_assoc()): ?>
                 <tr>
                     <td><?php echo $auction['id_auction']; ?></td>
                     <td><?php echo $auction['title']; ?></td>
-<<<<<<< HEAD
                     <td><?php echo $auction['description']; ?></td>
                     <td><?php echo $auction['start_price']; ?></td>
                     <td>
-=======
-                    <td><?php echo $auction['category']; ?></td>
-                    <td><?php echo $auction['end_time']; ?></td>
-                    <td>
-                        <a href="aukcja.php?id=<?php echo $auction['id_auction']; ?>">Sprawdź</a>
->>>>>>> e14a70c4c2b6d7b1d069d543fdd2b6da668bf48f
                         <a href="edit_auction.php?id=<?php echo $auction['id_auction']; ?>">Edytuj</a> | 
                         <a href="delete_auction.php?id=<?php echo $auction['id_auction']; ?>">Usuń</a>
                     </td>
