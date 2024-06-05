@@ -17,15 +17,16 @@ $user_id = $_SESSION['id_user'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Aktualizacja danych użytkownika
+    $email = $_POST['email'];
     $city = $_POST['city'];
     $street = $_POST['street'];
     $house_number = $_POST['house_number'];
     $postal_code = $_POST['postal_code'];
     $phone_number = $_POST['phone_number'];
 
-    $sql = "UPDATE users SET city=?, street=?, house_number=?, postal_code=?, phone_number=? WHERE id_user=?";
+    $sql = "UPDATE users SET email=?, city=?, street=?, house_number=?, postal_code=?, phone_number=? WHERE id_user=?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssi", $city, $street, $house_number, $postal_code, $phone_number, $user_id);
+    $stmt->bind_param("ssssssi", $email, $city, $street, $house_number, $postal_code, $phone_number, $user_id);
     $stmt->execute();
 }
 
@@ -40,7 +41,7 @@ $user = $result->fetch_assoc();
 // Pobieranie aukcji użytkownika
 $sql = "SELECT * FROM auctions WHERE id_user=?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id);
+$stmt->bind_param("i", $id_user);
 $stmt->execute();
 $auctions = $stmt->get_result();
 ?>
@@ -69,7 +70,7 @@ $auctions = $stmt->get_result();
         <input type="text" name="lastName" id="lastName" value="<?php echo $user['lastName']; ?>" readonly><br>
 
         <label for="email">Email:</label>
-        <input type="email" name="email" id="email" value="<?php echo $user['email']; ?>" readonly><br>
+        <input type="email" name="email" id="email" value="<?php echo $user['email']; ?>"><br>
 
         <label for="city">Miasto:</label>
         <input type="text" name="city" id="city" value="<?php echo $user['city']; ?>"><br>
@@ -77,7 +78,7 @@ $auctions = $stmt->get_result();
         <label for="street">Ulica:</label>
         <input type="text" name="street" id="street" value="<?php echo $user['street']; ?>"><br>
 
-        <label for="house_number">Nr domu:</label>
+        <label for="house_number">Nr domu / mieszkania:</label>
         <input type="text" name="house_number" id="house_number" value="<?php echo $user['house_number']; ?>"><br>
 
         <label for="postal_code">Kod pocztowy:</label>
@@ -90,27 +91,28 @@ $auctions = $stmt->get_result();
     </form>
 
     <h2>Twoje aukcje</h2>
-    <table>
-        <tr>
-            <th>ID aukcji</th>
-            <th>Tytuł</th>
-            <th>Opis</th>
-            <th>Cena początkowa</th>
-            <th>Akcje</th>
-        </tr>
-        <?php while ($auction = $auctions->fetch_assoc()): ?>
+        <table>
             <tr>
-                <td><?php echo $auction['id_auction']; ?></td>
-                <td><?php echo $auction['title']; ?></td>
-                <td><?php echo $auction['description']; ?></td>
-                <td><?php echo $auction['start_price']; ?></td>
-                <td>
-                    <a href="edit_auction.php?id=<?php echo $auction['id_auction']; ?>">Edytuj</a> | 
-                    <a href="delete_auction.php?id=<?php echo $auction['id_auction']; ?>">Usuń</a>
-                </td>
+                <th>Numer aukcji</th>
+                <th>Nazwa</th>
+                <th>Kategoria</th>
+                <th>Data zakończenia</th>
+                <th>Akcje</th>
             </tr>
-        <?php endwhile; ?>
-    </table>
+            <?php while ($auction = $auctions->fetch_assoc()): ?>
+                <tr>
+                    <td><?php echo $auction['id_auction']; ?></td>
+                    <td><?php echo $auction['title']; ?></td>
+                    <td><?php echo $auction['category']; ?></td>
+                    <td><?php echo $auction['end_time']; ?></td>
+                    <td>
+                        <a href="aukcja.php?id=<?php echo $auction['id_auction']; ?>">Sprawdź</a>
+                        <a href="edit_auction.php?id=<?php echo $auction['id_auction']; ?>">Edytuj</a> | 
+                        <a href="delete_auction.php?id=<?php echo $auction['id_auction']; ?>">Usuń</a>
+                    </td>
+                </tr>
+            <?php endwhile; ?>
+        </table>
    </div>
 </body>
 </html>
