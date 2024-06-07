@@ -12,8 +12,8 @@
 <body>
     <header class="bg-blue-950">
         <div class=" container w-4/5 m-auto bg-blue-950 flex justify-around  p-8">
-            <div class="text-white "><a href="">logo</a></div>
-            <div class=""><input class="bg-slate-400 text-black rounded-md" type="text" placeholder="" value="text"></div>
+        <div class=""><a href="index.php"><img src="/projekt/projekt/img/BidHub_logo_removebg_minimalized.png" alt="Błąd załadowania zdjęcia" width="150" height="150"></a></div>
+            <div class=""><input class="bg-slate-400 text-black rounded-md" type="text" placeholder="" value="wyszukaj"></div>
             
             <div id="dropdownButton" class=" text-black font-bold">
                 <div onclick="myDropdown()" class="block w-12 h-12 rounded-full overflow-hidden border-2 border-blue-300 focus:outline-none focus:border-white">
