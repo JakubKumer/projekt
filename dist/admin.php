@@ -14,6 +14,7 @@
 <div class="sidebar">
         <a href="admin.php"><i class="fa fa-fw fa-user"></i> Użytkownicy</a>
         <a href="auctions_admin.php"><i class="fa fa-clipboard"></i> Aukcje</a>
+        <a href="category_admin.php"><i class="fa fa-clipboard"></i> kategorie</a>
     </div>
     <div class="main">
         <h1>Panel Administratora</h1>
