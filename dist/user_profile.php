@@ -31,7 +31,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 <!DOCTYPE html>
 <html>
     <title>Profil użytkownika</title>
-    <link rel="stylesheet" href="../src/user_profile2.css">
+    <link rel="stylesheet" href="../src/user_profile.css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
@@ -39,14 +39,15 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
         <div class=" container w-4/5 m-auto bg-blue-950 flex justify-around  p-8">
         <div class=""><a href="loggin.php"><img src="/projekt/projekt/img/BidHub_logo_removebg_minimalized.png" alt="Błąd załadowania zdjęcia" width="150" height="150"></a></div>
             <div class="text-white"><a href="user_profile.php">Moje Dane</a></div>
-            <div class="text-white"><a href="user_profile_auctions.php">Twoje Aukcje</a></div>           
+            <div class="text-white"><a href="user_profile_auctions.php">Twoje Aukcje</a></div>
+                
         </div>
     </header>
    <div class="kontener">
     <h1 class="font-bold text-lg">Profil użytkownika</h1>
         <h2>Twoje dane</h2>
-        <form class="w-3/4 m-auto" method="POST" action="user_profile.php">
-           <div class="block w-1/2">
+        <form class="m-auto w-1/2 flex-wrap " method="POST" action="user_profile.php">
+           <div class="block w-1/2 m-auto">
                 <label for="firstName">Imię:</label>
                 <input type="text" name="firstName" id="firstName" value="<?php echo $user['firstName']; ?>" readonly><br>
            </div>

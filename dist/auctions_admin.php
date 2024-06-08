@@ -1,5 +1,6 @@
 <?php
     include_once "../scripts/connect.php";
+    include_once "../scripts/filtr_auctions_admin.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,29 +14,25 @@
 <div class="sidebar">
         <a href="admin.php"><i class="fa fa-fw fa-user"></i> Użytkownicy</a>
         <a href="auctions_admin.php"><i class="fa fa-clipboard"></i> Aukcje</a>
-        <a href="category_admin.php"><i class="fa fa-clipboard"></i> Kategorie</a>
     </div>
 
     <div class="main">
         <h1>Panel Administratora</h1>
         <h2>Aukcje</h2>
 
-        <!-- Tabela aukcji -->
+        <!-- Tabela aukcji z ikonami strzałek do sortowania -->
         <table>
             <tr>
-                <th>ID aukcji</th>
-                <th>ID użytkownika</th>
-                <th>Tytuł</th>
+                <th><a href="?sortByAuctionID=<?php echo $sortByAuctionID === 'asc' ? 'desc' : 'asc'; ?>">ID aukcji <?php if ($sortByAuctionID === 'asc') echo "&#8593;"; else echo "&#8595;"; ?></a></th>
+                <th><a href="?sortByUserID=<?php echo $sortByUserID === 'asc' ? 'desc' : 'asc'; ?>">ID użytkownika <?php if ($sortByUserID === 'asc') echo "&#8593;"; else echo "&#8595;"; ?></a></th>
+                <th><a href="?sortByTitle=<?php echo $sortByTitle === 'asc' ? 'desc' : 'asc'; ?>">Tytuł <?php if ($sortByTitle === 'asc') echo "&#8593;"; else echo "&#8595;"; ?></a></th>
                 <th>Opis</th>
-                <th>Cena początkowa</th>
+                <th><a href="?sortByStartPrice=<?php echo $sortByStartPrice === 'asc' ? 'desc' : 'asc'; ?>">Cena początkowa <?php if ($sortByStartPrice === 'asc') echo "&#8593;"; else echo "&#8595;"; ?></a></th>
                 <th>Akcje</th>
             </tr>
             <?php
-            // Pobieranie aukcji z bazy danych
-            $stmt = $conn->prepare("SELECT * FROM auctions");
-            $stmt->execute();
-            $auctions = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            if (count($auctions)>0) {
+            // Wyświetlanie posortowanych aukcji
+            if (count($auctions) > 0) {
                 foreach ($auctions as $row) {
                     echo "<tr>";
                     echo "<td>" . $row["id_auction"] . "</td>";

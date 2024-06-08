@@ -28,6 +28,7 @@ th {
 form {
    
     margin: 0 auto;
+    height: 800px;
     background-color: #fff;
     padding: 20px;
     border-radius: 5px;
@@ -42,7 +43,7 @@ label {
 
 input[type="text"],
 input[type="email"] {
-    width: 100%;
+    width: 49%;
     padding: 8px;
     border-radius: 3px;
     border: 1px solid #ddd;

@@ -1,5 +1,6 @@
 <?php
     include_once "../scripts/connect.php";
+    include_once "../scripts/admin_filtr.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +14,6 @@
 <div class="sidebar">
         <a href="admin.php"><i class="fa fa-fw fa-user"></i> Użytkownicy</a>
         <a href="auctions_admin.php"><i class="fa fa-clipboard"></i> Aukcje</a>
-        <a href="category_admin.php"><i class="fa fa-clipboard"></i> Kategorie</a>
     </div>
     <div class="main">
         <h1>Panel Administratora</h1>
@@ -48,20 +48,17 @@
 
         <h2 id="uzytkownicy">Użytkownicy</h2>
 
-        <!-- Tabela użytkowników -->
+        <!-- Tabela użytkowników z ikonami strzałek do sortowania -->
         <table>
             <tr>
-                <th>ID użytkownika</th>
-                <th>Imię</th>
-                <th>Nazwisko</th>
-                <th>Email</th>
+                <th><a href="?sortByID=<?php echo $sortByID === 'asc' ? 'desc' : 'asc'; ?>">ID użytkownika <?php if ($sortByID === 'asc') echo "&#8593;"; else echo "&#8595;"; ?></a></th>
+                <th><a href="?sortByFirstName=<?php echo $sortByFirstName === 'asc' ? 'desc' : 'asc'; ?>">Imię <?php if ($sortByFirstName === 'asc') echo "&#8593;"; else echo "&#8595;"; ?></a></th>
+                <th><a href="?sortByLastName=<?php echo $sortByLastName === 'asc' ? 'desc' : 'asc'; ?>">Nazwisko <?php if ($sortByLastName === 'asc') echo "&#8593;"; else echo "&#8595;"; ?></a></th>
+                <th><a href="?sortByEmail=<?php echo $sortByEmail === 'asc' ? 'desc' : 'asc'; ?>">Email <?php if ($sortByEmail === 'asc') echo "&#8593;"; else echo "&#8595;"; ?></a></th>
                 <th>Akcje</th>
             </tr>
         <?php
-            // Pobieranie użytkowników z bazy danych
-            $stmt = $conn->prepare("SELECT * FROM users");
-            $stmt->execute();
-            $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            // Wyświetlanie posortowanych użytkowników
             if (count($users) > 0) {
                 foreach ($users as $row) {
                     echo "<tr>";
