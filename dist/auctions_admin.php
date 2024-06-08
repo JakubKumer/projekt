@@ -39,7 +39,7 @@
                     echo "<td>" . $row["id_auction"] . "</td>";
                     echo "<td>" . $row["id_user"] . "</td>";
                     echo "<td>" . $row["title"] . "</td>";
-                    echo "<td>" . $row["description"] . "</td>";
+                    echo "<td>" . $row["descriptions"] . "</td>";
                     echo "<td>" . $row["start_price"] . "</td>";
                     echo "<td><a href='edit_auction.php?id=" . $row["id_auction"] . "'>Edytuj</a> | <a href='../scripts/delete_auctions.php?id=" . $row["id_auction"] . "'>Usuń</a></td>";
                     echo "</tr>";
