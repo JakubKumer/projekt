@@ -1,7 +1,15 @@
 <?php
     session_start();
+    include_once "../scripts/connect.php";
+
     if(isset($_SESSION['id_user']) && isset($_SESSION['email'])){
-        ?>
+
+    // Pobieranie kategorii z bazy danych
+    $sql = "SELECT id_category, category_name FROM categories";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -30,13 +38,11 @@
         </div>
     </header>
     <main class="container w-4/5 m-auto flex">
-        <aside class="bg-gray-200 w-1/4 mt-20 mr-5 h-48 ">
+        <aside class="bg-gray-200 w-1/4 mt-20 mr-5 h-auto">
             <ul class="text-center p-3">
-                <li class="m-1 hover:underline  hover:text-blue-900"><a href="#">dadasda</a></li>
-                <li class="m-1 hover:underline  hover:text-blue-900"><a href="#">dadasda</a></li>
-                <li class="m-1 hover:underline  hover:text-blue-900"><a href="#">dadasda</a></li>
-                <li class="m-1 hover:underline  hover:text-blue-900"><a href="#">dadasda</a></li>
-                <li class="m-1 hover:underline  hover:text-blue-900"><a href="#">dadasda</a></li>
+                <?php foreach ($categories as $category): ?>
+                    <li class="m-1 hover:underline hover:text-blue-900"><a href="category.php?id=<?php echo htmlspecialchars($category['id_category']); ?>"><?php echo htmlspecialchars($category['category_name']); ?></a></li>
+                <?php endforeach; ?>
             </ul>
         </aside>
         <div class="w-3/4 mt-20">
