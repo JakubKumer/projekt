@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 05 Cze 2024, 11:27
--- Wersja serwera: 10.4.27-MariaDB
--- Wersja PHP: 8.0.25
+-- Generation Time: Cze 10, 2024 at 11:23 AM
+-- Wersja serwera: 10.4.32-MariaDB
+-- Wersja PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Baza danych: `projektinz`
+-- Database: `projektinz`
 --
 
 -- --------------------------------------------------------
@@ -30,25 +30,29 @@ SET time_zone = "+00:00";
 CREATE TABLE `auctions` (
   `id_auction` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
+  `id_category` int(11) NOT NULL,
   `title` varchar(50) NOT NULL,
   `description` varchar(1000) NOT NULL,
+  `image` varchar(255) NOT NULL,
   `start_price` double NOT NULL,
   `end_time` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Zrzut danych tabeli `auctions`
+-- Dumping data for table `auctions`
 --
 
-INSERT INTO `auctions` (`id_auction`, `id_user`, `title`, `description`, `start_price`, `end_time`) VALUES
-(2, 1, 'daksijmiksadf', 'kgsodkgfs', 10, '2024-06-05 10:21:07'),
-(3, 1, 'lpu', 'dsad ad ', 6, '2024-06-05 10:21:07'),
-(8, 1, 'królik', 'ddsfsdfsdfsd', 3, '2024-06-05 10:21:07'),
-(9, 1, 'królik', 'ddsfsdfsdfsd', 3, '2024-06-05 10:21:07'),
-(10, 1, 'królik', 'ddsfsdfsdfsd', 3, '2024-06-05 10:21:07'),
-(11, 1, 'dsds', 'Gówna puizda', 2, '2024-06-05 10:21:07'),
-(12, 1, 'Zorza', 'piękna zorza nad bałtykiem', 10, '2024-06-05 10:21:07'),
-(13, 1, 'ciastko', 'Pyszne ciastko', 2, '2024-06-05 10:21:07');
+INSERT INTO `auctions` (`id_auction`, `id_user`, `id_category`, `title`, `description`, `image`, `start_price`, `end_time`) VALUES
+(2, 1, 0, 'daksijmiksadf', 'kgsodkgfs', '', 10, '2024-06-05 10:21:07'),
+(3, 1, 0, 'lpu', 'dsad ad ', '', 6, '2024-06-05 10:21:07'),
+(8, 1, 0, 'królik', 'ddsfsdfsdfsd', '', 3, '2024-06-05 10:21:07'),
+(9, 1, 0, 'królik', 'ddsfsdfsdfsd', '', 3, '2024-06-05 10:21:07'),
+(10, 1, 0, 'królik', 'ddsfsdfsdfsd', '', 3, '2024-06-05 10:21:07'),
+(11, 1, 0, 'dsds', 'Gówna puizda', '', 2, '2024-06-05 10:21:07'),
+(12, 1, 0, 'Zorza', 'piękna zorza nad bałtykiem', '', 10, '2024-06-05 10:21:07'),
+(13, 1, 0, 'ciastko', 'Pyszne ciastko', '', 2, '2024-06-05 10:21:07'),
+(15, 16, 1, 'Pies', 'vbdfgndfgngfdnnfgnn', '../uploads/pies.jpg', 123, '2024-06-17 10:27:51'),
+(16, 16, 2, 'lambo', 'super szybki samochod', '../uploads/_0e078736-0ae0-4f31-9662-a46dcb69d1a2.jpg', 199000, '2024-06-17 10:45:30');
 
 -- --------------------------------------------------------
 
@@ -85,6 +89,22 @@ CREATE TABLE `categories` (
   `id_category` int(11) NOT NULL,
   `category_name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`id_category`, `category_name`) VALUES
+(1, 'Zwierzęta'),
+(2, 'Motoryzacja'),
+(3, 'Sport'),
+(4, 'Moda'),
+(6, 'Elektronika'),
+(7, 'Dziecko'),
+(8, 'Zdrowie'),
+(9, 'Kultura i rozrywka'),
+(10, 'Dom i ogród'),
+(11, 'Uroda');
 
 -- --------------------------------------------------------
 
@@ -125,7 +145,7 @@ CREATE TABLE `role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Zrzut danych tabeli `role`
+-- Dumping data for table `role`
 --
 
 INSERT INTO `role` (`id`, `role`) VALUES
@@ -155,7 +175,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Zrzut danych tabeli `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id_user`, `firstName`, `lastName`, `email`, `id_role`, `pass`, `passwordrepeat`, `city`, `street`, `house_number`, `postal_code`, `phone_number`) VALUES
@@ -172,7 +192,8 @@ INSERT INTO `users` (`id_user`, `firstName`, `lastName`, `email`, `id_role`, `pa
 (13, 'Kuva', 'dsadas', 'dsa@wp.pl', 1, '$2y$10$tZk6BfnSnjFVypDh9ktkaeQcpJeTL7HxtHNCyHUqwvtvI04nDrxTa', '', NULL, NULL, NULL, NULL, NULL),
 (14, 'Kacper', 'Lokiec', 'lokiec@o2.pl', 1, '$2y$10$N795HHF/S.nYuMQMgOz8wuyMWjknBFWUPkdd3y6jXMxPkhDoTdVOS', '', NULL, NULL, NULL, NULL, NULL),
 (15, 'Michal', 'Kacper', 'kacper2002@o2.pl', 1, '$2y$10$ky43k7dJDyrZO14sd0KZAugAZgPYLkCtPPi05w7PjyhHENWleYmS6', '', 'Zielona Góra', 'Widokowa', '11', '66-004', '518335834'),
-(16, 'mateusz', 'Vateusz', 'mateusz@wp.pl', 1, '$2y$10$Nn1vBMqUCCw0VUv3k8P4VuW54AGgnE85I5NqpL6ZecRTTCULJoHfe', '$2y$10$Nn1vBMqUCCw0VUv3k8P4VuW54AGgnE85I5NqpL6ZecRTTCULJoHfe', NULL, NULL, NULL, NULL, NULL);
+(16, 'mateusz', 'Vateusz', 'mateusz@wp.pl', 1, '$2y$10$Nn1vBMqUCCw0VUv3k8P4VuW54AGgnE85I5NqpL6ZecRTTCULJoHfe', '$2y$10$Nn1vBMqUCCw0VUv3k8P4VuW54AGgnE85I5NqpL6ZecRTTCULJoHfe', NULL, NULL, NULL, NULL, NULL),
+(18, 'dsadas', 'ghfnbnvnbv', 'god@wp.pl', 1, '$2y$10$yItGTuPy/NZqEqOyFv0PSutR8jIQ9XthfAmiEAkHLqVygprPTI9pC', '$2y$10$yItGTuPy/NZqEqOyFv0PSutR8jIQ9XthfAmiEAkHLqVygprPTI9pC', NULL, NULL, NULL, NULL, NULL);
 
 --
 -- Indeksy dla zrzutów tabel
@@ -236,84 +257,84 @@ ALTER TABLE `users`
   ADD KEY `id_role_2` (`id_role`);
 
 --
--- AUTO_INCREMENT dla zrzuconych tabel
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT dla tabeli `auctions`
+-- AUTO_INCREMENT for table `auctions`
 --
 ALTER TABLE `auctions`
-  MODIFY `id_auction` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_auction` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
--- AUTO_INCREMENT dla tabeli `bids`
+-- AUTO_INCREMENT for table `bids`
 --
 ALTER TABLE `bids`
   MODIFY `id_bid` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT dla tabeli `categories`
+-- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id_category` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_category` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT dla tabeli `photos`
+-- AUTO_INCREMENT for table `photos`
 --
 ALTER TABLE `photos`
   MODIFY `id_photo` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT dla tabeli `reviews`
+-- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
   MODIFY `id_review` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT dla tabeli `role`
+-- AUTO_INCREMENT for table `role`
 --
 ALTER TABLE `role`
   MODIFY `id` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT dla tabeli `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
--- Ograniczenia dla zrzutów tabel
+-- Constraints for dumped tables
 --
 
 --
--- Ograniczenia dla tabeli `auction_categories`
+-- Constraints for table `auction_categories`
 --
 ALTER TABLE `auction_categories`
   ADD CONSTRAINT `auction_categories_ibfk_1` FOREIGN KEY (`id_auction`) REFERENCES `auctions` (`id_auction`),
   ADD CONSTRAINT `auction_categories_ibfk_2` FOREIGN KEY (`id_category`) REFERENCES `categories` (`id_category`);
 
 --
--- Ograniczenia dla tabeli `bids`
+-- Constraints for table `bids`
 --
 ALTER TABLE `bids`
   ADD CONSTRAINT `bids_ibfk_1` FOREIGN KEY (`id_auction`) REFERENCES `auctions` (`id_auction`),
   ADD CONSTRAINT `bids_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
 
 --
--- Ograniczenia dla tabeli `photos`
+-- Constraints for table `photos`
 --
 ALTER TABLE `photos`
   ADD CONSTRAINT `photos_ibfk_1` FOREIGN KEY (`id_auction`) REFERENCES `auctions` (`id_auction`);
 
 --
--- Ograniczenia dla tabeli `reviews`
+-- Constraints for table `reviews`
 --
 ALTER TABLE `reviews`
   ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`id_auction`) REFERENCES `auctions` (`id_auction`),
   ADD CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
 
 --
--- Ograniczenia dla tabeli `users`
+-- Constraints for table `users`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`id_role`) REFERENCES `role` (`id`) ON UPDATE CASCADE;

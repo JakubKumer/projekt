@@ -1,7 +1,18 @@
 <?php
 session_start();
 include_once "../scripts/connect.php";
-$sql = "SELECT * FROM auctions WHERE id_user = :id_user";
+$id_user = $_SESSION['id_user'];
+
+$errors = isset($_SESSION['errors']) ? $_SESSION['errors'] : [];
+$successMessage = isset($_SESSION['success']) ? $_SESSION['success'] : "";
+unset($_SESSION['errors']);
+unset($_SESSION['success']);
+$sql = "
+    SELECT a.*, c.category_name 
+    FROM auctions a 
+    JOIN categories c ON a.id_category = c.id_category 
+    WHERE a.id_user = :id_user
+";
 $stmt = $conn->prepare($sql);
 $stmt->bindParam(':id_user', $id_user, PDO::PARAM_INT);
 $stmt->execute();
@@ -27,50 +38,54 @@ $auctions = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="kontener">
     <h1 class="font-bold text-lg">Dodaj Aukcje</h1>
         <h2>Nowa Aukcja</h2>
-        <form class="m-auto w-1/2 flex-wrap h-45" method="POST" action="user_profile.php">
+        <?php if(!empty($errors)){?>
+            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 w-auto m-auto lg:w-1/3" role="alert">
+                <p class="font-bold">Błąd</p>
+                <ul><?php foreach($errors as $error){?>
+                   <li> <?php echo $error; ?> <?php } ?></li>
+                </ul>
+            </div>  
+       <?php }
+        ?>
+        <?php if (!empty($successMessage)) { ?>
+            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 w-auto m-auto lg:w-1/3" role="alert">
+                <p class="font-bold">Sukces</p>
+                <p><?php echo $successMessage; ?></p>
+            </div>
+        <?php } ?>
+        <form class="m-auto w-1/2 flex-wrap h-45" method="POST" action="../scripts/add_auction.php" enctype="multipart/form-data">
            <div class="block w-1/2 m-auto">
-                <label for="firstName">Nazwa produktu:</label>
-                <input type="text" name="firstName" id="firstName" value="" ><br>
+                <label for="productTitle">Nazwa produktu:</label>
+                <input type="text" name="productTitle" id="productTitle" value="" ><br>
            </div>
             <div class="block w-1/2">
-                <label for="lastName">Cena:</label>
-                <input type="text" name="lastName" id="lastName" value="" ><br>
+                <label for="price">Cena:</label>
+                <input type="text" name="price" id="price" value="" ><br>
             </div> 
-            <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Opis</label>
-            <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Opisz swój produkt tutaj"></textarea> 
-            <form class="">
-                <label for="countries" class="block mb-2 mt-2 text-sm font-medium text-gray-900 dark:text-white w-1/2 ">Select an option</label>
-                <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option selected>Wybierz kategorie</option>
-                    <?php
-                         $stmt = $conn->prepare("SELECT * FROM categories");
-                         $stmt->execute();
-                         $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                         if (count($categories) > 0) {
+            <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Opis</label>
+            <textarea id="description" name="description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Opisz swój produkt tutaj"></textarea> 
+            
+            <label for="category" class="block mb-2 mt-2 text-sm font-medium text-gray-900 dark:text-white w-1/2 ">Select an option</label>
+            <select id="category" name="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option selected>Wybierz kategorie</option>
+                <?php
+                    $stmt = $conn->prepare("SELECT * FROM categories");
+                    $stmt->execute();
+                    $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        if (count($categories) > 0) {
                             foreach ($categories as $row) {
                                 echo '<option value="' . htmlspecialchars($row['id_category']) . '">' . htmlspecialchars($row['category_name']) . '</option>'; 
                             }
                         } else {
                             echo "<tr><td colspan='5'>Brak kategorii.</td></tr>";
                         }
-                    ?>
-                </select>
-                <div class="flex items-center justify-center w-full">
-    <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-        <div class="flex flex-col items-center justify-center pt-5 pb-6">
-            <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-            </svg>
-            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-            <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
-        </div>
-        <input id="dropzone-file" type="file" class="hidden" />
-    </label>
-</div> 
-                <input class="mt-2" type="submit" value="Zaktualizuj dane">
-            </form>                     
-            
-            
+                ?>
+            </select>
+            <div class="block w-1/2 mt-2">
+                <label for="">Zdjęcie</label>
+                <input type="file" name="image" value="" ><br>
+            </div> 
+            <input class="mt-2" type="submit" name="addAuction" value="Dodaj Aukcje">           
         </form>       
    </div>
    <div class="kontener">
@@ -80,14 +95,18 @@ $auctions = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <th>Numer aukcji</th>
                 <th>Tytuł</th>
                 <th>Opis</th>
+                <th>Zdjęcie</th>
+                <th>kategoria</th>
                 <th>Cena początkowa</th>
                 <th>Akcje</th>
             </tr>
             <?php foreach ($auctions as $auction): ?>
                 <tr>
-                    <td><?php echo htmlspecialchars($auction['id_auction']); ?></td>
+                <td><?php echo htmlspecialchars($auction['id_auction']); ?></td>
                     <td><?php echo htmlspecialchars($auction['title']); ?></td>
                     <td><?php echo htmlspecialchars($auction['description']); ?></td>
+                    <td><img src="<?php echo htmlspecialchars($auction['image']); ?>" alt="Zdjęcie produktu" width="100"></td>
+                    <td><?php echo htmlspecialchars($auction['category_name']); ?></td>
                     <td><?php echo htmlspecialchars($auction['start_price']); ?></td>
                     <td>
                         <a href="edit_auction.php?id=<?php echo htmlspecialchars($auction['id_auction']); ?>">Edytuj</a> | 

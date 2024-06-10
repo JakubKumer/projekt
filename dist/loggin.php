@@ -9,6 +9,13 @@
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $sql2 = "SELECT auctions.*, categories.category_name 
+             FROM auctions 
+             JOIN categories ON auctions.id_category = categories.id_category";
+    $stmt2 = $conn->prepare($sql2); // Corrected line
+    $stmt2->execute(); // Corrected line
+    $auctions = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <!DOCTYPE html>
@@ -46,36 +53,29 @@
             </ul>
         </aside>
         <div class="w-3/4 mt-20">
-            <ul>
-                <li class=" bg-gray-200 m-1 h-auto rounded-lg hover:shadow-blue-900 hover:shadow-lg hover:bg-slate-300">
-                    <a href="#">
-                        <div class="flex justify-between p-2 ">
-                            <img class="w-1/3 h-4/5 rounded-lg" src="https://cdn.pixabay.com/photo/2024/05/15/08/23/bird-8763079_640.jpg" alt="">
-                            <p class="w-1/3 ml-5 ">title</p>
-                            <p class="w-1/3">cena</p>
-                        </div>
-                    </a>
-                </li>
-                <li class=" bg-gray-200 m-1 h-auto rounded-lg hover:shadow-blue-900 hover:shadow-lg hover:bg-slate-300">
-                    <a href="#">
-                        <div class="flex justify-between p-2 ">
-                            <img class="w-1/3 h-4/5 rounded-lg" src="https://cdn.pixabay.com/photo/2024/05/15/08/23/bird-8763079_640.jpg" alt="">
-                            <p class="w-1/3 ml-5 ">title</p>
-                            <p class="w-1/3">cena</p>
-                        </div>
-                    </a>
-                </li>
-                <li class=" bg-gray-200 m-1 h-auto rounded-lg hover:shadow-blue-900 hover:shadow-lg hover:bg-slate-300">
-                    <a href="#">
-                        <div class="flex justify-between p-2 ">
-                            <img class="w-1/3 h-4/5 rounded-lg" src="https://cdn.pixabay.com/photo/2024/05/15/08/23/bird-8763079_640.jpg" alt="">
-                            <p class="w-1/3 ml-5 ">title</p>
-                            <p class="w-1/3">cena</p>
-                        </div>
-                    </a>
-                </li>
-            </ul>
-        </div>
+    <ul>
+        <?php foreach($auctions as $auction): ?>
+            <li class="bg-gray-200 m-1 h-auto rounded-lg hover:shadow-blue-900 hover:shadow-lg hover:bg-slate-300">
+                <a href="#">
+                    <div class="flex justify-between p-2">
+                        <img class="w-1/3 h-4/5 rounded-lg" src="<?php echo htmlspecialchars($auction['image']); ?>" alt="">
+                        <p class="w-1/3 ml-5"><?php echo htmlspecialchars($auction['title']); ?></p>
+                        <p class="w-1/3"><?php echo htmlspecialchars($auction['start_price']); ?>zł</p>
+                    </div>
+                </a>
+            </li>
+        <?php endforeach; ?>
+        <li class=" bg-gray-200 m-1 h-auto rounded-lg hover:shadow-blue-900 hover:shadow-lg hover:bg-slate-300">
+            <a href="#">
+                <div class="flex justify-between p-2">
+                    <img class="w-1/3 h-4/5 rounded-lg" src="https://cdn.pixabay.com/photo/2024/05/15/08/23/bird-8763079_640.jpg" alt="">
+                    <p class="w-1/3 ml-5">title</p>
+                    <p class="w-1/3">cena</p>
+                </div>
+            </a>
+        </li>
+    </ul>
+</div>
     </main>
     <script src="../js/dropdown.js"></script>
 </body>
