@@ -79,8 +79,9 @@
                     echo "<tr>";
                     echo "<td>" . htmlspecialchars($row["id_category"]) . "</td>";
                     echo "<td>" . htmlspecialchars($row["category_name"]) . "</td>";
-                    echo "<td><a href='../scripts/delete_category.php?id=" . htmlspecialchars($row["id_category"]) . "'>Usuń</a></td>";
+                    echo "<td><span class='inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10'><a href=\"../scripts/delete_category.php?id=" . htmlspecialchars($row['id_category']) . "\">Usuń</a></span></td>";
                     echo "</tr>";
+                    
                 }
             } else {
                 echo "<tr><td colspan='5'>Brak kategorii.</td></tr>";

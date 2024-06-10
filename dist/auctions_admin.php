@@ -1,6 +1,13 @@
 <?php
+    session_start();
     include_once "../scripts/connect.php";
     include_once "../scripts/filtr_auctions_admin.php";
+    $sql = "SELECT auctions.*, categories.category_name 
+    FROM auctions 
+    JOIN categories ON auctions.id_category = categories.id_category";
+    $stmt = $conn->prepare($sql); // Corrected line
+    $stmt->execute(); // Corrected line
+    $auctions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,6 +15,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../src/auctions_admin.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <title>Document</title>
 </head>
 <body>
@@ -18,36 +26,40 @@
     </div>
 
     <div class="main">
-        <h1>Panel Administratora</h1>
-        <h2>Aukcje</h2>
+        <h1 class="font-bold text-4xl ">Panel Administratora</h1>
+        <h2 class="font-bold text-xl">Aukcje</h2>
+        <div class="flex justify-end mr-5"><button type="button" class="ml-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"><a href="add_admin_auction.php">Dodaj Aukcje</a></button></div>
 
         <!-- Tabela aukcji z ikonami strzałek do sortowania -->
         <table>
             <tr>
                 <th><a href="?sortByAuctionID=<?php echo $sortByAuctionID === 'asc' ? 'desc' : 'asc'; ?>">ID aukcji <?php if ($sortByAuctionID === 'asc') echo "&#8593;"; else echo "&#8595;"; ?></a></th>
                 <th><a href="?sortByUserID=<?php echo $sortByUserID === 'asc' ? 'desc' : 'asc'; ?>">ID użytkownika <?php if ($sortByUserID === 'asc') echo "&#8593;"; else echo "&#8595;"; ?></a></th>
+                <th>Kategoria</th>
                 <th><a href="?sortByTitle=<?php echo $sortByTitle === 'asc' ? 'desc' : 'asc'; ?>">Tytuł <?php if ($sortByTitle === 'asc') echo "&#8593;"; else echo "&#8595;"; ?></a></th>
                 <th>Opis</th>
+                <th>Zdjęcie</th>
                 <th><a href="?sortByStartPrice=<?php echo $sortByStartPrice === 'asc' ? 'desc' : 'asc'; ?>">Cena początkowa <?php if ($sortByStartPrice === 'asc') echo "&#8593;"; else echo "&#8595;"; ?></a></th>
+                <th>Kończy się</th>
                 <th>Akcje</th>
+
             </tr>
-            <?php
-            // Wyświetlanie posortowanych aukcji
-            if (count($auctions) > 0) {
-                foreach ($auctions as $row) {
-                    echo "<tr>";
-                    echo "<td>" . $row["id_auction"] . "</td>";
-                    echo "<td>" . $row["id_user"] . "</td>";
-                    echo "<td>" . $row["title"] . "</td>";
-                    echo "<td>" . $row["description"] . "</td>";
-                    echo "<td>" . $row["start_price"] . "</td>";
-                    echo "<td><a href='edit_auction.php?id=" . $row["id_auction"] . "'>Edytuj</a> | <a href='../scripts/delete_auctions.php?id=" . $row["id_auction"] . "'>Usuń</a></td>";
-                    echo "</tr>";
-                }
-            } else {
-                echo "<tr><td colspan='6'>Brak aukcji.</td></tr>";
-            }
-            ?>
+             <?php foreach ($auctions as $auction): ?>
+                <tr>
+                <td><?php echo htmlspecialchars($auction['id_auction']); ?></td>
+                <td><?php echo htmlspecialchars($auction['id_user']); ?></td>
+                <td><?php echo htmlspecialchars($auction['category_name']); ?></td>
+                    <td><?php echo htmlspecialchars($auction['title']); ?></td>
+                    <td><?php echo htmlspecialchars($auction['description']); ?></td>
+                    <td><img src="<?php echo htmlspecialchars($auction['image']); ?>" alt="Zdjęcie produktu" width="100"></td>
+                    <td><?php echo htmlspecialchars($auction['start_price']); ?></td>
+                    <td><?php echo htmlspecialchars($auction['end_time']); ?></td>
+                    <td>                        
+                        <span class="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20"><a href="edit_auction.php?id=<?php echo htmlspecialchars($auction['id_auction']); ?>">Edytuj</a></span>
+                        <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10"><a href="../scripts/delete_auctions_admin.php?id=<?php echo htmlspecialchars($auction['id_auction']); ?>">Usuń</a></span>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
         </table>
     </div>
 </body>

@@ -29,7 +29,7 @@
 </head>
 <body>
 <header class="bg-blue-950">
-        <div class=" container w-4/5 m-auto bg-blue-950 flex justify-around  p-8">
+    <div class=" container w-4/5 m-auto bg-blue-950 flex justify-around  p-8">
         <div class=""><a href="loggin.php"><img src="/projekt/projekt/img/BidHub_logo_removebg_minimalized.png" alt="Błąd załadowania zdjęcia" width="150" height="150"></a></div>
             <div class=""><input class="bg-slate-400 text-black rounded-md" type="text" placeholder="" value="text"></div>
             <div id="dropdownButton" class=" text-black font-bold">
@@ -58,22 +58,13 @@
             <li class="bg-gray-200 m-1 h-auto rounded-lg hover:shadow-blue-900 hover:shadow-lg hover:bg-slate-300">
                 <a href="#">
                     <div class="flex justify-between p-2">
-                        <img class="w-1/3 h-4/5 rounded-lg" src="<?php echo htmlspecialchars($auction['image']); ?>" alt="">
+                        <img class="w-20 h-20 object-cover rounded-lg " src="<?php echo htmlspecialchars($auction['image']); ?>" alt="">
                         <p class="w-1/3 ml-5"><?php echo htmlspecialchars($auction['title']); ?></p>
-                        <p class="w-1/3"><?php echo htmlspecialchars($auction['start_price']); ?>zł</p>
+                        <p class="w-1/3">cena:<?php echo htmlspecialchars($auction['start_price']); ?>zł</p>
                     </div>
                 </a>
             </li>
         <?php endforeach; ?>
-        <li class=" bg-gray-200 m-1 h-auto rounded-lg hover:shadow-blue-900 hover:shadow-lg hover:bg-slate-300">
-            <a href="#">
-                <div class="flex justify-between p-2">
-                    <img class="w-1/3 h-4/5 rounded-lg" src="https://cdn.pixabay.com/photo/2024/05/15/08/23/bird-8763079_640.jpg" alt="">
-                    <p class="w-1/3 ml-5">title</p>
-                    <p class="w-1/3">cena</p>
-                </div>
-            </a>
-        </li>
     </ul>
 </div>
     </main>

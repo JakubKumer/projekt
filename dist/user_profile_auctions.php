@@ -35,61 +35,11 @@ $auctions = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="text-white"><a href="user_profile_auctions.php">Twoje Aukcje</a></div>
         </div>
     </header>
-    <div class="kontener">
-    <h1 class="font-bold text-lg">Dodaj Aukcje</h1>
-        <h2>Nowa Aukcja</h2>
-        <?php if(!empty($errors)){?>
-            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 w-auto m-auto lg:w-1/3" role="alert">
-                <p class="font-bold">Błąd</p>
-                <ul><?php foreach($errors as $error){?>
-                   <li> <?php echo $error; ?> <?php } ?></li>
-                </ul>
-            </div>  
-       <?php }
-        ?>
-        <?php if (!empty($successMessage)) { ?>
-            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 w-auto m-auto lg:w-1/3" role="alert">
-                <p class="font-bold">Sukces</p>
-                <p><?php echo $successMessage; ?></p>
-            </div>
-        <?php } ?>
-        <form class="m-auto w-1/2 flex-wrap h-45" method="POST" action="../scripts/add_auction.php" enctype="multipart/form-data">
-           <div class="block w-1/2 m-auto">
-                <label for="productTitle">Nazwa produktu:</label>
-                <input type="text" name="productTitle" id="productTitle" value="" ><br>
-           </div>
-            <div class="block w-1/2">
-                <label for="price">Cena:</label>
-                <input type="text" name="price" id="price" value="" ><br>
-            </div> 
-            <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Opis</label>
-            <textarea id="description" name="description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Opisz swój produkt tutaj"></textarea> 
-            
-            <label for="category" class="block mb-2 mt-2 text-sm font-medium text-gray-900 dark:text-white w-1/2 ">Select an option</label>
-            <select id="category" name="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <option selected>Wybierz kategorie</option>
-                <?php
-                    $stmt = $conn->prepare("SELECT * FROM categories");
-                    $stmt->execute();
-                    $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                        if (count($categories) > 0) {
-                            foreach ($categories as $row) {
-                                echo '<option value="' . htmlspecialchars($row['id_category']) . '">' . htmlspecialchars($row['category_name']) . '</option>'; 
-                            }
-                        } else {
-                            echo "<tr><td colspan='5'>Brak kategorii.</td></tr>";
-                        }
-                ?>
-            </select>
-            <div class="block w-1/2 mt-2">
-                <label for="">Zdjęcie</label>
-                <input type="file" name="image" value="" ><br>
-            </div> 
-            <input class="mt-2" type="submit" name="addAuction" value="Dodaj Aukcje">           
-        </form>       
-   </div>
-   <div class="kontener">
-   <h2>Twoje aukcje</h2>
+   <div class="kontener ">
+    <div class="flex justify-evenly m-3">
+    <h2>Twoje aukcje</h2>
+    <button type="button" class="ml-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"><a href="add_auction_user.php">Dodaj Aukcje</a></button>
+    </div>
         <table>
             <tr>
                 <th>Numer aukcji</th>
@@ -108,9 +58,9 @@ $auctions = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td><img src="<?php echo htmlspecialchars($auction['image']); ?>" alt="Zdjęcie produktu" width="100"></td>
                     <td><?php echo htmlspecialchars($auction['category_name']); ?></td>
                     <td><?php echo htmlspecialchars($auction['start_price']); ?></td>
-                    <td>
-                        <a href="edit_auction.php?id=<?php echo htmlspecialchars($auction['id_auction']); ?>">Edytuj</a> | 
-                        <a href="delete_auction.php?id=<?php echo htmlspecialchars($auction['id_auction']); ?>">Usuń</a>
+                    <td>                        
+                        <span class="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20"><a href="edit_auction.php?id=<?php echo htmlspecialchars($auction['id_auction']); ?>">Edytuj</a></span>
+                        <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10"><a href="../scripts/delete_auctions.php?id=<?php echo htmlspecialchars($auction['id_auction']); ?>">Usuń</a></span>
                     </td>
                 </tr>
             <?php endforeach; ?>

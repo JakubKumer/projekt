@@ -13,6 +13,8 @@ if (isset($_GET["id"])) {
 
         if ($stmt->execute()) {
             $_SESSION["Delete"] = "Kategoria została usunięta";
+            header("Location: ../dist/category_admin.php");
+            exit();
         } else {
             $_SESSION["Delete"] = "Błąd podczas usuwania kategorii.";
         }

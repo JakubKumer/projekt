@@ -14,7 +14,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Sklep internetowy</h1>
+        <h1>BidHub</h1>
         <?php if(isset($_GET['error'])){?>
             <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 w-auto m-auto lg:w-1/3 " role="alert">
                 <p class="font-bold">Błąd</p>

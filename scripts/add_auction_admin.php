@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt->execute();
 
                 $_SESSION['success'] = "Aukcja została dodana pomyślnie!";
-                header("Location: ../dist/user_profile_auctions.php");
+                header("Location: ../dist/auctions_admin.php");
                 exit();
             } catch (PDOException $e) {
                 $errors[] = "Błąd podczas dodawania aukcji: " . $e->getMessage();
@@ -84,11 +84,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (!empty($errors)) {
         $_SESSION['errors'] = $errors;
-        header("Location: ../dist/add_auction_user.php");
+        header("Location: ../dist/add_admin_auction.php");
         exit();
     }
 } else {
-    header("Location: ../dist/add_auction_user.php");
+    header("Location: ../dist/add_admin_auction.php");
     exit();
 }
 ?>

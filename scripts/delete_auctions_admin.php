@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            header("Location: ../dist/user_profile_auctions.php");
+            header("Location: ../dist/auctions_admin.php");
             exit();
         } else {
             echo "Błąd podczas usuwania aukcji.";
