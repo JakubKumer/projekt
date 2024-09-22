@@ -1,6 +1,7 @@
 <?php
 session_start();
 include_once "../scripts/connect.php";
+$currentCategoryName = '';
 
 if (isset($_SESSION['id_user']) && isset($_SESSION['email'])) {
 
@@ -17,8 +18,17 @@ if (isset($_SESSION['id_user']) && isset($_SESSION['email'])) {
     // Pobranie wartości sortowania
     $sort = isset($_GET['sort']) ? $_GET['sort'] : '';
 
-    // Podstawowe zapytanie SQL do pobrania aukcji
-    $sql2 = "SELECT auctions.*, categories.category_name 
+    // Liczba wyników na stronę
+    $itemsPerPage = 8;
+
+    // Uzyskaj bieżącą stronę z parametru GET (jeśli jest ustawiona), w przeciwnym razie ustaw na 1
+    $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
+
+    // Oblicz offset (początek dla SQL LIMIT)
+    $offset = ($page - 1) * $itemsPerPage;
+
+    // Podstawowe zapytanie SQL do pobrania aukcji i liczenia wyników
+    $sql2 = "SELECT SQL_CALC_FOUND_ROWS auctions.*, categories.category_name 
              FROM auctions 
              JOIN categories ON auctions.id_category = categories.id_category";
 
@@ -33,32 +43,30 @@ if (isset($_SESSION['id_user']) && isset($_SESSION['email'])) {
     }
 
     // Dodanie warunku dla kategorii
-    $currentCategoryName = ''; // Domyślna wartość
     if ($categoryId > 0) {
         $conditions[] = "auctions.id_category = :categoryId";
         $params[':categoryId'] = $categoryId;
-
-        // Pobranie nazwy kategorii
-        $categorySql = "SELECT category_name FROM categories WHERE id_category = :categoryId";
-        $categoryStmt = $conn->prepare($categorySql);
-        $categoryStmt->execute([':categoryId' => $categoryId]);
-        $currentCategory = $categoryStmt->fetch(PDO::FETCH_ASSOC);
-        $currentCategoryName = $currentCategory ? $currentCategory['category_name'] : '';
     }
 
     // Dodanie filtrów po cenie
     if (isset($_GET['price_range'])) {
         $priceRange = $_GET['price_range'];
-        if ($priceRange == 'below_25') {
-            $conditions[] = "auctions.start_price < 25";
-        } elseif ($priceRange == '25_to_50') {
-            $conditions[] = "auctions.start_price BETWEEN 25 AND 50";
-        } elseif ($priceRange == '50_to_75') {
-            $conditions[] = "auctions.start_price BETWEEN 50 AND 75";
-        } elseif ($priceRange == '75_to_100') {
-            $conditions[] = "auctions.start_price BETWEEN 75 AND 100";
-        } elseif ($priceRange == 'above_100') {
-            $conditions[] = "auctions.start_price > 100";
+        switch ($priceRange) {
+            case 'below_25':
+                $conditions[] = "auctions.start_price < 25";
+                break;
+            case '25_to_50':
+                $conditions[] = "auctions.start_price BETWEEN 25 AND 50";
+                break;
+            case '50_to_75':
+                $conditions[] = "auctions.start_price BETWEEN 50 AND 75";
+                break;
+            case '75_to_100':
+                $conditions[] = "auctions.start_price BETWEEN 75 AND 100";
+                break;
+            case 'above_100':
+                $conditions[] = "auctions.start_price > 100";
+                break;
         }
     }
 
@@ -101,10 +109,25 @@ if (isset($_SESSION['id_user']) && isset($_SESSION['email'])) {
             $sql2 .= ' ORDER BY auctions.end_time ASC';
     }
 
+    // Dodanie limitu i offsetu dla paginacji
+    $sql2 .= " LIMIT :limit OFFSET :offset";
+
     // Przygotowanie i wykonanie zapytania
     $stmt2 = $conn->prepare($sql2);
-    $stmt2->execute($params);
+    $stmt2->bindValue(':limit', $itemsPerPage, PDO::PARAM_INT);
+    $stmt2->bindValue(':offset', $offset, PDO::PARAM_INT);
+    foreach ($params as $key => &$val) {
+        $stmt2->bindParam($key, $val);
+    }
+    $stmt2->execute();
     $auctions = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+
+    // Pobranie łącznej liczby wyników (dla paginacji)
+    $totalAuctionsStmt = $conn->query("SELECT FOUND_ROWS() as total");
+    $totalAuctions = $totalAuctionsStmt->fetch(PDO::FETCH_ASSOC)['total'];
+
+    // Oblicz łączną liczbę stron
+    $totalPages = ceil($totalAuctions / $itemsPerPage);
 ?>
 
 <!DOCTYPE html>
@@ -172,18 +195,18 @@ if (isset($_SESSION['id_user']) && isset($_SESSION['email'])) {
     </ul>
 
     <!-- Filtry -->
-    <div class="bg-gray-300 p-4 mt-4 rounded-lg">
+    <div class="bg-gray-300 p-4 mt-4 rounded-lg m-auto">
         <h2 class="font-bold">Filtry</h2>
         <form method="GET" action="loggin.php">
-            <div class="my-2">
+            <div class="m-auto">
                 <label>Cena (zł)</label><br>
-                <label><input type="radio" name="price_range" value="below_25" <?php echo (isset($_GET['price_range']) && $_GET['price_range'] == 'below_25') ? 'checked' : ''; ?>> poniżej 25 zł</label><br>
-                <label><input type="radio" name="price_range" value="25_to_50" <?php echo (isset($_GET['price_range']) && $_GET['price_range'] == '25_to_50') ? 'checked' : ''; ?>> 25 zł do 50 zł</label><br>
-                <label><input type="radio" name="price_range" value="50_to_75" <?php echo (isset($_GET['price_range']) && $_GET['price_range'] == '50_to_75') ? 'checked' : ''; ?>> 50 zł do 75 zł</label><br>
-                <label><input type="radio" name="price_range" value="75_to_100" <?php echo (isset($_GET['price_range']) && $_GET['price_range'] == '75_to_100') ? 'checked' : ''; ?>> 75 zł do 100 zł</label><br>
-                <label><input type="radio" name="price_range" value="above_100" <?php echo (isset($_GET['price_range']) && $_GET['price_range'] == 'above_100') ? 'checked' : ''; ?>> powyżej 100 zł</label><br>
-                <label><input type="number" name="custom_price_min" placeholder="Min" class="border rounded" /></label>
-                <label><input type="number" name="custom_price_max" placeholder="Max" class="border rounded" /></label>
+                <label><input class="m-3 " type="radio" name="price_range" value="below_25" <?php echo (isset($_GET['price_range']) && $_GET['price_range'] == 'below_25') ? 'checked' : ''; ?>> poniżej 25 zł</label><br>
+                <label><input class="m-3 " type="radio" name="price_range" value="25_to_50" <?php echo (isset($_GET['price_range']) && $_GET['price_range'] == '25_to_50') ? 'checked' : ''; ?>> 25 zł do 50 zł</label><br>
+                <label><input class="m-3 " type="radio" name="price_range" value="50_to_75" <?php echo (isset($_GET['price_range']) && $_GET['price_range'] == '50_to_75') ? 'checked' : ''; ?>> 50 zł do 75 zł</label><br>
+                <label><input class="m-3 " type="radio" name="price_range" value="75_to_100" <?php echo (isset($_GET['price_range']) && $_GET['price_range'] == '75_to_100') ? 'checked' : ''; ?>> 75 zł do 100 zł</label><br>
+                <label><input class="m-3 " type="radio" name="price_range" value="above_100" <?php echo (isset($_GET['price_range']) && $_GET['price_range'] == 'above_100') ? 'checked' : ''; ?>> powyżej 100 zł</label><br>
+                <label><input class="m-3 rounded border border-gray-400 hover:border-blue-400" type="number" name="custom_price_min" placeholder="Min" class="border rounded" /></label>
+                <label><input class="m-3 rounded border border-gray-400 hover:border-blue-400" type="number" name="custom_price_max" placeholder="Max" class="border rounded" /></label>
             </div>
 
             <div class="my-2">
@@ -215,9 +238,54 @@ if (isset($_SESSION['id_user']) && isset($_SESSION['email'])) {
                 </li>
             <?php endforeach; ?>
         <?php else: ?>
-            <p>Brak wyników wyszukiwania dla: "<?php echo !empty($search) ? htmlspecialchars($search) : htmlspecialchars($currentCategoryName ? $currentCategoryName : 'wszystko'); ?>"</p>
+            <p>Brak wyników wyszukiwania dla tej kategorii</p>
         <?php endif; ?>
     </ul>
+
+    <!-- Paginacja -->
+    <?php if ($totalPages > 1): ?>
+    <nav class="flex justify-center mt-8">
+        <ul class="inline-flex items-center -space-x-px">
+            <!-- Przycisk poprzedniej strony -->
+            <?php if ($page > 1): ?>
+                <li>
+                    <a href="?page=<?php echo $page - 1; ?>&search=<?php echo urlencode($search); ?>&id=<?php echo $categoryId; ?>&price_range=<?php echo isset($_GET['price_range']) ? htmlspecialchars($_GET['price_range']) : ''; ?>&custom_price_min=<?php echo isset($_GET['custom_price_min']) ? htmlspecialchars($_GET['custom_price_min']) : ''; ?>&custom_price_max=<?php echo isset($_GET['custom_price_max']) ? htmlspecialchars($_GET['custom_price_max']) : ''; ?>&end_date=<?php echo isset($_GET['end_date']) ? htmlspecialchars($_GET['end_date']) : ''; ?>&sort=<?php echo htmlspecialchars($sort); ?>" 
+                    class="block px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700">
+                        Poprzednia
+                    </a>
+                </li>
+            <?php else: ?>
+                <li>
+                    <span class="block px-3 py-2 ml-0 leading-tight text-gray-400 bg-gray-200 border border-gray-300 rounded-l-lg">Poprzednia</span>
+                </li>
+            <?php endif; ?>
+
+            <!-- Numery stron -->
+            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                <li>
+                    <a href="?page=<?php echo $i; ?>&search=<?php echo urlencode($search); ?>&id=<?php echo $categoryId; ?>&price_range=<?php echo isset($_GET['price_range']) ? htmlspecialchars($_GET['price_range']) : ''; ?>&custom_price_min=<?php echo isset($_GET['custom_price_min']) ? htmlspecialchars($_GET['custom_price_min']) : ''; ?>&custom_price_max=<?php echo isset($_GET['custom_price_max']) ? htmlspecialchars($_GET['custom_price_max']) : ''; ?>&end_date=<?php echo isset($_GET['end_date']) ? htmlspecialchars($_GET['end_date']) : ''; ?>&sort=<?php echo htmlspecialchars($sort); ?>" 
+                    class="block px-3 py-2 leading-tight <?php echo $i == $page ? 'bg-indigo-600 text-white' : 'text-gray-500 bg-white'; ?> border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
+                        <?php echo $i; ?>
+                    </a>
+                </li>
+            <?php endfor; ?>
+
+            <!-- Przycisk następnej strony -->
+            <?php if ($page < $totalPages): ?>
+                <li>
+                    <a href="?page=<?php echo $page + 1; ?>&search=<?php echo urlencode($search); ?>&id=<?php echo $categoryId; ?>&price_range=<?php echo isset($_GET['price_range']) ? htmlspecialchars($_GET['price_range']) : ''; ?>&custom_price_min=<?php echo isset($_GET['custom_price_min']) ? htmlspecialchars($_GET['custom_price_min']) : ''; ?>&custom_price_max=<?php echo isset($_GET['custom_price_max']) ? htmlspecialchars($_GET['custom_price_max']) : ''; ?>&end_date=<?php echo isset($_GET['end_date']) ? htmlspecialchars($_GET['end_date']) : ''; ?>&sort=<?php echo htmlspecialchars($sort); ?>" 
+                    class="block px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700">
+                        Następna
+                    </a>
+                </li>
+            <?php else: ?>
+                <li>
+                    <span class="block px-3 py-2 leading-tight text-gray-400 bg-gray-200 border border-gray-300 rounded-r-lg">Następna</span>
+                </li>
+            <?php endif; ?>
+        </ul>
+    </nav>
+<?php endif; ?>
 </div>
 </main>
 <script src="../js/dropdown.js"></script>
