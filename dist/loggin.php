@@ -201,22 +201,22 @@ if (isset($_SESSION['id_user']) && isset($_SESSION['email'])) {
 
 <div class="w-3/4 mt-20">
     <ul>
-    <?php if (!empty($auctions)): ?>
-        <?php foreach ($auctions as $auction): ?>
-            <li class="bg-gray-200 m-1 h-auto rounded-lg hover:shadow-blue-900 hover:shadow-lg hover:bg-slate-300">
-                <a href="#">
-                    <div class="flex justify-between p-2">
-                        <img class="w-20 h-20 object-cover rounded-lg" src="<?php echo htmlspecialchars($auction['image']); ?>" alt="">
-                        <p class="w-1/3 ml-5"><?php echo htmlspecialchars($auction['title']); ?></p>
-                        <p class="w-1/3">cena: <?php echo htmlspecialchars($auction['start_price']); ?> zł</p>
-                        <p class="w-1/4">Zakończenie: <?php echo htmlspecialchars(date('d-m-Y H:i', strtotime($auction['end_time']))); ?></p>
-                    </div>
-                </a>
-            </li>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <p>Brak wyników wyszukiwania dla: "<?php echo !empty($search) ? htmlspecialchars($search) : htmlspecialchars($currentCategoryName ? $currentCategoryName : 'wszystko'); ?>"</p>
-    <?php endif; ?>
+        <?php if (!empty($auctions)): ?>
+            <?php foreach ($auctions as $auction): ?>
+                <li class="bg-gray-200 m-1 h-auto rounded-lg hover:shadow-blue-900 hover:shadow-lg hover:bg-slate-300">
+                    <a href="product_page.php?id_auction=<?php echo htmlspecialchars($auction['id_auction']); ?>">
+                        <div class="flex justify-between p-2">
+                            <img class="w-20 h-20 object-cover rounded-lg" src="<?php echo htmlspecialchars($auction['image']); ?>" alt="<?php echo htmlspecialchars($auction['title']); ?>">
+                            <p class="w-1/3 ml-5"><?php echo htmlspecialchars($auction['title']); ?></p>
+                            <p class="w-1/3">cena: <?php echo htmlspecialchars($auction['start_price']); ?> zł</p>
+                            <p class="w-1/4">Zakończenie: <?php echo htmlspecialchars(date('d-m-Y H:i', strtotime($auction['end_time']))); ?></p>
+                        </div>
+                    </a>
+                </li>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p>Brak wyników wyszukiwania dla: "<?php echo !empty($search) ? htmlspecialchars($search) : htmlspecialchars($currentCategoryName ? $currentCategoryName : 'wszystko'); ?>"</p>
+        <?php endif; ?>
     </ul>
 </div>
 </main>
