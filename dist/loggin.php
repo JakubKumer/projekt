@@ -128,6 +128,18 @@ if (isset($_SESSION['id_user']) && isset($_SESSION['email'])) {
 
     // Oblicz łączną liczbę stron
     $totalPages = ceil($totalAuctions / $itemsPerPage);
+    if (isset($_SESSION['id_user']) && isset($_SESSION['email'])) {
+        $userId = $_SESSION['id_user'];
+        $sql = "SELECT firstName, profile_image FROM users WHERE id_user = :id_user";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':id_user', $userId);
+        $stmt->execute();
+        $userData = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        $_SESSION['firstName'] = $userData['firstName'];
+        $_SESSION['profile_image'] = $userData['profile_image']; 
+    }
+    
 ?>
 
 <!DOCTYPE html>
@@ -165,7 +177,7 @@ if (isset($_SESSION['id_user']) && isset($_SESSION['email'])) {
         
         <div id="dropdownButton" class="text-black font-bold">
             <div onclick="myDropdown()" class="block w-12 h-12 rounded-full overflow-hidden border-2 border-blue-300 focus:outline-none focus:border-white">
-                <img class="h-full w-full object-cover" src="https://cdn.pixabay.com/photo/2017/03/04/20/50/pale-2116960_640.jpg" alt="">
+                <img class="h-full w-full object-cover" src="<?php echo !empty($_SESSION['profile_image']) ? htmlspecialchars($_SESSION['profile_image']) : 'uploads/avatar-2388584_1280.png'; ?>" alt="">
             </div>
             <div id="dropdown" class="absolute bg-blue-300 rounded-lg p-2 mt-1 hidden w-40">
                 <p class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white">Witaj <?=$_SESSION['firstName']?></p>

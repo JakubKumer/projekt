@@ -73,11 +73,14 @@ if (isset($_POST["email"])) {
         }
 
         if ($fine) {
-            $stmt = $conn->prepare("INSERT INTO users (firstName, lastName, email, pass, passwordrepeat) VALUES (:name, :surname, :email, :passhash, :passhash)");
+            $defaultImagePath = '../uploads/user-3331256_1280.png';
+            
+            $stmt = $conn->prepare("INSERT INTO users (firstName, lastName, email, pass, passwordrepeat, profile_image) VALUES (:name, :surname, :email, :passhash, :passhash, :profile_image)");
             $stmt->bindParam(':name', $name);
             $stmt->bindParam(':surname', $surname);
             $stmt->bindParam(':email', $email);
             $stmt->bindParam(':passhash', $passhash);
+            $stmt->bindParam(':profile_image', $defaultImagePath); 
 
             if ($stmt->execute()) {
                 $_SESSION['registersucced'] = true;

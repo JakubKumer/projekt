@@ -33,6 +33,7 @@ $auctions = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class=""><a href="loggin.php"><img src="/projekt/projekt/img/BidHub_logo_removebg_minimalized.png" alt="Błąd załadowania zdjęcia" width="150" height="150"></a></div>
             <div class="text-white"><a href="user_profile.php">Moje Dane</a></div>
             <div class="text-white"><a href="user_profile_auctions.php">Twoje Aukcje</a></div>
+            <div class="text-white"><a href="user_profile_fav.php">Obserwowane aukcje</a></div>
         </div>
     </header>
    <div class="kontener ">
