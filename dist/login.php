@@ -40,7 +40,7 @@
                     <i class="fa-solid fa-lock"></i>
                 </div>
                 <div class="links">
-                    <a href=" forgot_password.php">Zapomniałem hasła</a>
+                    <a href="#">Zapomniałem hasła</a>
                     <a href="register.php">Zarejestruj się</a>
                 </div>
                 <input type="submit" value="Zaloguj" name="submit" id="submit">
