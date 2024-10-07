@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Wrz 26, 2024 at 03:26 PM
--- Wersja serwera: 10.4.32-MariaDB
--- Wersja PHP: 8.2.12
+-- Generation Time: Paź 07, 2024 at 12:07 PM
+-- Wersja serwera: 10.4.28-MariaDB
+-- Wersja PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -51,13 +51,14 @@ INSERT INTO `auctions` (`id_auction`, `id_user`, `id_category`, `title`, `descri
 (25, 21, 6, 'Iphone 14 pro max 64Gb', 'Uzywany iphone. w pelni sprawny ', '../uploads/pobrane.jpg', 3000, '2024-09-29 13:46:50', NULL),
 (26, 21, 6, 'Iphone 8 32Gb', 'Iphone 8 ślady użycia w stattracku', '../uploads/pobrane (1).jpg', 899, '2024-09-29 13:48:34', NULL),
 (27, 22, 8, 'Krem na haluksy', 'Super efketywny krem na haluksy. znikaja w mig ', '../uploads/pobrane (2).jpg', 12, '2024-09-29 13:54:09', NULL),
-(28, 22, 8, 'ibuprofen', 'tabletki na ból głowy ', '../uploads/pobrane (3).jpg', 6, '2024-09-29 13:55:10', NULL),
+(28, 22, 8, 'ibuprofen', 'tabletki na ból głowy ', '../uploads/pobrane (3).jpg', 7, '2024-09-29 13:55:10', 25),
 (29, 23, 9, 'Pan Tadeusz', 'Produkt z bilbioteki publicznej, ślady użytku', '../uploads/pobrane (4).jpg', 4, '2024-09-29 14:34:37', NULL),
 (32, 23, 9, 'Indiana Jones film', 'Film reżyserii Stevena Spielberga z lat 90-tych. W roli głownej Harrison Ford.', '../uploads/images (1).jpg', 13, '2024-09-29 14:39:14', 23),
 (33, 24, 10, 'Ławka ogrodowa z Prawdziwego Drewna', 'ławka zrobiona z Dębowego drewna.', '../uploads/pobrane (5).jpg', 399, '2024-09-29 14:41:46', NULL),
 (34, 24, 10, 'Lodówka Samsung Ekologiczna', 'Lodównka samsung nowa. Jedna z lepszych', '../uploads/pobrane (6).jpg', 2000, '2024-09-29 14:42:44', 23),
 (35, 24, 11, 'Krem do rąk', 'Krem nawilżający do rąk', '../uploads/pobrane (7).jpg', 2, '2024-09-29 14:46:14', NULL),
-(36, 24, 11, 'Krem Do twarzy', 'Krem do twarzy zapychajacy pory ', '../uploads/images (2).jpg', 4, '2024-09-29 14:47:23', NULL);
+(36, 24, 11, 'Krem Do twarzy', 'Krem do twarzy zapychajacy pory ', '../uploads/images (2).jpg', 4, '2024-09-29 14:47:23', NULL),
+(37, 25, 7, 'produkciak', 'Produkciak z biedry', '../uploads/YL38uhw.gif', 120, '2024-10-14 11:36:23', NULL);
 
 -- --------------------------------------------------------
 
@@ -131,7 +132,8 @@ INSERT INTO `favorites` (`id_favorite`, `id_user`, `id_auction`) VALUES
 (9, 20, 23),
 (7, 23, 16),
 (5, 23, 32),
-(6, 23, 34);
+(6, 23, 34),
+(10, 25, 28);
 
 -- --------------------------------------------------------
 
@@ -153,12 +155,19 @@ CREATE TABLE `photos` (
 
 CREATE TABLE `reviews` (
   `id_review` int(11) NOT NULL,
-  `id_auction` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
   `rating` int(1) NOT NULL,
   `comment` varchar(1000) NOT NULL,
-  `date` datetime NOT NULL
+  `date` datetime NOT NULL,
+  `id_seller` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `reviews`
+--
+
+INSERT INTO `reviews` (`id_review`, `id_user`, `rating`, `comment`, `date`, `id_seller`) VALUES
+(1, 25, 5, 'Świetna aukcja!', '2024-10-07 10:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -227,7 +236,8 @@ INSERT INTO `users` (`id_user`, `firstName`, `lastName`, `email`, `id_role`, `pa
 (21, 'Maja', 'Stasko', 'stasko@wp.pl', 1, '$2y$10$Bhg1eReVIn7g7XaUlQMIGe6gu9mnKc4ZX1ExBBnfzb/R1UxgSU.K2', '$2y$10$Bhg1eReVIn7g7XaUlQMIGe6gu9mnKc4ZX1ExBBnfzb/R1UxgSU.K2', NULL, NULL, NULL, NULL, NULL, '../uploads/user-3331256_1280.png'),
 (22, 'Firma', 'Farmaceutyczna', 'farm@wp.pl', 1, '$2y$10$4McZ8/7ZcwJ6Odc7UxjjL.pje6VRzQy3Ai64TYyWQjCwMN8QhiLa.', '$2y$10$4McZ8/7ZcwJ6Odc7UxjjL.pje6VRzQy3Ai64TYyWQjCwMN8QhiLa.', NULL, NULL, NULL, NULL, NULL, '../uploads/user-3331256_1280.png'),
 (23, 'biblioteka', 'poznanska', 'biblio@wp.pl', 1, '$2y$10$2aU0pqSutdJpxVPwV4kE0ONK9a.rW5AzgdyohwruyPo9cceVMDBaG', '$2y$10$2aU0pqSutdJpxVPwV4kE0ONK9a.rW5AzgdyohwruyPo9cceVMDBaG', NULL, NULL, NULL, NULL, NULL, '../uploads/user-3331256_1280.png'),
-(24, 'Basia', 'Kowal', 'kowal@wp.pl', 1, '$2y$10$JDAh8aYZIErcu.NOpQZms.zoyrJuKv58zxRNZz.eVzYJatXAIx6wG', '$2y$10$JDAh8aYZIErcu.NOpQZms.zoyrJuKv58zxRNZz.eVzYJatXAIx6wG', NULL, NULL, NULL, NULL, NULL, '../uploads/user-3331256_1280.png');
+(24, 'Basia', 'Kowal', 'kowal@wp.pl', 1, '$2y$10$JDAh8aYZIErcu.NOpQZms.zoyrJuKv58zxRNZz.eVzYJatXAIx6wG', '$2y$10$JDAh8aYZIErcu.NOpQZms.zoyrJuKv58zxRNZz.eVzYJatXAIx6wG', NULL, NULL, NULL, NULL, NULL, '../uploads/user-3331256_1280.png'),
+(25, 'Monika', 'Rogowska', 'rogowska@o2.pl', 1, '$2y$10$j3pvov3uKlK8XMZJuV6ij.jgQr0Z5dPLVE60fnBGoA0.78diMbYjy', '$2y$10$j3pvov3uKlK8XMZJuV6ij.jgQr0Z5dPLVE60fnBGoA0.78diMbYjy', 'Zielona Góra', 'Wrocławska', '69', '65-001', '884194964', '../uploads/6703a52c117cc.png');
 
 --
 -- Indeksy dla zrzutów tabel
@@ -281,7 +291,6 @@ ALTER TABLE `photos`
 --
 ALTER TABLE `reviews`
   ADD PRIMARY KEY (`id_review`),
-  ADD KEY `id_auction` (`id_auction`),
   ADD KEY `id_user` (`id_user`);
 
 --
@@ -307,7 +316,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `auctions`
 --
 ALTER TABLE `auctions`
-  MODIFY `id_auction` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id_auction` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `bids`
@@ -325,7 +334,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `id_favorite` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_favorite` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `photos`
@@ -337,7 +346,7 @@ ALTER TABLE `photos`
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id_review` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_review` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `role`
@@ -349,7 +358,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- Constraints for dumped tables
@@ -392,7 +401,6 @@ ALTER TABLE `photos`
 -- Constraints for table `reviews`
 --
 ALTER TABLE `reviews`
-  ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`id_auction`) REFERENCES `auctions` (`id_auction`),
   ADD CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
 
 --
