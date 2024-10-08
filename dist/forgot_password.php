@@ -3,9 +3,13 @@ session_start();
 $errors = [];
 $successMessage = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    require_once "../config/db.php"; // Połączenie z bazą danych PDO
+require_once "../scripts/connect.php"; // Połączenie z bazą danych PDO
+require '../vendor/autoload.php'; // Załaduj Composer autoloader
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Filtracja i walidacja e-maila
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
 
@@ -22,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($user) {
                 // Generowanie unikalnego tokenu resetującego hasło
                 $token = bin2hex(random_bytes(50));
-                $resetLink = "http://yourdomain.com/reset_password.php?token=" . $token;
+                $resetLink = "http://localhost/projekt/projekt/dist/reset_password.php?token=" . $token;
 
                 // Zapis tokenu i jego daty wygaśnięcia w bazie danych (ważny np. 1 godzinę)
                 $query = $conn->prepare("UPDATE users SET reset_token = :token, token_expiry = DATE_ADD(NOW(), INTERVAL 1 HOUR) WHERE email = :email");
@@ -30,17 +34,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $query->bindParam(":email", $email, PDO::PARAM_STR);
                 $query->execute();
 
-                // Wyślij e-mail do użytkownika z linkiem do resetowania hasła
-                $subject = "Resetowanie hasła";
-                $message = "Kliknij w poniższy link, aby zresetować swoje hasło:\n\n$resetLink\n\nLink jest ważny przez 1 godzinę.";
-                $headers = "From: no-reply@yourdomain.com\r\n";
-                $headers .= "Reply-To: no-reply@yourdomain.com\r\n";
-                $headers .= "Content-Type: text/plain; charset=utf-8\r\n";
+                // Skonfiguruj PHPMailer
+                $mail = new PHPMailer(true);
+                try {
+                    // Ustawienia serwera SMTP
+                    $mail->isSMTP();
+                    $mail->Host = 'smtp.wp.pl'; // Ustaw swój serwer SMTP
+                    $mail->SMTPAuth = true;
+                    $mail->Username = 'BidHub@wp.pl'; // Twój adres e-mail
+                    $mail->Password = 'Licytacja123'; // Hasło do skrzynki e-mail
+                    $mail->SMTPSecure = 'tls'; // Zabezpieczenie (SSL/TLS)
+                    $mail->Port = 587; // Port dla TLS
 
-                if (mail($email, $subject, $message, $headers)) {
+                    // Odbiorca
+                    $mail->setFrom('BidHub@wp.pl', 'BidHub'); // Nadawca
+                    $mail->addAddress($email); // Odbiorca (adres e-mail z formularza)
+
+                    // Treść wiadomości
+                    $mail->isHTML(true);
+                    $mail->Subject = 'Resetowanie hasla';
+                    $mail->Body    = "Kliknij w poniższy link, aby zresetować swoje hasło:<br><a href='$resetLink'>$resetLink</a><br>Link jest ważny przez 1 godzinę.";
+                    $mail->AltBody = "Kliknij w poniższy link, aby zresetować swoje hasło:\n$resetLink\nLink jest ważny przez 1 godzinę.";
+
+                    $mail->send();
                     $successMessage = "Na podany adres e-mail wysłaliśmy link do resetowania hasła.";
-                } else {
-                    $errors[] = "Nie udało się wysłać e-maila. Spróbuj ponownie później.";
+                } catch (Exception $e) {
+                    $errors[] = "Nie udało się wysłać e-maila. Spróbuj ponownie później. Błąd: {$mail->ErrorInfo}";
                 }
             } else {
                 // Komunikat, jeśli użytkownik nie istnieje
@@ -94,6 +113,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <i class="fa-solid fa-envelope"></i>
                 </div>
                 <input type="submit" value="Wyślij link resetujący" name="submit" id="submit">
+                <div class="links">
+                    <a href="login.php">Logowanie</a>                   
+                </div>
             </form>
         </div>
     </div>

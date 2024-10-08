@@ -4,7 +4,8 @@ $errors = [];
 $successMessage = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    require_once "../config/db.php"; // Połączenie z bazą danych PDO
+    require_once "../scripts/connect.php"; // Połączenie z bazą danych PDO
+    require '../vendor/autoload.php'; // Załaduj Composer autoloader
 
     // Filtracja i walidacja danych
     $token = filter_var($_POST['token'], FILTER_SANITIZE_STRING);
@@ -37,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 } else {
                     // Zaktualizowanie hasła
                     $hashedPassword = password_hash($newPassword1, PASSWORD_DEFAULT);
-                    $updateQuery = $conn->prepare("UPDATE users SET password = :password, reset_token = NULL, token_expiry = NULL WHERE id_user = :id_user");
+                    $updateQuery = $conn->prepare("UPDATE users SET pass = :password, reset_token = NULL, token_expiry = NULL WHERE id_user = :id_user");
                     $updateQuery->bindParam(":password", $hashedPassword, PDO::PARAM_STR);
                     $updateQuery->bindParam(":id_user", $user['id_user'], PDO::PARAM_INT);
                     $updateQuery->execute();
@@ -48,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $errors[] = "Nieprawidłowy token.";
             }
         } catch (PDOException $e) {
-            $errors[] = "Wystąpił błąd. Spróbuj ponownie później.";
+            $errors[] = "Wystąpił błąd podczas aktualizacji hasła: " . $e->getMessage();
         }
     }
 } else if (isset($_GET['token'])) {
@@ -66,17 +67,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../src/login2.css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <title>Resetowanie hasła</title>
+    <title>Zresetuj hasło</title>
 </head>
 <body>
     <div class="container">
         <h1>BidHub</h1>
 
-        <?php if (!empty($errors)) { ?>
+        <?php if(!empty($errors)){ ?>
             <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 w-auto m-auto lg:w-1/3" role="alert">
                 <p class="font-bold">Błąd</p>
                 <ul>
-                    <?php foreach ($errors as $error) { ?>
+                    <?php foreach($errors as $error){ ?>
                         <li><?php echo $error; ?></li>
                     <?php } ?>
                 </ul>
@@ -87,34 +88,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 w-auto m-auto lg:w-1/3" role="alert">
                 <p class="font-bold">Sukces</p>
                 <p><?php echo $successMessage; ?></p>
-                <a href="login.php" class="text-blue-500 underline">Zaloguj się</a>
             </div>
-        <?php } else { ?>
+        <?php } ?>
 
         <div class="box m-auto">
             <span class="borderLine"></span>
             <form method="POST" action="reset_password.php" autocomplete="off">
-                <h2>Resetowanie hasła</h2>
-
-                <input type="hidden" name="token" value="<?php echo isset($token) ? $token : ''; ?>">
-
+                <h2>Resetuj hasło</h2>
                 <div class="inputBox">
                     <input type="password" name="newPassword1" id="newPassword1" required>
                     <span>Nowe hasło</span>
                     <i class="fa-solid fa-lock"></i>
                 </div>
-
                 <div class="inputBox">
                     <input type="password" name="newPassword2" id="newPassword2" required>
-                    <span>Powtórz nowe hasło</span>
+                    <span>Potwierdź hasło</span>
                     <i class="fa-solid fa-lock"></i>
                 </div>
-
+                <input type="hidden" name="token" value="<?php echo $token; ?>">
                 <input type="submit" value="Zresetuj hasło" name="submit" id="submit">
+                <div class="links">
+                    <a href="login.php">Logowanie</a>                   
+                </div>
             </form>
         </div>
-
-        <?php } ?>
     </div>
 </body>
 </html>

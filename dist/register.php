@@ -173,6 +173,9 @@ unset($_SESSION['success']);
                 </div>    
                 <div class="g-recaptcha" data-sitekey="6LcFomomAAAAAJhwaC5dkkcCNcaBDahjIbH-w5-s"></div>
                 <input type="submit" name="submit" id="submit" value="Zarejestruj">
+                <div class="links">
+                    <a href="login.php">Logowanie</a>                   
+                </div>
             </form>    
         </div>
     </div>
