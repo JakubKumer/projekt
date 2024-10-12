@@ -1,5 +1,9 @@
 {
     "require": {
+<<<<<<< HEAD
         "stripe/stripe-php": "^16.1"
+=======
+        "phpmailer/phpmailer": "^6.9"
+>>>>>>> 20275a825c54e7c954d08ca742e4d295306f52d4
     }
 }

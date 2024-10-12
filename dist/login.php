@@ -48,7 +48,7 @@ if (isset($_SESSION['id_user'])) {
                     <i class="fa-solid fa-lock"></i>
                 </div>
                 <div class="links">
-                    <a href="#">Zapomniałem hasła</a>
+                    <a href="forgot_password.php">Zapomniałem hasła</a>
                     <a href="register.php">Zarejestruj się</a>
                 </div>
                 <input type="submit" value="Zaloguj" name="submit" id="submit">
