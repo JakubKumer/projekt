@@ -34,6 +34,8 @@ $auctions = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="text-white"><a href="user_profile.php">Moje Dane</a></div>
             <div class="text-white"><a href="user_profile_auctions.php">Twoje Aukcje</a></div>
             <div class="text-white"><a href="user_profile_fav.php">Obserwowane aukcje</a></div>
+            <div class="text-white"><a href="user_win_auction_profile.php">Wygrane aukcje</a></div> 
+            <div class="text-white"><a href="user_sold_list.php">sprzedane</a></div> 
         </div>
     </header>
    <div class="kontener ">

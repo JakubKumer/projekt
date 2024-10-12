@@ -25,7 +25,8 @@
             <div class="text-white"><a href="user_profile.php">Moje Dane</a></div>
             <div class="text-white"><a href="user_profile_auctions.php">Twoje Aukcje</a></div>
             <div class="text-white"><a href="user_profile_fav.php">Obserwowane aukcje</a></div>
-                
+            <div class="text-white"><a href="user_win_auction_profile.php">Wygrane aukcje</a></div>  
+            <div class="text-white"><a href="user_sold_list.php">sprzedane</a></div>   
         </div>
     </header>
     <div class="container mx-auto px-4 py-8">

@@ -29,11 +29,11 @@ if (isset($_SESSION['id_user']) && isset($_SESSION['email'])) {
 
     // Podstawowe zapytanie SQL do pobrania aukcji i liczenia wyników
     $sql2 = "SELECT SQL_CALC_FOUND_ROWS auctions.*, categories.category_name 
-             FROM auctions 
-             JOIN categories ON auctions.id_category = categories.id_category";
+         FROM auctions 
+         JOIN categories ON auctions.id_category = categories.id_category";
 
     // Warunki do zapytania SQL
-    $conditions = [];
+    $conditions = ["auctions.status = 'active'"];
     $params = [];
 
     // Dodanie warunku wyszukiwania
@@ -87,9 +87,7 @@ if (isset($_SESSION['id_user']) && isset($_SESSION['email'])) {
     }
 
     // Dodanie warunków do zapytania SQL
-    if (!empty($conditions)) {
-        $sql2 .= ' WHERE ' . implode(' AND ', $conditions);
-    }
+    $sql2 .= ' WHERE ' . implode(' AND ', $conditions);
 
     // Dodanie sortowania
     switch ($sort) {
@@ -118,6 +116,9 @@ if (isset($_SESSION['id_user']) && isset($_SESSION['email'])) {
     $stmt2->bindValue(':offset', $offset, PDO::PARAM_INT);
     foreach ($params as $key => &$val) {
         $stmt2->bindParam($key, $val);
+    }
+    if ($categoryId > 0) {
+        $stmt->bindValue(':categoryId', $params[':categoryId'], PDO::PARAM_INT);
     }
     $stmt2->execute();
     $auctions = $stmt2->fetchAll(PDO::FETCH_ASSOC);

@@ -1,0 +1,1 @@
+<h1>Płatność została anulowana.</h1>

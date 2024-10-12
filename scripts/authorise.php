@@ -1,48 +1,36 @@
 <?php
 session_start();
-include_once 'connect.php';
-if(isset($_POST['email'])&&isset($_POST['password'])){
+require_once "connect.php";
+
+if (isset($_POST['submit'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
-    if(empty($_POST['email'])){
-        header("Location: ../dist/login.php?error=Podaj email");
-        exit();
-    }
-    else if(empty($_POST['password'])){
-        header("Location: ../dist/login.php?error=Podaj Hasło");
-        exit();
-    }
-    else{
-        $stmt = $conn -> prepare("SELECT * FROM users WHERE email = ?");
-        $stmt -> execute([$email]);
-        if($stmt -> rowCount()===1){
-            
-            $user = $stmt->fetch();
-            $user_id = $user['id_user'];
-            $user_email = $user['email'];
-            $user_password = $user['pass'];
-            $user_name = $user['firstName'];
-            $user_surname = $user['lastName'];
-            
-            if ($email === $user_email){    
-                if(password_verify($password, $user_password)){
-                    $_SESSION['id_user'] =  $user_id;
-                    $_SESSION['email'] =  $user_email;
-                    $_SESSION['pass'] =  $user_password;
-                    $_SESSION['firstName'] =  $user_name;
-                    $_SESSION['lastName'] =  $user_surname;
-                    header("Location: ../dist/loggin.php");
-                } else{
-                    header("Location: ../dist/login.php? error= nieprawidłowe hasło");
-                }     
-            }else{
-                header("Location: ../dist/login.php? error= nieprawidłowy email");
+
+    try {
+        $stmt = $conn->prepare("SELECT id_user, email, pass, id_role FROM users WHERE email = :email");
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user && password_verify($password, $user['pass'])) {
+            $_SESSION['id_user'] = $user['id_user'];
+            $_SESSION['email'] = $user['email'];
+            $_SESSION['id_role'] = $user['id_role'];
+
+            if ($user['id_role'] == 3) {
+                header("Location: ../dist/admin.php"); 
+            } else {
+                header("Location: ../dist/loggin.php"); 
             }
-        }
-        else{
-            header("Location: ../dist/login.php? error= nieprawidłowy email lub hasło");
+            exit();
+        } else {
+            header("Location: ../dist/login.php?error=Nieprawidłowy email lub hasło");
             exit();
         }
+    } catch (PDOException $e) {
+        error_log("Error during login: " . $e->getMessage());
+        header("Location: ../dist/login.php?error=Błąd serwera. Spróbuj ponownie później.");
+        exit();
     }
 }
 ?>

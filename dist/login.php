@@ -1,6 +1,14 @@
 <?php 
-    session_start();
-    if(!isset($_SESSION['id_user']) && !isset($_SESSION['email'])){
+session_start();
+include_once "../scripts/connect.php";
+if (isset($_SESSION['id_user'])) {
+    if ($_SESSION['id_role'] == 3) {
+        header("Location: admin.php"); 
+    } else {
+        header("Location: loggin.php"); 
+    }
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,8 +57,3 @@
     </div>
 </body>
 </html>
-<?php
-    }else{
-        header("Location: loggin.php");
-    }
-?>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Wrz 26, 2024 at 03:26 PM
+-- Generation Time: Paź 10, 2024 at 09:54 PM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -36,28 +36,30 @@ CREATE TABLE `auctions` (
   `image` varchar(255) NOT NULL,
   `start_price` double NOT NULL,
   `end_time` datetime NOT NULL DEFAULT current_timestamp(),
-  `highest_bidder_id` int(11) DEFAULT NULL
+  `highest_bidder_id` int(11) DEFAULT NULL,
+  `status` varchar(50) NOT NULL DEFAULT 'active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `auctions`
 --
 
-INSERT INTO `auctions` (`id_auction`, `id_user`, `id_category`, `title`, `description`, `image`, `start_price`, `end_time`, `highest_bidder_id`) VALUES
-(15, 16, 1, 'Pies', 'vbdfgndfgngfdnnfgnn', '../uploads/pies.jpg', 432423432423, '2024-06-17 10:27:51', 24),
-(16, 16, 2, 'lambo', 'super szybki samochod', '../uploads/_0e078736-0ae0-4f31-9662-a46dcb69d1a2.jpg', 200000, '2024-06-17 10:45:30', NULL),
-(23, 20, 2, 'Audi A5 2.0', 'Super samochód na daily. Jeden z lepszych do użytku na codzień. ', '../uploads/_2fa9aca3-ab82-4f5b-9c64-7e70ea5217f7.jpg', 322000, '2024-09-29 13:37:20', NULL),
-(24, 20, 3, 'Piłka', 'Piłka adidas Tango 12 Polska ukraina Euro 2012. Nowa, nie śmigana.', '../uploads/images.jpg', 41, '2024-09-29 13:42:29', 24),
-(25, 21, 6, 'Iphone 14 pro max 64Gb', 'Uzywany iphone. w pelni sprawny ', '../uploads/pobrane.jpg', 3000, '2024-09-29 13:46:50', NULL),
-(26, 21, 6, 'Iphone 8 32Gb', 'Iphone 8 ślady użycia w stattracku', '../uploads/pobrane (1).jpg', 899, '2024-09-29 13:48:34', NULL),
-(27, 22, 8, 'Krem na haluksy', 'Super efketywny krem na haluksy. znikaja w mig ', '../uploads/pobrane (2).jpg', 12, '2024-09-29 13:54:09', NULL),
-(28, 22, 8, 'ibuprofen', 'tabletki na ból głowy ', '../uploads/pobrane (3).jpg', 6, '2024-09-29 13:55:10', NULL),
-(29, 23, 9, 'Pan Tadeusz', 'Produkt z bilbioteki publicznej, ślady użytku', '../uploads/pobrane (4).jpg', 4, '2024-09-29 14:34:37', NULL),
-(32, 23, 9, 'Indiana Jones film', 'Film reżyserii Stevena Spielberga z lat 90-tych. W roli głownej Harrison Ford.', '../uploads/images (1).jpg', 13, '2024-09-29 14:39:14', 23),
-(33, 24, 10, 'Ławka ogrodowa z Prawdziwego Drewna', 'ławka zrobiona z Dębowego drewna.', '../uploads/pobrane (5).jpg', 399, '2024-09-29 14:41:46', NULL),
-(34, 24, 10, 'Lodówka Samsung Ekologiczna', 'Lodównka samsung nowa. Jedna z lepszych', '../uploads/pobrane (6).jpg', 2000, '2024-09-29 14:42:44', 23),
-(35, 24, 11, 'Krem do rąk', 'Krem nawilżający do rąk', '../uploads/pobrane (7).jpg', 2, '2024-09-29 14:46:14', NULL),
-(36, 24, 11, 'Krem Do twarzy', 'Krem do twarzy zapychajacy pory ', '../uploads/images (2).jpg', 4, '2024-09-29 14:47:23', NULL);
+INSERT INTO `auctions` (`id_auction`, `id_user`, `id_category`, `title`, `description`, `image`, `start_price`, `end_time`, `highest_bidder_id`, `status`) VALUES
+(15, 20, 1, 'Pies', 'vbdfgndfgngfdnnfgnn', '../uploads/pies.jpg', 432423432423, '2024-06-17 10:27:51', 24, 'completed'),
+(16, 16, 2, 'lambo', 'super szybki samochod', '../uploads/_0e078736-0ae0-4f31-9662-a46dcb69d1a2.jpg', 200000, '2024-06-17 10:45:30', NULL, 'completed'),
+(23, 20, 2, 'Audi A5 2.0', 'Super samochód na daily. Jeden z lepszych do użytku na codzień. ', '../uploads/_2fa9aca3-ab82-4f5b-9c64-7e70ea5217f7.jpg', 323000, '2024-09-29 13:37:20', 20, 'active'),
+(24, 20, 3, 'Piłka', 'Piłka adidas Tango 12 Polska ukraina Euro 2012. Nowa, nie śmigana.', '../uploads/images.jpg', 41, '2024-09-29 13:42:29', 24, 'active'),
+(25, 21, 6, 'Iphone 14 pro max 64Gb', 'Uzywany iphone. w pelni sprawny ', '../uploads/pobrane.jpg', 3000, '2024-09-29 13:46:50', NULL, 'active'),
+(26, 21, 6, 'Iphone 8 32Gb', 'Iphone 8 ślady użycia w stattracku', '../uploads/pobrane (1).jpg', 899, '2024-09-29 13:48:34', NULL, 'active'),
+(27, 22, 8, 'Krem na haluksy', 'Super efketywny krem na haluksy. znikaja w mig ', '../uploads/pobrane (2).jpg', 12, '2024-09-29 13:54:09', NULL, 'active'),
+(28, 22, 8, 'ibuprofen', 'tabletki na ból głowy ', '../uploads/pobrane (3).jpg', 7, '2024-09-29 13:55:10', 20, 'active'),
+(29, 23, 9, 'Pan Tadeusz', 'Produkt z bilbioteki publicznej, ślady użytku', '../uploads/pobrane (4).jpg', 4, '2024-09-29 14:34:37', NULL, 'active'),
+(32, 23, 9, 'Indiana Jones film', 'Film reżyserii Stevena Spielberga z lat 90-tych. W roli głownej Harrison Ford.', '../uploads/images (1).jpg', 13, '2024-09-29 14:39:14', 23, 'active'),
+(33, 24, 10, 'Ławka ogrodowa z Prawdziwego Drewna', 'ławka zrobiona z Dębowego drewna.', '../uploads/pobrane (5).jpg', 399, '2024-09-29 14:41:46', NULL, 'active'),
+(34, 24, 10, 'Lodówka Samsung Ekologiczna', 'Lodównka samsung nowa. Jedna z lepszych', '../uploads/pobrane (6).jpg', 2000, '2024-09-29 14:42:44', 23, 'active'),
+(35, 24, 11, 'Krem do rąk', 'Krem nawilżający do rąk', '../uploads/pobrane (7).jpg', 2, '2024-09-29 14:46:14', NULL, 'active'),
+(36, 24, 11, 'Krem Do twarzy', 'Krem do twarzy zapychajacy pory ', '../uploads/images (2).jpg', 4, '2024-09-29 14:47:23', NULL, 'active'),
+(37, 20, 6, 'sdsfdfsdffsd', '1saxgbdfgnbngb g   ', '../uploads/pobrane (5).jpg', 32, '2024-10-04 15:11:13', NULL, 'active');
 
 -- --------------------------------------------------------
 
@@ -110,6 +112,35 @@ INSERT INTO `categories` (`id_category`, `category_name`) VALUES
 (9, 'Kultura i rozrywka'),
 (10, 'Dom i ogród'),
 (11, 'Uroda');
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `completed_auctions`
+--
+
+CREATE TABLE `completed_auctions` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `image` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `end_time` datetime DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
+  `status` varchar(50) DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  `highest_bidder_id` int(11) DEFAULT NULL,
+  `payment_status` enum('zaplacone','niezaplacone') DEFAULT 'niezaplacone',
+  `delivery_status` enum('odebrane','nieodebrane') DEFAULT 'nieodebrane',
+  `is_send` enum('tak','nie') DEFAULT 'nie'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `completed_auctions`
+--
+
+INSERT INTO `completed_auctions` (`id`, `title`, `image`, `description`, `end_time`, `price`, `status`, `id_user`, `highest_bidder_id`, `payment_status`, `delivery_status`, `is_send`) VALUES
+(15, 'Pies', '../uploads/pies.jpg', 'vbdfgndfgngfdnnfgnn', '2024-06-17 10:27:51', 99.99, 'completed', 20, 24, 'zaplacone', 'nieodebrane', 'tak'),
+(16, 'lambo', '../uploads/_0e078736-0ae0-4f31-9662-a46dcb69d1a2.jpg', 'super szybki samochod', '2024-06-17 10:45:30', 200000.00, 'completed', 21, NULL, 'niezaplacone', 'nieodebrane', 'nie');
 
 -- --------------------------------------------------------
 
@@ -226,8 +257,9 @@ INSERT INTO `users` (`id_user`, `firstName`, `lastName`, `email`, `id_role`, `pa
 (20, 'fdsa', 'fdsafsd', 'cwel@wp.pl', 1, '$2y$10$Ra8saP9vwZqkncp5njEf0.7i9W/JRaFk3E/7VFxRIS3r3o.1HSo.q', '$2y$10$Ra8saP9vwZqkncp5njEf0.7i9W/JRaFk3E/7VFxRIS3r3o.1HSo.q', '', '', '', '', '', '../uploads/66f55fd1ba159.jpg'),
 (21, 'Maja', 'Stasko', 'stasko@wp.pl', 1, '$2y$10$Bhg1eReVIn7g7XaUlQMIGe6gu9mnKc4ZX1ExBBnfzb/R1UxgSU.K2', '$2y$10$Bhg1eReVIn7g7XaUlQMIGe6gu9mnKc4ZX1ExBBnfzb/R1UxgSU.K2', NULL, NULL, NULL, NULL, NULL, '../uploads/user-3331256_1280.png'),
 (22, 'Firma', 'Farmaceutyczna', 'farm@wp.pl', 1, '$2y$10$4McZ8/7ZcwJ6Odc7UxjjL.pje6VRzQy3Ai64TYyWQjCwMN8QhiLa.', '$2y$10$4McZ8/7ZcwJ6Odc7UxjjL.pje6VRzQy3Ai64TYyWQjCwMN8QhiLa.', NULL, NULL, NULL, NULL, NULL, '../uploads/user-3331256_1280.png'),
-(23, 'biblioteka', 'poznanska', 'biblio@wp.pl', 1, '$2y$10$2aU0pqSutdJpxVPwV4kE0ONK9a.rW5AzgdyohwruyPo9cceVMDBaG', '$2y$10$2aU0pqSutdJpxVPwV4kE0ONK9a.rW5AzgdyohwruyPo9cceVMDBaG', NULL, NULL, NULL, NULL, NULL, '../uploads/user-3331256_1280.png'),
-(24, 'Basia', 'Kowal', 'kowal@wp.pl', 1, '$2y$10$JDAh8aYZIErcu.NOpQZms.zoyrJuKv58zxRNZz.eVzYJatXAIx6wG', '$2y$10$JDAh8aYZIErcu.NOpQZms.zoyrJuKv58zxRNZz.eVzYJatXAIx6wG', NULL, NULL, NULL, NULL, NULL, '../uploads/user-3331256_1280.png');
+(23, 'biblioteka', 'poznanska', 'biblio@wp.pl', 3, '$2y$10$2aU0pqSutdJpxVPwV4kE0ONK9a.rW5AzgdyohwruyPo9cceVMDBaG', '$2y$10$2aU0pqSutdJpxVPwV4kE0ONK9a.rW5AzgdyohwruyPo9cceVMDBaG', NULL, NULL, NULL, NULL, NULL, '../uploads/user-3331256_1280.png'),
+(24, 'Basia', 'Kowal', 'kowal@wp.pl', 1, '$2y$10$JDAh8aYZIErcu.NOpQZms.zoyrJuKv58zxRNZz.eVzYJatXAIx6wG', '$2y$10$JDAh8aYZIErcu.NOpQZms.zoyrJuKv58zxRNZz.eVzYJatXAIx6wG', NULL, NULL, NULL, NULL, NULL, '../uploads/user-3331256_1280.png'),
+(25, 'Jakub', 'walek', 'walek@interia.pl', 1, '$2y$10$0uA0A0W05H5vQKWeDyLlYOJ0ZKIbDaWA5Hv3/U.BkONd9tQ4hx5K.', '$2y$10$0uA0A0W05H5vQKWeDyLlYOJ0ZKIbDaWA5Hv3/U.BkONd9tQ4hx5K.', NULL, NULL, NULL, NULL, NULL, '../uploads/user-3331256_1280.png');
 
 --
 -- Indeksy dla zrzutów tabel
@@ -260,6 +292,14 @@ ALTER TABLE `bids`
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id_category`);
+
+--
+-- Indeksy dla tabeli `completed_auctions`
+--
+ALTER TABLE `completed_auctions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_user` (`id_user`),
+  ADD KEY `highest_bidder_id` (`highest_bidder_id`);
 
 --
 -- Indeksy dla tabeli `favorites`
@@ -307,7 +347,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `auctions`
 --
 ALTER TABLE `auctions`
-  MODIFY `id_auction` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id_auction` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `bids`
@@ -325,7 +365,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `id_favorite` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_favorite` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `photos`
@@ -349,7 +389,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- Constraints for dumped tables
@@ -374,6 +414,13 @@ ALTER TABLE `auction_categories`
 ALTER TABLE `bids`
   ADD CONSTRAINT `bids_ibfk_1` FOREIGN KEY (`id_auction`) REFERENCES `auctions` (`id_auction`),
   ADD CONSTRAINT `bids_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
+
+--
+-- Constraints for table `completed_auctions`
+--
+ALTER TABLE `completed_auctions`
+  ADD CONSTRAINT `completed_auctions_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE,
+  ADD CONSTRAINT `completed_auctions_ibfk_2` FOREIGN KEY (`highest_bidder_id`) REFERENCES `users` (`id_user`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `favorites`
