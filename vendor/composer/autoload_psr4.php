@@ -6,9 +6,6 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-<<<<<<< HEAD
     'Stripe\\' => array($vendorDir . '/stripe/stripe-php/lib'),
-=======
     'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
->>>>>>> 20275a825c54e7c954d08ca742e4d295306f52d4
 );
