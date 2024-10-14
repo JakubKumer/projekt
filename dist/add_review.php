@@ -1,59 +1,110 @@
 <?php
+session_start();
 include_once "../scripts/connect.php";
 
-// Sprawdź, czy użytkownik jest zalogowany
-session_start();
+// Sprawdzenie, czy użytkownik jest zalogowany
 if (!isset($_SESSION['id_user'])) {
-    echo "Musisz być zalogowany, aby dodać recenzję.";
-    exit;
+    header("Location: loggin.php"); // Przekierowanie do strony logowania, jeśli użytkownik nie jest zalogowany
+    exit();
 }
 
-// Zbieranie danych z formularza
+// Sprawdzenie, czy ID aukcji zostało przekazane
+if (!isset($_GET['id_auction'])) {
+    die("Brak ID aukcji.");
+}
+
+$auctionId = intval($_GET['id_auction']);
+$currentUserId = $_SESSION['id_user'];
+
+// Pobranie tytułu aukcji z bazy danych
+$titleQuery = "SELECT title FROM auctions WHERE id_auction = :id_auction";
+$titleStmt = $conn->prepare($titleQuery);
+$titleStmt->bindParam(':id_auction', $auctionId, PDO::PARAM_INT);
+$titleStmt->execute();
+$auctionTitle = $titleStmt->fetchColumn();
+
+// Sprawdzenie, czy użytkownik już dodał opinię do danej aukcji
+$checkQuery = "SELECT COUNT(*) FROM reviews WHERE id_user = :id_user AND id_auction = :id_auction";
+$checkStmt = $conn->prepare($checkQuery);
+$checkStmt->bindParam(':id_user', $currentUserId, PDO::PARAM_INT);
+$checkStmt->bindParam(':id_auction', $auctionId, PDO::PARAM_INT);
+$checkStmt->execute();
+$reviewCount = $checkStmt->fetchColumn();
+
+if ($reviewCount > 0) {
+    die("<p class='text-red-500'>Już dodałeś opinię do tej aukcji.</p>");
+}
+
+// Obsługa formularza
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id_auction = $_POST['id_auction']; // ID aukcji
-    $rating = $_POST['rating']; // Ocena
-    $comment = $_POST['comment']; // Komentarz
-    $id_user = $_SESSION['id_user']; // ID użytkownika
+    $rating = intval($_POST['rating']);
+    $comment = $_POST['comment'];
+    $date = date('Y-m-d H:i:s');
 
-    try {
-        // Przygotowanie zapytania SQL
-        $stmt = $conn->prepare("INSERT INTO reviews (id_user, rating, comment, date) VALUES (:id_user, :rating, :comment, NOW())");
+    // Wstawianie recenzji do bazy danych
+    $insertQuery = "INSERT INTO reviews (id_user, rating, comment, date, id_auction) VALUES (:id_user, :rating, :comment, :date, :id_auction)";
+    $insertStmt = $conn->prepare($insertQuery);
+    $insertStmt->bindParam(':id_user', $currentUserId, PDO::PARAM_INT);
+    $insertStmt->bindParam(':rating', $rating, PDO::PARAM_INT);
+    $insertStmt->bindParam(':comment', $comment, PDO::PARAM_STR);
+    $insertStmt->bindParam(':date', $date);
+    $insertStmt->bindParam(':id_auction', $auctionId, PDO::PARAM_INT);
 
-        // Powiązanie parametrów
-        $stmt->bindParam(':id_user', $id_user);
-        $stmt->bindParam(':rating', $rating);
-        $stmt->bindParam(':comment', $comment);
-
-        // Wykonanie zapytania
-        $stmt->execute();
-
-        echo "Recenzja została dodana pomyślnie!";
-    } catch (PDOException $e) {
-        echo "Błąd: " . $e->getMessage();
+    if ($insertStmt->execute()) {
+        echo "<p class='text-green-500'>Opinia została dodana pomyślnie!</p>";
+    } else {
+        echo "<p class='text-red-500'>Wystąpił błąd podczas dodawania opinii.</p>";
     }
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dodaj Recenzję</title>
-    <link rel="stylesheet" href="../src/edit.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../src/user_profile.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Dodaj opinię</title>
 </head>
 <body>
-    <h1>Dodaj Recenzję</h1>
-    <form method="POST" action="">
-        <label for="id_auction">ID Aukcji:</label>
-        <input type="text" name="id_auction" required><br>
+    <header class="bg-blue-950">
+        <div class="container w-4/5 m-auto flex justify-around p-8">
+            <div class=""><a href="loggin.php"><img src="/projekt/projekt/img/BidHub_logo_removebg_minimalized.png" alt="Błąd załadowania zdjęcia" width="150" height="150"></a></div>
+            <div class="text-white"><a href="user_profile.php">Moje Dane</a></div>
+            <div class="text-white"><a href="user_profile_auctions.php">Twoje Aukcje</a></div>
+            <div class="text-white"><a href="user_profile_fav.php">Obserwowane aukcje</a></div>   
+            <div class="text-white"><a href="user_win_auction_profile.php">Wygrane aukcje</a></div>
+            <div class="text-white"><a href="user_sold_list.php">Sprzedane</a></div>    
+        </div>
+    </header>
 
-        <label for="rating">Ocena:</label>
-        <input type="number" name="rating" min="1" max="5" required><br>
-
-        <label for="comment">Komentarz:</label>
-        <textarea name="comment" required></textarea><br>
-
-        <input type="submit" value="Dodaj Recenzję">
-    </form>
+    <main class="container mx-auto mt-8">
+        <div class="px-4 sm:px-0">
+            <h3 class="text-base font-semibold leading-7 text-gray-900">Dodaj opinię</h3>
+            <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Wystaw swoją opinię do aukcji <strong><?php echo htmlspecialchars($auctionTitle); ?></strong></p>
+        </div>
+        
+        <form method="POST" class="mt-8">
+            <div class="mb-4">
+                <label for="rating" class="block text-sm font-medium text-gray-700">Ocena:</label>
+                <select name="rating" id="rating" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    <option value="" disabled selected>Wybierz ocenę</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label for="comment" class="block text-sm font-medium text-gray-700">Komentarz:</label>
+                <textarea name="comment" id="comment" rows="4" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
+            </div>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Dodaj opinię
+            </button>
+        </form>
+    </main>
 </body>
 </html>

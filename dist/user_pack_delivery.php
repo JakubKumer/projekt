@@ -76,9 +76,18 @@
         
         <form method="POST" class="mt-8 h-1/2 flex justify-end opacity-100">
             <button type="submit" name="update_status" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Oznacz wszystkie jako odebrane
+                Oznacz jako odebrane
             </button>
         </form>
+        <form method="GET" action="add_review.php" class="mt-8 h-1/2 flex justify-end opacity-100">
+        <input type="hidden" name="id_auction" value="<?php echo $auction['id']; ?>">
+
+    <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+        Dodaj opinię
+    </button>
+</form>
+
+
     </main>
 </body>
 </html>
