@@ -82,6 +82,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bid_amount'])) {
     } else {
         $errors[] = "Nowa oferta musi być wyższa niż aktualna cena!";
     }
+
+    // Fetch user details for session update
     if (isset($_SESSION['id_user']) && isset($_SESSION['email'])) {
         $userId = $_SESSION['id_user'];
         $sql = "SELECT firstName, lastName, profile_image FROM users WHERE id_user = :id_user";
@@ -89,10 +91,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bid_amount'])) {
         $stmt->bindParam(':id_user', $userId);
         $stmt->execute();
         $userData = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-        $_SESSION['firstName'] = $userData['firstName'];
-        $_SESSION['lastName'] = $userData['lastName'];
-        $_SESSION['profile_image'] = $userData['profile_image']; 
+
+        if ($userData) {
+            $_SESSION['firstName'] = $userData['firstName'];
+            $_SESSION['lastName'] = $userData['lastName'];
+            $_SESSION['profile_image'] = $userData['profile_image'];
+        } else {
+            // Handle user not found in the database
+            echo "User not found!";
+        }
     }
 }
 
