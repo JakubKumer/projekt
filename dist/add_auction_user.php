@@ -29,15 +29,18 @@ $auctions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body>
 <header class="bg-blue-950">       
-    <div class=" container w-4/5 m-auto bg-blue-950 flex justify-around  p-8">
-    <div class=""><a href="loggin.php"><img src="/projekt/projekt/img/BidHub_logo_removebg_minimalized.png" alt="Błąd załadowania zdjęcia" width="150" height="150"></a></div>
-        <div class="text-white"><a href="user_profile.php">Moje Dane</a></div>
-        <div class="text-white"><a href="user_profile_auctions.php">Twoje Aukcje</a></div>
-    </div>
-</header>
+        <div class=" container w-4/5 m-auto bg-blue-950 flex justify-around  p-8">
+        <div class=""><a href="loggin.php"><img src="/projekt/projekt/img/BidHub_logo_removebg_minimalized.png" alt="Błąd załadowania zdjęcia" width="150" height="150"></a></div>
+            <div class="text-white"><a href="user_profile.php">Moje Dane</a></div>
+            <div class="text-white"><a href="user_profile_auctions.php">Twoje Aukcje</a></div>
+            <div class="text-white"><a href="my_reviews.php">Twoje opinie</a></div>
+            <div class="text-white"><a href="user_profile_fav.php">Obserwowane aukcje</a></div>
+            <div class="text-white"><a href="user_win_auction_profile.php">Wygrane aukcje</a></div> 
+            <div class="text-white"><a href="user_sold_list.php">Sprzedane</a></div>    
+        </div>
+    </header>
 <div class="kontener">
     <h1 class="font-bold text-lg">Dodaj Aukcje</h1>
-        <h2>Nowa Aukcja</h2>
         <?php if(!empty($errors)){?>
             <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 w-auto m-auto lg:w-2/3" role="alert">
                 <p class="font-bold">Błąd</p>

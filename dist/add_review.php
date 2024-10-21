@@ -68,17 +68,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Dodaj opinię</title>
 </head>
 <body>
-    <header class="bg-blue-950">
-        <div class="container w-4/5 m-auto flex justify-around p-8">
-            <div class=""><a href="loggin.php"><img src="/projekt/projekt/img/BidHub_logo_removebg_minimalized.png" alt="Błąd załadowania zdjęcia" width="150" height="150"></a></div>
+<header class="bg-blue-950">       
+        <div class=" container w-4/5 m-auto bg-blue-950 flex justify-around  p-8">
+        <div class=""><a href="loggin.php"><img src="/projekt/projekt/img/BidHub_logo_removebg_minimalized.png" alt="Błąd załadowania zdjęcia" width="150" height="150"></a></div>
             <div class="text-white"><a href="user_profile.php">Moje Dane</a></div>
             <div class="text-white"><a href="user_profile_auctions.php">Twoje Aukcje</a></div>
-            <div class="text-white"><a href="user_profile_fav.php">Obserwowane aukcje</a></div>   
-            <div class="text-white"><a href="user_win_auction_profile.php">Wygrane aukcje</a></div>
+            <div class="text-white"><a href="my_reviews.php">Twoje opinie</a></div>
+            <div class="text-white"><a href="user_profile_fav.php">Obserwowane aukcje</a></div>
+            <div class="text-white"><a href="user_win_auction_profile.php">Wygrane aukcje</a></div> 
             <div class="text-white"><a href="user_sold_list.php">Sprzedane</a></div>    
         </div>
     </header>
-
     <main class="container mx-auto mt-8">
         <div class="px-4 sm:px-0">
             <h3 class="text-base font-semibold leading-7 text-gray-900">Dodaj opinię</h3>
