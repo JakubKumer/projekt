@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Paź 14, 2024 at 11:33 AM
+-- Generation Time: Paź 21, 2024 at 09:08 PM
 -- Wersja serwera: 10.4.28-MariaDB
 -- Wersja PHP: 8.2.4
 
@@ -45,7 +45,7 @@ CREATE TABLE `auctions` (
 --
 
 INSERT INTO `auctions` (`id_auction`, `id_user`, `id_category`, `title`, `description`, `image`, `start_price`, `end_time`, `highest_bidder_id`, `status`) VALUES
-(15, 16, 1, 'Pies', 'vbdfgndfgngfdnnfgnn', '../uploads/pies.jpg', 432423432423, '2024-06-17 10:27:51', 24, 'active'),
+(15, 26, 1, 'Pies', 'pies poważny', '../uploads/pies.jpg', 432423432423, '2024-06-17 10:27:51', 24, 'active'),
 (16, 16, 2, 'lambo', 'super szybki samochod', '../uploads/_0e078736-0ae0-4f31-9662-a46dcb69d1a2.jpg', 200000, '2024-06-17 10:45:30', NULL, 'active'),
 (23, 20, 2, 'Audi A5 2.0', 'Super samochód na daily. Jeden z lepszych do użytku na codzień. ', '../uploads/_2fa9aca3-ab82-4f5b-9c64-7e70ea5217f7.jpg', 322000, '2024-09-29 13:37:20', NULL, 'active'),
 (24, 20, 3, 'Piłka', 'Piłka adidas Tango 12 Polska ukraina Euro 2012. Nowa, nie śmigana.', '../uploads/images.jpg', 41, '2024-09-29 13:42:29', 24, 'active'),
@@ -60,7 +60,7 @@ INSERT INTO `auctions` (`id_auction`, `id_user`, `id_category`, `title`, `descri
 (35, 24, 11, 'Krem do rąk', 'Krem nawilżający do rąk', '../uploads/pobrane (7).jpg', 2, '2024-09-29 14:46:14', NULL, 'active'),
 (36, 24, 11, 'Krem Do twarzy', 'Krem do twarzy zapychajacy pory ', '../uploads/images (2).jpg', 4, '2024-09-29 14:47:23', NULL, 'active'),
 (37, 25, 7, 'produkciak', 'Produkciak z biedry', '../uploads/YL38uhw.gif', 120, '2024-10-14 11:36:23', NULL, 'active'),
-(38, 26, 7, 'Mystery Box', 'Mystery Box z turniej Kit Kat! ', '../uploads/Fvdx8cXXsAMehzZ.jpeg', 201, '2024-10-15 10:41:14', 26, 'active');
+(38, 26, 7, 'Mystery Box', 'Mystery Box z turniej Kit Kat! ', '../uploads/Fvdx8cXXsAMehzZ.jpeg', 250, '2024-10-15 10:41:14', 24, 'active');
 
 -- --------------------------------------------------------
 
@@ -126,7 +126,7 @@ CREATE TABLE `completed_auctions` (
 --
 
 INSERT INTO `completed_auctions` (`id`, `title`, `image`, `description`, `end_time`, `price`, `status`, `id_user`, `highest_bidder_id`, `payment_status`, `delivery_status`, `is_send`) VALUES
-(15, 'Pies', '../uploads/pies.jpg', 'vbdfgndfgngfdnnfgnn', '2024-06-17 10:27:51', 99.99, 'completed', 20, 24, 'zaplacone', 'odebrane', 'nie'),
+(15, 'Pies', '../uploads/pies.jpg', 'vbdfgndfgngfdnnfgnn', '2024-06-17 10:27:51', 99.99, 'completed', 26, 24, 'zaplacone', 'odebrane', 'tak'),
 (16, 'lambo', '../uploads/_0e078736-0ae0-4f31-9662-a46dcb69d1a2.jpg', 'super szybki samochod', '2024-06-17 10:45:30', 200000.00, 'completed', 21, NULL, 'niezaplacone', 'nieodebrane', 'nie');
 
 -- --------------------------------------------------------
@@ -150,6 +150,7 @@ INSERT INTO `favorites` (`id_favorite`, `id_user`, `id_auction`) VALUES
 (7, 23, 16),
 (5, 23, 32),
 (6, 23, 34),
+(16, 24, 38),
 (10, 25, 28),
 (15, 26, 15),
 (14, 26, 28),
@@ -183,13 +184,6 @@ CREATE TABLE `reviews` (
   `date` datetime NOT NULL,
   `id_auction` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Dumping data for table `reviews`
---
-
-INSERT INTO `reviews` (`id_review`, `id_user`, `rating`, `comment`, `date`, `id_auction`) VALUES
-(6, 24, 4, 'bla bla', '2024-10-14 11:32:10', 15);
 
 -- --------------------------------------------------------
 
@@ -260,9 +254,9 @@ INSERT INTO `users` (`id_user`, `firstName`, `lastName`, `email`, `id_role`, `pa
 (21, 'Maja', 'Stasko', 'stasko@wp.pl', 1, '$2y$10$Bhg1eReVIn7g7XaUlQMIGe6gu9mnKc4ZX1ExBBnfzb/R1UxgSU.K2', '$2y$10$Bhg1eReVIn7g7XaUlQMIGe6gu9mnKc4ZX1ExBBnfzb/R1UxgSU.K2', NULL, NULL, NULL, NULL, NULL, '../uploads/user-3331256_1280.png', NULL, NULL),
 (22, 'Firma', 'Farmaceutyczna', 'farm@wp.pl', 1, '$2y$10$4McZ8/7ZcwJ6Odc7UxjjL.pje6VRzQy3Ai64TYyWQjCwMN8QhiLa.', '$2y$10$4McZ8/7ZcwJ6Odc7UxjjL.pje6VRzQy3Ai64TYyWQjCwMN8QhiLa.', NULL, NULL, NULL, NULL, NULL, '../uploads/user-3331256_1280.png', NULL, NULL),
 (23, 'biblioteka', 'poznanska', 'biblio@wp.pl', 1, '$2y$10$2aU0pqSutdJpxVPwV4kE0ONK9a.rW5AzgdyohwruyPo9cceVMDBaG', '$2y$10$2aU0pqSutdJpxVPwV4kE0ONK9a.rW5AzgdyohwruyPo9cceVMDBaG', NULL, NULL, NULL, NULL, NULL, '../uploads/user-3331256_1280.png', NULL, NULL),
-(24, 'Basia', 'Kowal', 'kowal@wp.pl', 1, '$2y$10$JDAh8aYZIErcu.NOpQZms.zoyrJuKv58zxRNZz.eVzYJatXAIx6wG', '$2y$10$JDAh8aYZIErcu.NOpQZms.zoyrJuKv58zxRNZz.eVzYJatXAIx6wG', NULL, NULL, NULL, NULL, NULL, '../uploads/user-3331256_1280.png', NULL, NULL),
+(24, 'Basia', 'Kowal', 'kowal@wp.pl', 1, '$2y$10$JDAh8aYZIErcu.NOpQZms.zoyrJuKv58zxRNZz.eVzYJatXAIx6wG', '$2y$10$JDAh8aYZIErcu.NOpQZms.zoyrJuKv58zxRNZz.eVzYJatXAIx6wG', 'Basiowisko', 'Barbary ', '5', '78-492', '849294950', '../uploads/67160c1a89904.jpg', NULL, NULL),
 (25, 'Monika', 'Rogowska', 'rogowska@o2.pl', 1, '$2y$10$j3pvov3uKlK8XMZJuV6ij.jgQr0Z5dPLVE60fnBGoA0.78diMbYjy', '$2y$10$j3pvov3uKlK8XMZJuV6ij.jgQr0Z5dPLVE60fnBGoA0.78diMbYjy', 'Zielona Góra', 'Wrocławska', '69', '65-001', '884194964', '../uploads/6703a52c117cc.png', NULL, NULL),
-(26, 'Kacper', 'Lokietek', 'Lokiec33PL@gmail.com', 1, '$2y$10$m/sRov2DWHUqc63soCMU7uDIAz7gJzLFZkWQJilZOCxmNa9qkJEuW', '$2y$10$zRc.wVKsK.vrEXu4hg/Ju.l4zjt7fJ17tKm6rPc7/ocmwVCbLezS2', 'Zielona Góra', 'Racula-Widokowa', '11', '66-004', '518335834', '../uploads/6704eff7c89ec.jpg', NULL, NULL),
+(26, 'Kacper', 'Lokietek', 'Lokiec33PL@gmail.com', 1, '$2y$10$WVMyO/JzloCET91UdOiWce8SxInFduRnjMFq7Q/hVUAMNvpemz0oC', '$2y$10$zRc.wVKsK.vrEXu4hg/Ju.l4zjt7fJ17tKm6rPc7/ocmwVCbLezS2', 'Zielona Góra', 'Racula-Widokowa', '11', '66-004', '518335834', '../uploads/6704eff7c89ec.jpg', NULL, NULL),
 (27, 'Julia', 'Gorska', 'gorska.julia@icloud.com', 1, '$2y$10$4s.JacXR5uBiraoLmyziJOCd75ct.XV2Xz9EhXri1kB/IeM/eHkWi', '$2y$10$4s.JacXR5uBiraoLmyziJOCd75ct.XV2Xz9EhXri1kB/IeM/eHkWi', '', '', '', '', '', '../uploads/6705761dd0dd7.jpg', '3593900ea3fb8f5fb0edf58c0e948729c8eec16f74e71107979d1a4c449dcb015f877b3da2dd82ad131d545f4c4a3b3694dc', '2024-10-08 21:15:02');
 
 --
@@ -355,7 +349,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `id_favorite` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_favorite` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `photos`
@@ -367,7 +361,7 @@ ALTER TABLE `photos`
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id_review` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_review` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `role`
