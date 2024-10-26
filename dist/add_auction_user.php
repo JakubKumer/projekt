@@ -82,6 +82,10 @@ $auctions = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 ?>
             </select>
             <div class="block w-1/2 mt-2">
+                <label for="end_time">Data zakończenia aukcji</label>
+                <input type="datetime-local" id="end_time" name="end_time" class="block p-2.5 w-full bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+            </div>
+            <div class="block w-1/2 mt-2">
                 <label for="">Zdjęcie</label>
                 <input type="file" name="image" value="" ><br>
             </div> 

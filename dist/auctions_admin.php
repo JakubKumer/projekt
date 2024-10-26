@@ -1,6 +1,37 @@
 <?php
     session_start();
     include_once "../scripts/connect.php";
+    if (!isset($_SESSION['id_user'])) {
+        // Jeśli użytkownik nie jest zalogowany, przekieruj do formularza logowania
+        header("Location: login.php");
+        exit(); // Zatrzymanie dalszego ładowania strony
+    }
+    
+    // Pobieranie id_user z sesji
+    $id_user = $_SESSION['id_user'];
+    
+    // Sprawdzenie, czy użytkownik ma przypisaną rolę administratora (id_role == 3)
+    $query = "SELECT id_role FROM users WHERE id_user = :id_user";
+    $stmt = $conn->prepare($query); // Przygotowanie zapytania SQL
+    $stmt->bindValue(':id_user', $id_user, PDO::PARAM_INT); // Użycie bindValue zamiast bind_param
+    $stmt->execute(); // Wykonanie zapytania
+    
+    // Sprawdzenie wyniku zapytania
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($user) {
+        $id_role = $user['id_role'];
+    
+        // Sprawdzenie, czy użytkownik jest administratorem (id_role == 3)
+        if ($id_role != 3) {
+            // Jeśli użytkownik nie jest administratorem, wyświetlamy komunikat o braku uprawnień
+            echo "Brak uprawnień do przeglądania tej strony.";
+            exit(); // Zatrzymanie dalszego ładowania strony
+        }
+    } else {
+        // Jeśli użytkownik nie został znaleziony w bazie
+        header("Location: login.php");
+        exit(); // Zatrzymanie dalszego ładowania strony
+    }
     include_once "../scripts/filtr_auctions_admin.php";
     $sql = "SELECT auctions.*, categories.category_name 
     FROM auctions 
