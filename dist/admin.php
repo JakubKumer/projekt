@@ -42,47 +42,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../src/admin.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
 <div class="sidebar">
         <a href="admin.php"><i class="fa fa-fw fa-user"></i> Użytkownicy</a>
         <a href="auctions_admin.php"><i class="fa fa-clipboard"></i> Aukcje</a>
         <a href="category_admin.php"><i class="fa fa-clipboard"></i> Kategorie</a>
+        <a href="finished_auction_admin.php"><i class="fa fa-clipboard"></i> Zakończone aukcje</a>
+        <a href="../scripts/logout.php"><i class="fa fa-clipboard"></i> Wyloguj</a>
     </div>
     <div class="main">
         <h1>Panel Administratora</h1>
-        
-         <!-- Formularz dodawania użytkownika -->
-         <h2>Dodaj użytkownika</h2>
-        <form action="add.php" method="POST">
-            <div class="add_wyglad">
-                <label for="firstName">Imię:</label>
-                <input type="text" name="firstName" id="firstName" required><br>
-            </div>
-            <div class="add_wyglad">
-                <label for="lastName">Nazwisko:</label>
-                <input type="text" name="lastName" id="lastName" required><br>
-            </div>
-            <div class="add_wyglad">
-                <label for="email">Email:</label>
-                <input type="email" name="email" id="email" required><br>
-            </div>
-            <div class="add_wyglad">
-                <label for="pass">Hasło:</label>
-                <input type="password" name="pass" id="pass" required><br>
-            </div>
-            <div class="add_wyglad">
-                <label for="passwordrepeat">Powtórz hasło:</label>
-                <input type="password" name="passwordrepeat" id="passwordrepeat" required><br>
-            </div>
-            <div class="add_wyglad">
-                <input class="add_button" type="submit" value="Dodaj użytkownika">
-            </div>
-        </form>
-
         <h2 id="uzytkownicy">Użytkownicy</h2>
-
-        <!-- Tabela użytkowników z ikonami strzałek do sortowania -->
+        <div class="flex justify-end mr-5"><button type="button" class="ml-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"><a href="add_admin_user.php">Dodaj Aukcje</a></button></div>
         <table>
             <tr>
                 <th><a href="?sortByID=<?php echo $sortByID === 'asc' ? 'desc' : 'asc'; ?>">ID użytkownika <?php if ($sortByID === 'asc') echo "&#8593;"; else echo "&#8595;"; ?></a></th>

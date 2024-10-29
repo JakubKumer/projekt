@@ -127,6 +127,27 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
     </header>
    <div class="kontener">
     <h1 class="font-bold text-lg">Profil użytkownika</h1>
+<<<<<<< HEAD
+=======
+    <?php if (!empty($errors)) { ?>
+            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 w-auto m-auto lg:w-1/3" role="alert">
+                <p class="font-bold">Błąd</p>
+                <ul>
+                    <?php foreach ($errors as $error) { ?>
+                        <li><?php echo $error; ?></li>
+                    <?php } ?>
+                </ul>
+            </div>
+        <?php } ?>
+
+        <!-- Wyświetlanie komunikatów o sukcesie -->
+        <?php if (!empty($successMessage)) { ?>
+            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 w-auto m-auto lg:w-1/3" role="alert">
+                <p class="font-bold">Sukces</p>
+                <p><?php echo $successMessage; ?></p>
+            </div>
+        <?php } ?>
+>>>>>>> 43f4cca62012d2896e5f95e430330a31081ea7ae
         <form class="m-auto w-1/2 flex-wrap" enctype="multipart/form-data" method="POST" action="user_profile.php">
            <div class="block w-1/2 m-auto">
                 <label for="firstName">Imię:</label>
