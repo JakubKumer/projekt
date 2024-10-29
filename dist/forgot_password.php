@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $mail->Host = 'smtp.wp.pl'; // Ustaw swój serwer SMTP
                     $mail->SMTPAuth = true;
                     $mail->Username = 'BidHub@wp.pl'; // Twój adres e-mail
-                    $mail->Password = 'Licytacja123'; // Hasło do skrzynki e-mail
+                    $mail->Password = 'Licytacja123!'; // Hasło do skrzynki e-mail
                     $mail->SMTPSecure = 'tls'; // Zabezpieczenie (SSL/TLS)
                     $mail->Port = 587; // Port dla TLS
 
