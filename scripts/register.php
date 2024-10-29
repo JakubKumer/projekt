@@ -93,8 +93,7 @@ if (isset($_POST["email"])) {
         }
     } catch (PDOException $e) {
         $errors[] = 'Ups, coś poszło nie tak!';
-        // Optional: Log the error message for debugging
-        // error_log($e->getMessage());
+
     }
 
     if (!empty($errors)) {

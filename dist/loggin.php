@@ -2,10 +2,18 @@
 session_start();
 include_once "../scripts/connect.php";
 $currentCategoryName = '';
-
 if (isset($_SESSION['id_user']) && isset($_SESSION['email'])) {
 
     // Pobieranie kategorii z bazy danych
+    $stmt = $conn->prepare("SELECT firstName, profile_image FROM users WHERE id_user = :id_user");
+    $stmt->execute(['id_user' => $_SESSION['id_user']]);
+    $userData = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if ($userData) {
+        $_SESSION['firstName'] = $userData['firstName'];
+        $_SESSION['profile_image'] = $userData['profile_image'];
+    }
+
     $sql = "SELECT id_category, category_name FROM categories";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
@@ -33,7 +41,7 @@ if (isset($_SESSION['id_user']) && isset($_SESSION['email'])) {
          JOIN categories ON auctions.id_category = categories.id_category";
 
     // Warunki do zapytania SQL
-    $conditions = ["auctions.status = 'active'"];
+    $conditions = ["auctions.status = 'active'", "auctions.end_time > NOW()"];
     $params = [];
 
     // Dodanie warunku wyszukiwania
@@ -129,18 +137,7 @@ if (isset($_SESSION['id_user']) && isset($_SESSION['email'])) {
 
     // Oblicz łączną liczbę stron
     $totalPages = ceil($totalAuctions / $itemsPerPage);
-    if (isset($_SESSION['id_user']) && isset($_SESSION['email'])) {
-        $userId = $_SESSION['id_user'];
-        $sql = "SELECT firstName, profile_image FROM users WHERE id_user = :id_user";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':id_user', $userId);
-        $stmt->execute();
-        $userData = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-        $_SESSION['firstName'] = $userData['firstName'];
-        $_SESSION['profile_image'] = $userData['profile_image']; 
-    }
-    
+
 ?>
 
 <!DOCTYPE html>

@@ -36,73 +36,57 @@ $favStmt = $conn->prepare($favSql);
 $favStmt->execute(['id_user' => $currentUserId, 'id_auction' => $id_auction]);
 $isFavorited = $favStmt->fetch(PDO::FETCH_ASSOC) ? true : false;
 
-// Handle favorite/unfavorite actions
-if (isset($_POST['favorite_action'])) {
-    if ($_POST['favorite_action'] === 'add') {
-        // Add to favorites
-        $insertSql = "INSERT INTO favorites (id_user, id_auction) VALUES (:id_user, :id_auction)";
-        $insertStmt = $conn->prepare($insertSql);
-        $insertStmt->execute(['id_user' => $currentUserId, 'id_auction' => $id_auction]);
-        $isFavorited = true;
-    } elseif ($_POST['favorite_action'] === 'remove') {
-        // Remove from favorites
-        $deleteSql = "DELETE FROM favorites WHERE id_user = :id_user AND id_auction = :id_auction";
-        $deleteStmt = $conn->prepare($deleteSql);
-        $deleteStmt->execute(['id_user' => $currentUserId, 'id_auction' => $id_auction]);
-        $isFavorited = false;
-    }
-}
-
 $errors = [];
 $successMessage = '';
 
+// Handle bid submission with date check
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bid_amount'])) {
-    $newBid = isset($_POST['bid_amount']) ? floatval($_POST['bid_amount']) : 0;
+    $currentDate = new DateTime();
+    $auctionEndDate = new DateTime($auction['end_time']);
 
-    if ($newBid > $auction['start_price']) {
-        // Update the price and highest bidder in the database
-        $updateSql = "UPDATE auctions 
-                      SET start_price = :newBid, 
-                          highest_bidder_id = :userId 
-                      WHERE id_auction = :id_auction";
-        $updateStmt = $conn->prepare($updateSql);
-        $updateStmt->execute([
-            ':newBid' => $newBid,
-            ':userId' => $currentUserId,
-            ':id_auction' => $id_auction
-        ]);
-
-        // Update the auction data in our PHP variable
-        $auction['start_price'] = $newBid;
-        $auction['highest_bidder_id'] = $currentUserId;
-        $auction['highest_bidder_first_name'] = $_SESSION['firstName'];
-        $auction['highest_bidder_last_name'] = $_SESSION['lastName'];
-
-        $successMessage = "Twoja oferta jest aktualnie najwyższa: {$newBid} zł";
+    // Check if the auction has ended
+    if ($currentDate > $auctionEndDate) {
+        $errors[] = "Aukcja jest zakończona. Nie można podbijać cen";
     } else {
-        $errors[] = "Nowa oferta musi być wyższa niż aktualna cena!";
+        $newBid = floatval($_POST['bid_amount']);
+
+        if ($newBid > $auction['start_price']) {
+            // Update the price and highest bidder in the database
+            $updateSql = "UPDATE auctions 
+                          SET start_price = :newBid, 
+                              highest_bidder_id = :userId 
+                          WHERE id_auction = :id_auction";
+            $updateStmt = $conn->prepare($updateSql);
+            $updateStmt->execute([
+                ':newBid' => $newBid,
+                ':userId' => $currentUserId,
+                ':id_auction' => $id_auction
+            ]);
+
+            // Update local auction details
+            $auction['start_price'] = $newBid;
+            $auction['highest_bidder_id'] = $currentUserId;
+            $auction['highest_bidder_first_name'] = $_SESSION['firstName'];
+            $auction['highest_bidder_last_name'] = $_SESSION['lastName'];
+
+            $successMessage = "Twoja oferta jest aktualnie najwyższa: {$newBid} zł";
+        } else {
+            $errors[] = "Nowa oferta musi być wyższa niż aktualna cena!";
+        }
     }
-
-    // Fetch user details for session update
-    if (isset($_SESSION['id_user']) && isset($_SESSION['email'])) {
-        $userId = $_SESSION['id_user'];
-        $sql = "SELECT firstName, lastName, profile_image FROM users WHERE id_user = :id_user";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':id_user', $userId);
-        $stmt->execute();
-        $userData = $stmt->fetch(PDO::FETCH_ASSOC);
-
+    if (isset($_SESSION['id_user'])) {
+        // Pobierz dane użytkownika
+        $userStmt = $conn->prepare("SELECT firstName, lastName FROM users WHERE id_user = :id_user");
+        $userStmt->execute(['id_user' => $_SESSION['id_user']]);
+        $userData = $userStmt->fetch(PDO::FETCH_ASSOC);
+        
         if ($userData) {
             $_SESSION['firstName'] = $userData['firstName'];
             $_SESSION['lastName'] = $userData['lastName'];
-            $_SESSION['profile_image'] = $userData['profile_image'];
-        } else {
-            // Handle user not found in the database
-            echo "User not found!";
         }
     }
+    
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
