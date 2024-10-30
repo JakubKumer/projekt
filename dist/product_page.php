@@ -35,6 +35,34 @@ $favSql = "SELECT * FROM favorites WHERE id_user = :id_user AND id_auction = :id
 $favStmt = $conn->prepare($favSql);
 $favStmt->execute(['id_user' => $currentUserId, 'id_auction' => $id_auction]);
 $isFavorited = $favStmt->fetch(PDO::FETCH_ASSOC) ? true : false;
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['favorite_action'])) {
+    if ($_POST['favorite_action'] === 'add') {
+        // Add auction to favorites
+        $favInsertSql = "INSERT INTO favorites (id_user, id_auction) VALUES (:id_user, :id_auction)";
+        $favInsertStmt = $conn->prepare($favInsertSql);
+        try {
+            $favInsertStmt->execute(['id_user' => $currentUserId, 'id_auction' => $id_auction]);
+            $isFavorited = true;
+            $successMessage = "Aukcja została dodana do obserwowanych.";
+        } catch (Exception $e) {
+            $errors[] = "Wystąpił błąd podczas dodawania do obserwowanych: " . $e->getMessage();
+        }
+    } elseif ($_POST['favorite_action'] === 'remove') {
+        // Remove auction from favorites
+        $favDeleteSql = "DELETE FROM favorites WHERE id_user = :id_user AND id_auction = :id_auction";
+        $favDeleteStmt = $conn->prepare($favDeleteSql);
+        try {
+            $favDeleteStmt->execute(['id_user' => $currentUserId, 'id_auction' => $id_auction]);
+            $isFavorited = false;
+            $successMessage = "Aukcja została usunięta z obserwowanych.";
+        } catch (Exception $e) {
+            $errors[] = "Wystąpił błąd podczas usuwania z obserwowanych: " . $e->getMessage();
+        }
+    }
+}
+
+
+
 
 $errors = [];
 $successMessage = '';

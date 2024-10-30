@@ -80,8 +80,8 @@ if (isset($_SESSION['id_user']) && isset($_SESSION['email'])) {
 
     // Własny przedział cenowy
     if (!empty($_GET['custom_price_min']) || !empty($_GET['custom_price_max'])) {
-        $minPrice = $_GET['custom_price_min'] ?? 0;
-        $maxPrice = $_GET['custom_price_max'] ?? PHP_INT_MAX;
+        $minPrice = !empty($_GET['custom_price_min']) ? (float)$_GET['custom_price_min'] : 0;
+        $maxPrice = !empty($_GET['custom_price_max']) ? (float)$_GET['custom_price_max'] : PHP_INT_MAX;
         $conditions[] = "auctions.start_price BETWEEN :minPrice AND :maxPrice";
         $params[':minPrice'] = $minPrice;
         $params[':maxPrice'] = $maxPrice;
@@ -215,8 +215,8 @@ if (isset($_SESSION['id_user']) && isset($_SESSION['email'])) {
                 <label><input class="m-3 " type="radio" name="price_range" value="50_to_75" <?php echo (isset($_GET['price_range']) && $_GET['price_range'] == '50_to_75') ? 'checked' : ''; ?>> 50 zł do 75 zł</label><br>
                 <label><input class="m-3 " type="radio" name="price_range" value="75_to_100" <?php echo (isset($_GET['price_range']) && $_GET['price_range'] == '75_to_100') ? 'checked' : ''; ?>> 75 zł do 100 zł</label><br>
                 <label><input class="m-3 " type="radio" name="price_range" value="above_100" <?php echo (isset($_GET['price_range']) && $_GET['price_range'] == 'above_100') ? 'checked' : ''; ?>> powyżej 100 zł</label><br>
-                <label><input class="m-3 rounded border border-gray-400 hover:border-blue-400" type="number" name="custom_price_min" placeholder="Min" class="border rounded" /></label>
-                <label><input class="m-3 rounded border border-gray-400 hover:border-blue-400" type="number" name="custom_price_max" placeholder="Max" class="border rounded" /></label>
+                <label><input class="m-3 rounded border border-gray-400 hover:border-blue-400 w-3/4" type="number" name="custom_price_min" placeholder="Min" class="border rounded" value="<?php echo isset($_GET['custom_price_min']) ? htmlspecialchars($_GET['custom_price_min']) : ''; ?>" /></label>
+                <label><input class="m-3 rounded border border-gray-400 hover:border-blue-400 w-3/4" type="number" name="custom_price_max" placeholder="Max" class="border rounded" value="<?php echo isset($_GET['custom_price_max']) ? htmlspecialchars($_GET['custom_price_max']) : ''; ?>" /></label>
             </div>
 
             <div class="my-2">

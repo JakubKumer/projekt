@@ -16,8 +16,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($title)) {
         $errors[] = "Nazwa produktu jest wymagana.";
     }
-    if ($price === false) {
-        $errors[] = "Cena musi być liczbą.";
+    if (!preg_match('/^\d+(\.\d{1,2})?$/', $_POST['price'])) {
+        $errors[] = "Cena musi być liczbą dziesiętną z maksymalnie dwoma miejscami po przecinku.";
     }
     if (empty($description)) {
         $errors[] = "Opis jest wymagany.";

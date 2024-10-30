@@ -7,6 +7,35 @@ if (!isset($_SESSION['id_user']) || $_SESSION['id_role'] != 3) {
     header("Location: ../admin.php?error=Brak+uprawnień");
     exit();
 }
+$currentDate = new DateTime();
+
+try {
+    // Pobierz ID aukcji, które się zakończyły
+    $query = "
+        SELECT id_auction 
+        FROM auctions 
+        WHERE end_time < :current_date
+    ";
+    $stmt = $conn->prepare($query);
+    $stmt->execute([':current_date' => $currentDate->format('Y-m-d H:i:s')]);
+    
+    $expiredAuctions = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+    // Usuń odpowiednie wpisy z tabeli favorites, jeśli istnieją zakończone aukcje
+    if (!empty($expiredAuctions)) {
+        $deleteQuery = "
+            DELETE FROM favorites 
+            WHERE id_auction IN (" . implode(',', $expiredAuctions) . ")
+        ";
+        $deleteStmt = $conn->prepare($deleteQuery);
+        $deleteStmt->execute();
+        echo "Usunięto wszystkie obserwacje dla zakończonych aukcji.";
+    } else {
+        echo "Nie znaleziono zakończonych aukcji do usunięcia.";
+    }
+} catch (Exception $e) {
+    echo "Wystąpił błąd: " . $e->getMessage();
+}
 
 try {
     // Rozpocznij transakcję
