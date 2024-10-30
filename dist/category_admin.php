@@ -54,6 +54,7 @@
         <a href="auctions_admin.php"><i class="fa fa-clipboard"></i> Aukcje</a>
         <a href="category_admin.php"><i class="fa fa-clipboard"></i> Kategorie</a>
         <a href="finished_auction_admin.php"><i class="fa fa-clipboard"></i> Zakończone aukcje</a>
+        <a href="admin_reviews.php"><i class="fa fa-clipboard"></i> Opinie</a>
         <a href="../scripts/logout.php"><i class="fa fa-clipboard"></i> Wyloguj</a>
     </div>
     <div class="main">

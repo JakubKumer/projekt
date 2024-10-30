@@ -208,23 +208,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bid_amount'])) {
         </div>
 
         <div class="mt-10">
-          <h3 class="text-sm font-medium text-gray-900">Highlights</h3>
-          <div class="mt-4">
-            <ul role="list" class="list-disc space-y-2 pl-4 text-sm">
-              <li class="text-gray-400"><span class="text-gray-600">Kategoria produktu: <?php echo htmlspecialchars($auction['category_name']); ?></span></li>
-              <li class="text-gray-400"><span class="text-gray-600">Koniec aukcji: <?php echo htmlspecialchars($auction['end_time']); ?></span></li>
-              <li class="text-gray-400"><span class="text-gray-600">Wystawione przez: <?php echo htmlspecialchars($auction['owner_first_name'] . ' ' . $auction['owner_last_name']); ?></span></li>
-              <div class="mt-4 lg:row-span-3 lg:mt-0">
-        <!-- Add/Remove favorite form -->
-                  <form method="POST" action="">
-                      <button type="submit" name="favorite_action" value="<?php echo $isFavorited ? 'remove' : 'add'; ?>" class="mt-4 flex w-1/2 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                          <?php echo $isFavorited ? 'Usuń z obserwowanych' : 'Dodaj do obserwowanych'; ?>
-                      </button>
-                  </form>
-              </div>
-            </ul>
-          </div>
-        </div>
+    <h3 class="text-sm font-medium text-gray-900">Highlights</h3>
+    <div class="mt-4">
+        <ul role="list" class="list-disc space-y-2 pl-4 text-sm">
+            <li class="text-gray-400"><span class="text-gray-600">Kategoria produktu: <?php echo htmlspecialchars($auction['category_name']); ?></span></li>
+            <li class="text-gray-400"><span class="text-gray-600">Koniec aukcji: <?php echo htmlspecialchars($auction['end_time']); ?></span></li>
+            <li class="text-gray-400"><span class="text-gray-600">Wystawione przez: <?php echo htmlspecialchars($auction['owner_first_name'] . ' ' . $auction['owner_last_name']); ?></span></li>
+            <li class="text-black-400">
+    <a href="seller_reviews.php?seller_id=<?php echo $auction['id_user']; ?>" class="button">Sprawdź opinie</a>
+</li>
+
+
+            <div class="mt-4 lg:row-span-3 lg:mt-0">
+                <!-- Add/Remove favorite form -->
+                <form method="POST" action="">
+                    <button type="submit" name="favorite_action" value="<?php echo $isFavorited ? 'remove' : 'add'; ?>" class="mt-4 flex w-1/2 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                        <?php echo $isFavorited ? 'Usuń z obserwowanych' : 'Dodaj do obserwowanych'; ?>
+                    </button>
+                </form>
+            </div>
+        </ul>
+    </div>
+</div>
       </div>
     </div>
   </div>

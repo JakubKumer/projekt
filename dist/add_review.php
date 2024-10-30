@@ -54,21 +54,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $date = date('Y-m-d H:i:s');
 
     // Wstawianie recenzji do bazy danych
-    $insertQuery = "INSERT INTO reviews (completed_auction_id, reviewer_id, reviewed_user_id, rating, comment, review_date) 
-                    VALUES (:completed_auction_id, :reviewer_id, :reviewed_user_id, :rating, :comment, :review_date)";
-    $insertStmt = $conn->prepare($insertQuery);
-    $insertStmt->bindParam(':completed_auction_id', $auctionId, PDO::PARAM_INT);
-    $insertStmt->bindParam(':reviewer_id', $currentUserId, PDO::PARAM_INT);
-    $insertStmt->bindParam(':reviewed_user_id', $sellerId, PDO::PARAM_INT);
-    $insertStmt->bindParam(':rating', $rating, PDO::PARAM_INT);
-    $insertStmt->bindParam(':comment', $comment, PDO::PARAM_STR);
-    $insertStmt->bindParam(':review_date', $date);
+$insertQuery = "INSERT INTO reviews (completed_auction_id, reviewer_id, reviewed_user_id, rating, comment, review_date) 
+VALUES (:completed_auction_id, :reviewer_id, :reviewed_user_id, :rating, :comment, :review_date)";
+$insertStmt = $conn->prepare($insertQuery);
+$insertStmt->bindParam(':completed_auction_id', $auctionId, PDO::PARAM_INT);
+$insertStmt->bindParam(':reviewer_id', $currentUserId, PDO::PARAM_INT);
+$insertStmt->bindParam(':reviewed_user_id', $sellerId, PDO::PARAM_INT);
+$insertStmt->bindParam(':rating', $rating, PDO::PARAM_INT);
+$insertStmt->bindParam(':comment', $comment, PDO::PARAM_STR);
+$insertStmt->bindParam(':review_date', $date);
 
-    if ($insertStmt->execute()) {
-        echo "<p class='text-green-500'>Opinia została dodana pomyślnie!</p>";
-    } else {
-        echo "<p class='text-red-500'>Wystąpił błąd podczas dodawania opinii.</p>";
-    }
+if ($insertStmt->execute()) {
+// Przekierowanie do user_pack_delivery.php po pomyślnym dodaniu opinii
+header("Location: user_pack_delivery.php");
+exit(); // Zatrzymaj dalsze wykonywanie skryptu
+} else {
+echo "<p class='text-red-500'>Wystąpił błąd podczas dodawania opinii.</p>";
+}
+
 }
 ?>
 

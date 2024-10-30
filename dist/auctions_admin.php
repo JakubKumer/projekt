@@ -50,16 +50,17 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="sidebar">
+<div class="sidebar">
         <a href="admin.php"><i class="fa fa-fw fa-user"></i> Użytkownicy</a>
         <a href="auctions_admin.php"><i class="fa fa-clipboard"></i> Aukcje</a>
         <a href="category_admin.php"><i class="fa fa-clipboard"></i> Kategorie</a>
         <a href="finished_auction_admin.php"><i class="fa fa-clipboard"></i> Zakończone aukcje</a>
+        <a href="admin_reviews.php"><i class="fa fa-clipboard"></i> Opinie</a>
         <a href="../scripts/logout.php"><i class="fa fa-clipboard"></i> Wyloguj</a>
     </div>
 
     <div class="main">
-        <h1 class="font-bold text-4xl ">Panel Administratora</h1>
+    <h1 class="text-5xl">Panel Administratora</h1>
         <h2 class="font-bold text-xl">Aukcje</h2>
         <div class="flex justify-end mr-5"><button type="button" class="ml-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"><a href="add_admin_auction.php">Dodaj Aukcje</a></button></div>
 
