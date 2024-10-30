@@ -184,7 +184,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bid_amount'])) {
           <div class="mt-4">
             <ul role="list" class="list-disc space-y-2 pl-4 text-sm">
               <li class="text-gray-400"><span class="text-gray-600">Kategoria produktu: <?php echo htmlspecialchars($auction['category_name']); ?></span></li>
-              <li class="text-gray-400"><span class="text-gray-600">Kon: <?php echo htmlspecialchars($auction['end_time']); ?></span></li>
+              <li class="text-gray-400"><span class="text-gray-600">Koniec aukcji: <?php echo htmlspecialchars($auction['end_time']); ?></span></li>
               <li class="text-gray-400"><span class="text-gray-600">Wystawione przez: <?php echo htmlspecialchars($auction['owner_first_name'] . ' ' . $auction['owner_last_name']); ?></span></li>
               <div class="mt-4 lg:row-span-3 lg:mt-0">
         <!-- Add/Remove favorite form -->

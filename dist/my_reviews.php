@@ -9,12 +9,12 @@ if (isset($_SESSION['id_user']) && isset($_SESSION['email'])) {
     $userId = $_SESSION['id_user'];
 
     // Pobieranie recenzji otrzymanych przez zalogowanego użytkownika wraz z tytułem aukcji
-    $sql = "SELECT reviews.*, users.firstName, users.profile_image, auctions.title 
+    $sql = "SELECT reviews.*, users.firstName, users.profile_image, completed_auctions.title 
             FROM reviews 
-            JOIN auctions ON reviews.id_auction = auctions.id_auction
-            JOIN users ON reviews.id_user = users.id_user
-            WHERE auctions.id_user = :id_user
-            ORDER BY reviews.date DESC";
+            JOIN completed_auctions ON reviews.completed_auction_id = completed_auctions.id
+            JOIN users ON reviews.reviewer_id = users.id_user
+            WHERE reviews.reviewed_user_id = :id_user
+            ORDER BY reviews.review_date DESC";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':id_user', $userId, PDO::PARAM_INT);
     $stmt->execute();
@@ -42,16 +42,17 @@ if (isset($_SESSION['id_user']) && isset($_SESSION['email'])) {
 </head>
 <body>
 <header class="bg-blue-950">       
-        <div class=" container w-4/5 m-auto bg-blue-950 flex justify-around  p-8">
-        <div class=""><a href="loggin.php"><img src="/projekt/projekt/img/BidHub_logo_removebg_minimalized.png" alt="Błąd załadowania zdjęcia" width="150" height="150"></a></div>
-            <div class="text-white"><a href="user_profile.php">Moje Dane</a></div>
-            <div class="text-white"><a href="user_profile_auctions.php">Twoje Aukcje</a></div>
-            <div class="text-white"><a href="my_reviews.php">Twoje opinie</a></div>
-            <div class="text-white"><a href="user_profile_fav.php">Obserwowane aukcje</a></div>
-            <div class="text-white"><a href="user_win_auction_profile.php">Wygrane aukcje</a></div> 
-            <div class="text-white"><a href="user_sold_list.php">Sprzedane</a></div>    
-        </div>
-    </header>
+    <div class="container w-4/5 m-auto bg-blue-950 flex justify-around p-8">
+        <div><a href="loggin.php"><img src="/projekt/projekt/img/BidHub_logo_removebg_minimalized.png" alt="Logo" width="150" height="150"></a></div>
+        <div class="text-white"><a href="user_profile.php">Moje Dane</a></div>
+        <div class="text-white"><a href="user_profile_auctions.php">Twoje Aukcje</a></div>
+        <div class="text-white"><a href="my_reviews.php">Twoje opinie</a></div>
+        <div class="text-white"><a href="user_profile_fav.php">Obserwowane aukcje</a></div>
+        <div class="text-white"><a href="user_win_auction_profile.php">Wygrane aukcje</a></div> 
+        <div class="text-white"><a href="user_sold_list.php">Sprzedane</a></div>    
+    </div>
+</header>
+
 <main class="container w-4/5 m-auto mt-10">
     <h2 class="text-2xl font-bold mb-4">Otrzymane opinie</h2>
     <ul>
@@ -62,7 +63,7 @@ if (isset($_SESSION['id_user']) && isset($_SESSION['email'])) {
                         <img class="w-10 h-10 rounded-full mr-3" src="<?php echo htmlspecialchars($review['profile_image']); ?>" alt="Zdjęcie profilu">
                         <div>
                             <p class="font-bold"><?php echo htmlspecialchars($review['firstName']); ?></p>
-                            <p class="text-sm text-gray-500"><?php echo htmlspecialchars(date('d-m-Y', strtotime($review['date']))); ?></p>
+                            <p class="text-sm text-gray-500"><?php echo htmlspecialchars(date('d-m-Y', strtotime($review['review_date']))); ?></p>
                             <p class="font-semibold"> <?php echo htmlspecialchars($review['title']); ?></p> <!-- Tytuł aukcji -->
                         </div>
                     </div>

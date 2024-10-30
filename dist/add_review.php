@@ -4,7 +4,7 @@ include_once "../scripts/connect.php";
 
 // Sprawdzenie, czy użytkownik jest zalogowany
 if (!isset($_SESSION['id_user'])) {
-    header("Location: loggin.php"); // Przekierowanie do strony logowania, jeśli użytkownik nie jest zalogowany
+    header("Location: loggin.php");
     exit();
 }
 
@@ -16,18 +16,30 @@ if (!isset($_GET['id_auction'])) {
 $auctionId = intval($_GET['id_auction']);
 $currentUserId = $_SESSION['id_user'];
 
-// Pobranie tytułu aukcji z bazy danych
-$titleQuery = "SELECT title FROM auctions WHERE id_auction = :id_auction";
-$titleStmt = $conn->prepare($titleQuery);
-$titleStmt->bindParam(':id_auction', $auctionId, PDO::PARAM_INT);
-$titleStmt->execute();
-$auctionTitle = $titleStmt->fetchColumn();
+// Pobranie szczegółów zakończonej aukcji
+$completedAuctionQuery = "SELECT title, id_user AS seller_id, highest_bidder_id 
+                          FROM completed_auctions 
+                          WHERE id = :id_auction";
+$completedAuctionStmt = $conn->prepare($completedAuctionQuery);
+$completedAuctionStmt->bindParam(':id_auction', $auctionId, PDO::PARAM_INT);
+$completedAuctionStmt->execute();
+$completedAuction = $completedAuctionStmt->fetch(PDO::FETCH_ASSOC);
 
-// Sprawdzenie, czy użytkownik już dodał opinię do danej aukcji
-$checkQuery = "SELECT COUNT(*) FROM reviews WHERE id_user = :id_user AND id_auction = :id_auction";
+// Sprawdzenie, czy aukcja istnieje i czy użytkownik jest jej zwycięzcą
+if (!$completedAuction || $completedAuction['highest_bidder_id'] != $currentUserId) {
+    die("Nie masz uprawnień do wystawienia opinii dla tej aukcji.");
+}
+
+$auctionTitle = $completedAuction['title'];
+$sellerId = $completedAuction['seller_id'];
+
+// Sprawdzenie, czy użytkownik już dodał opinię do tej zakończonej aukcji
+$checkQuery = "SELECT COUNT(*) 
+               FROM reviews 
+               WHERE reviewer_id = :reviewer_id AND completed_auction_id = :completed_auction_id";
 $checkStmt = $conn->prepare($checkQuery);
-$checkStmt->bindParam(':id_user', $currentUserId, PDO::PARAM_INT);
-$checkStmt->bindParam(':id_auction', $auctionId, PDO::PARAM_INT);
+$checkStmt->bindParam(':reviewer_id', $currentUserId, PDO::PARAM_INT);
+$checkStmt->bindParam(':completed_auction_id', $auctionId, PDO::PARAM_INT);
 $checkStmt->execute();
 $reviewCount = $checkStmt->fetchColumn();
 
@@ -42,13 +54,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $date = date('Y-m-d H:i:s');
 
     // Wstawianie recenzji do bazy danych
-    $insertQuery = "INSERT INTO reviews (id_user, rating, comment, date, id_auction) VALUES (:id_user, :rating, :comment, :date, :id_auction)";
+    $insertQuery = "INSERT INTO reviews (completed_auction_id, reviewer_id, reviewed_user_id, rating, comment, review_date) 
+                    VALUES (:completed_auction_id, :reviewer_id, :reviewed_user_id, :rating, :comment, :review_date)";
     $insertStmt = $conn->prepare($insertQuery);
-    $insertStmt->bindParam(':id_user', $currentUserId, PDO::PARAM_INT);
+    $insertStmt->bindParam(':completed_auction_id', $auctionId, PDO::PARAM_INT);
+    $insertStmt->bindParam(':reviewer_id', $currentUserId, PDO::PARAM_INT);
+    $insertStmt->bindParam(':reviewed_user_id', $sellerId, PDO::PARAM_INT);
     $insertStmt->bindParam(':rating', $rating, PDO::PARAM_INT);
     $insertStmt->bindParam(':comment', $comment, PDO::PARAM_STR);
-    $insertStmt->bindParam(':date', $date);
-    $insertStmt->bindParam(':id_auction', $auctionId, PDO::PARAM_INT);
+    $insertStmt->bindParam(':review_date', $date);
 
     if ($insertStmt->execute()) {
         echo "<p class='text-green-500'>Opinia została dodana pomyślnie!</p>";
@@ -59,18 +73,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dodaj opinię</title>
     <link rel="stylesheet" href="../src/user_profile.css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <title>Dodaj opinię</title>
 </head>
 <body>
-<header class="bg-blue-950">       
-        <div class=" container w-4/5 m-auto bg-blue-950 flex justify-around  p-8">
-        <div class=""><a href="loggin.php"><img src="/projekt/projekt/img/BidHub_logo_removebg_minimalized.png" alt="Błąd załadowania zdjęcia" width="150" height="150"></a></div>
+    <header class="bg-blue-950">
+        <div class="container w-4/5 m-auto bg-blue-950 flex justify-around p-8">
+            <div><a href="loggin.php"><img src="/projekt/projekt/img/BidHub_logo_removebg_minimalized.png" alt="Logo" width="150" height="150"></a></div>
             <div class="text-white"><a href="user_profile.php">Moje Dane</a></div>
             <div class="text-white"><a href="user_profile_auctions.php">Twoje Aukcje</a></div>
             <div class="text-white"><a href="my_reviews.php">Twoje opinie</a></div>
@@ -79,6 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="text-white"><a href="user_sold_list.php">Sprzedane</a></div>    
         </div>
     </header>
+
     <main class="container mx-auto mt-8">
         <div class="px-4 sm:px-0">
             <h3 class="text-base font-semibold leading-7 text-gray-900">Dodaj opinię</h3>
