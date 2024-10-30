@@ -27,6 +27,7 @@ if ($user) {
     exit();
 }
 
+
 // Proste zapytanie SQL bez JOIN z tabelą categories
 $sql = "SELECT * FROM completed_auctions";
 $stmt = $conn->prepare($sql);

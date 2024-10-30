@@ -1,15 +1,50 @@
 <?php
-session_start(); 
-include_once "../scripts/connect.php"; 
-$query = "
-    SELECT u.id_user, u.firstName,  u.lastName, u.email, u.city, u.street , u.house_number, u.postal_code, u.phone_number
-    FROM users u
-    INNER JOIN completed_auctions ca ON u.id_user = ca.highest_bidder_id
+session_start();
+include_once "../scripts/connect.php";
+
+// Sprawdzenie, czy `auction_id` jest ustawione w URL
+if (!isset($_GET['auction_id'])) {
+    echo "Brak dostępu. Musisz podać prawidłowe ID aukcji.";
+    exit;
+}
+
+// Pobranie `auction_id` z URL
+$auction_id = (int)$_GET['auction_id'];
+
+// Zapytanie SQL: pobranie `id_user` z tabeli `completed_auctions` dla konkretnego `auction_id`
+$queryAuction = "
+    SELECT highest_bidder_id
+    FROM completed_auctions
+    WHERE id = :auction_id
 ";
+$stmtAuction = $conn->prepare($queryAuction);
+$stmtAuction->bindParam(':auction_id', $auction_id, PDO::PARAM_INT);
+$stmtAuction->execute();
 
-$stmt = $conn->prepare($query);
-$stmt->execute();
+// Sprawdzenie, czy znaleziono rekord dla podanego `auction_id`
+$auction = $stmtAuction->fetch(PDO::FETCH_ASSOC);
+if (!$auction) {
+    echo "Brak wyników dla tej aukcji.";
+    exit;
+}
 
+// Pobranie danych użytkownika na podstawie `id_user` z wyniku powyższego zapytania
+$id_user = (int)$auction['highest_bidder_id'];
+$queryUser = "
+    SELECT firstName, lastName, email, city, street, house_number, postal_code, phone_number
+    FROM users
+    WHERE id_user = :id_user
+";
+$stmtUser = $conn->prepare($queryUser);
+$stmtUser->bindParam(':id_user', $id_user, PDO::PARAM_INT);
+$stmtUser->execute();
+
+// Sprawdzenie, czy dane użytkownika zostały znalezione
+$userData = $stmtUser->fetch(PDO::FETCH_ASSOC);
+if (!$userData) {
+    echo "Brak danych użytkownika.";
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,40 +68,38 @@ $stmt->execute();
         </div>
     </header>
     <main class="container mx-auto mt-8">
-        <div class="px-4 sm:px-0">
-            <h3 class="text-xl font-semibold leading-7 text-gray-900">Dane do wysyłki</h3>
-            <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Szczegóły adresowe kupujących.</p>
-        </div>
-        <div class="mt-6 border-t border-gray-300">
-            <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
-                <dl class="divide-y divide-gray-300">
-                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                        <dt class="text-sm font-medium leading-6 text-gray-900">Imię i Nazwisko</dt>
-                        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                            <?php echo htmlspecialchars($row['firstName'] . ' ' . $row['lastName']); ?>
-                        </dd>
-                    </div>
-                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                        <dt class="text-sm font-medium leading-6 text-gray-900">Email</dt>
-                        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                            <?php echo htmlspecialchars($row['email']); ?>
-                        </dd>
-                    </div>
-                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                        <dt class="text-sm font-medium leading-6 text-gray-900">Adres</dt>
-                        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                            <?php echo htmlspecialchars($row['street'] . ' ' . $row['house_number'] . ', ' . $row['postal_code'] . ' ' . $row['city']); ?>
-                        </dd>
-                    </div>
-                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                        <dt class="text-sm font-medium leading-6 text-gray-900">Numer telefonu</dt>
-                        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                            <?php echo htmlspecialchars($row['phone_number']); ?>
-                        </dd>
-                    </div>
-                </dl>
-            <?php endwhile; ?>
-        </div>
-    </main>
+    <div class="px-4 sm:px-0">
+        <h3 class="text-xl font-semibold leading-7 text-gray-900">Dane do wysyłki</h3>
+        <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Szczegóły adresowe kupującego.</p>
+    </div>
+    <div class="mt-6 border-t border-gray-300">
+        <dl class="divide-y divide-gray-300">
+            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="text-sm font-medium leading-6 text-gray-900">Imię i Nazwisko</dt>
+                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                    <?php echo htmlspecialchars($userData['firstName'] . ' ' . $userData['lastName']); ?>
+                </dd>
+            </div>
+            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="text-sm font-medium leading-6 text-gray-900">Email</dt>
+                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                    <?php echo htmlspecialchars($userData['email']); ?>
+                </dd>
+            </div>
+            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="text-sm font-medium leading-6 text-gray-900">Adres</dt>
+                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                    <?php echo htmlspecialchars($userData['street'] . ' ' . $userData['house_number'] . ', ' . $userData['postal_code'] . ' ' . $userData['city']); ?>
+                </dd>
+            </div>
+            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="text-sm font-medium leading-6 text-gray-900">Numer telefonu</dt>
+                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                    <?php echo htmlspecialchars($userData['phone_number']); ?>
+                </dd>
+            </div>
+        </dl>
+    </div>
+</main>
 </body>
 </html>
