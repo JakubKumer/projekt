@@ -89,7 +89,7 @@
                     <td><?php echo htmlspecialchars($auction['start_price']); ?></td>
                     <td><?php echo htmlspecialchars($auction['end_time']); ?></td>
                     <td>                        
-                        <span class="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20"><a href="edit_auction.php?id=<?php echo htmlspecialchars($auction['id_auction']); ?>">Edytuj</a></span>
+                        <span class="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20"><a href="edit_auction.php?id_auction=<?php echo htmlspecialchars($auction['id_auction']); ?>">Edytuj</a></span>
                         <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10"><a href="../scripts/delete_auctions_admin.php?id=<?php echo htmlspecialchars($auction['id_auction']); ?>">Usuń</a></span>
                     </td>
                 </tr>

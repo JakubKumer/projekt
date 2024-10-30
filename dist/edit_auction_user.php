@@ -144,6 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </select>
         </div>
         <div class="mb-4">
+            <img src="<?php echo $auction['image']; ?>" alt="Obraz aukcji" class="mt-4 w-32 h-32">
             <label for="image" class="block text-sm font-medium text-gray-700">Zdjęcie</label>
             <input type="file" name="image" id="image" class="block w-full p-2 border border-gray-300 rounded-md">
         </div>
