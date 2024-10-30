@@ -45,16 +45,17 @@ $completed_auctions = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Zakończone Aukcje</title>
 </head>
 <body>
-    <div class="sidebar">
+<div class="sidebar">
         <a href="admin.php"><i class="fa fa-fw fa-user"></i> Użytkownicy</a>
         <a href="auctions_admin.php"><i class="fa fa-clipboard"></i> Aukcje</a>
         <a href="category_admin.php"><i class="fa fa-clipboard"></i> Kategorie</a>
-        <a href="finished_auction_admin.php"><i class="fa fa-clipboard"></i> Zakończone Aukcje</a>
+        <a href="finished_auction_admin.php"><i class="fa fa-clipboard"></i> Zakończone aukcje</a>
+        <a href="admin_reviews.php"><i class="fa fa-clipboard"></i> Opinie</a>
         <a href="../scripts/logout.php"><i class="fa fa-clipboard"></i> Wyloguj</a>
     </div>
 
     <div class="main">
-        <h1 class="font-bold text-4xl">Panel Administratora</h1>
+    <h1 class="text-5xl">Panel Administratora</h1>
          <!-- Wyświetlanie alertów sukcesu lub błędu -->
          <?php if(isset($_GET['success'])): ?>
          <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 w-auto m-auto lg:w-1/3" role="alert">
