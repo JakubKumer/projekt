@@ -29,7 +29,7 @@ $auctions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body>
 <header class="bg-blue-950">       
-        <div class=" container w-4/5 m-auto bg-blue-950 flex justify-around  p-8">
+    <div class=" container w-4/5 m-auto bg-blue-950 flex justify-around  p-8">
         <div class=""><a href="loggin.php"><img src="/projekt/projekt/img/BidHub_logo_removebg_minimalized.png" alt="Błąd załadowania zdjęcia" width="150" height="150"></a></div>
             <div class="text-white"><a href="user_profile.php">Moje Dane</a></div>
             <div class="text-white"><a href="user_profile_auctions.php">Twoje Aukcje</a></div>
@@ -38,7 +38,8 @@ $auctions = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="text-white"><a href="user_win_auction_profile.php">Wygrane aukcje</a></div> 
             <div class="text-white"><a href="user_sold_list.php">Sprzedane</a></div>    
         </div>
-    </header>
+    </div>
+</header>
    <div class="kontener ">
     <div class="flex justify-evenly m-3">
     <h2>Twoje aukcje</h2>
@@ -63,8 +64,12 @@ $auctions = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td><?php echo htmlspecialchars($auction['category_name']); ?></td>
                     <td><?php echo htmlspecialchars($auction['start_price']); ?></td>
                     <td>                        
-                        <span class="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20"><a href="edit_auction.php?id=<?php echo htmlspecialchars($auction['id_auction']); ?>">Edytuj</a></span>
-                        <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10"><a href="../scripts/delete_auctions.php?id=<?php echo htmlspecialchars($auction['id_auction']); ?>">Usuń</a></span>
+                        <span class="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
+                            <a href="edit_auction_user.php?id_auction=<?php echo htmlspecialchars($auction['id_auction']); ?>">Edytuj</a>
+                        </span>
+                        <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                            <a href="../scripts/delete_auctions.php?id=<?php echo htmlspecialchars($auction['id_auction']); ?>">Usuń</a>
+                        </span>
                     </td>
                 </tr>
             <?php endforeach; ?>
