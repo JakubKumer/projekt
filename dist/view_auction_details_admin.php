@@ -2,19 +2,35 @@
 session_start();
 include_once "../scripts/connect.php";
 
-// Sprawdzenie uprawnień administratora
-if (!isset($_SESSION['id_user']) || $_SESSION['id_role'] != 3) {
-    header("Location: ../admin.php?error=Brak+uprawnień");
-    exit();
-}
+
 
 // Sprawdzenie, czy przekazano ID aukcji
 if (!isset($_GET['id']) || empty($_GET['id'])) {
     header("Location: finished_auction_admin.php?error=Nieprawidłowy+ID+aukcji");
     exit();
 }
-
+$id_user = $_SESSION['id_user'];
 $auction_id = (int)$_GET['id'];
+
+// Sprawdzenie uprawnień administratora
+// Sprawdzenie, czy użytkownik ma przypisaną rolę administratora (id_role == 3)
+$query = "SELECT id_role FROM users WHERE id_user = :id_user";
+$stmt = $conn->prepare($query);
+$stmt->bindValue(':id_user', $id_user, PDO::PARAM_INT);
+$stmt->execute();
+
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+if ($user) {
+    $id_role = $user['id_role'];
+
+    if ($id_role != 3) {
+        echo "Brak uprawnień do przeglądania tej strony.";
+        exit(); // Zatrzymanie dalszego ładowania strony
+    }
+} else {
+    header("Location: login.php");
+    exit(); // Zatrzymanie dalszego ładowania strony
+}
 
 try {
     // Pobieranie id_user na podstawie id aukcji

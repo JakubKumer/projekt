@@ -3,7 +3,7 @@ session_start();
 include_once "../scripts/connect.php";
 
 if (!isset($_GET["id"])) {
-    echo "Nieprawidłowe żądanie.";
+     header("Locations: login.php");
     exit();
 }
 
