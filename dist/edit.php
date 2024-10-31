@@ -119,21 +119,21 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 <div class="main">
     <div class="kontener">
         <h1 class="font-bold text-lg">Profil użytkownika</h1>
-        <?php if (!empty($errors)): ?>
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                <ul>
-                    <?php foreach ($errors as $error): ?>
-                        <li><?php echo $error; ?></li>
-                    <?php endforeach; ?>
+        <?php if(!empty($errors)){?>
+            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 w-auto m-auto lg:w-1/3" role="alert">
+                <p class="font-bold">Błąd</p>
+                <ul><?php foreach($errors as $error){?>
+                   <li> <?php echo $error; ?> <?php } ?></li>
                 </ul>
+            </div>  
+       <?php }
+        ?>
+        <?php if (!empty($successMessage)) { ?>
+            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 w-auto m-auto lg:w-1/3" role="alert">
+                <p class="font-bold">Sukces</p>
+                <p><?php echo $successMessage; ?></p>
             </div>
-        <?php endif; ?>
-
-        <?php if (!empty($successMessage)): ?>
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
-                <?php echo $successMessage; ?>
-            </div>
-        <?php endif; ?>
+        <?php } ?>
         <form class="m-auto w-1/2 flex-wrap" enctype="multipart/form-data" method="POST">
         <div class="block w-1/2 m-auto">
             <label for="firstName">Imię:</label>
