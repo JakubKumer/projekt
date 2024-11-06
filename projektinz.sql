@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Paź 26, 2024 at 10:43 AM
+-- Generation Time: Lis 06, 2024 at 09:43 AM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -45,23 +45,25 @@ CREATE TABLE `auctions` (
 --
 
 INSERT INTO `auctions` (`id_auction`, `id_user`, `id_category`, `title`, `description`, `image`, `start_price`, `end_time`, `highest_bidder_id`, `status`) VALUES
-(15, 20, 1, 'Pies', 'vbdfgndfgngfdnnfgnn', '../uploads/pies.jpg', 432423432423, '2024-06-17 10:27:51', 24, 'completed'),
-(16, 16, 2, 'lambo', 'super szybki samochod', '../uploads/_0e078736-0ae0-4f31-9662-a46dcb69d1a2.jpg', 200000, '2024-06-17 10:45:30', NULL, 'completed'),
-(23, 20, 2, 'Audi A5 2.0', 'Super samochód na daily. Jeden z lepszych do użytku na codzień. ', '../uploads/_2fa9aca3-ab82-4f5b-9c64-7e70ea5217f7.jpg', 323000, '2024-09-29 13:37:20', 20, 'active'),
-(24, 20, 3, 'Piłka', 'Piłka adidas Tango 12 Polska ukraina Euro 2012. Nowa, nie śmigana.', '../uploads/images.jpg', 46, '2024-09-29 13:42:29', 24, 'active'),
-(25, 21, 6, 'Iphone 14 pro max 64Gb', 'Uzywany iphone. w pelni sprawny ', '../uploads/pobrane.jpg', 3201, '2024-09-29 13:46:50', 24, 'active'),
-(26, 21, 6, 'Iphone 8 32Gb', 'Iphone 8 ślady użycia w stattracku', '../uploads/pobrane (1).jpg', 906, '2024-09-29 13:48:34', 20, 'active'),
-(27, 22, 8, 'Krem na haluksy', 'Super efketywny krem na haluksy. znikaja w mig ', '../uploads/pobrane (2).jpg', 14, '2024-09-29 13:54:09', 28, 'active'),
-(28, 22, 8, 'ibuprofen', 'tabletki na ból głowy ', '../uploads/pobrane (3).jpg', 8, '2024-09-29 13:55:10', 26, 'active'),
-(29, 23, 9, 'Pan Tadeusz', 'Produkt z bilbioteki publicznej, ślady użytku', '../uploads/pobrane (4).jpg', 4, '2024-09-29 14:34:37', NULL, 'active'),
-(32, 23, 9, 'Indiana Jones film', 'Film reżyserii Stevena Spielberga z lat 90-tych. W roli głownej Harrison Ford.', '../uploads/images (1).jpg', 13, '2024-09-29 14:39:14', 23, 'active'),
-(33, 24, 10, 'Ławka ogrodowa z Prawdziwego Drewna', 'ławka zrobiona z Dębowego drewna.', '../uploads/pobrane (5).jpg', 399, '2024-09-29 14:41:46', NULL, 'active'),
-(34, 24, 10, 'Lodówka Samsung Ekologiczna', 'Lodównka samsung nowa. Jedna z lepszych', '../uploads/pobrane (6).jpg', 2000, '2024-09-29 14:42:44', 23, 'active'),
-(35, 24, 11, 'Krem do rąk', 'Krem nawilżający do rąk', '../uploads/pobrane (7).jpg', 2, '2024-09-29 14:46:14', NULL, 'active'),
-(36, 24, 11, 'Krem Do twarzy', 'Krem do twarzy zapychajacy pory ', '../uploads/images (2).jpg', 4, '2024-09-29 14:47:23', NULL, 'active'),
-(37, 20, 6, 'sdsfdfsdffsd', '1saxgbdfgnbngb g   ', '../uploads/pobrane (5).jpg', 32, '2024-10-04 15:11:13', NULL, 'active'),
-(38, 26, 2, 'Samochód', 'Jeden z lepszych samochodów', '../uploads/_30077089-005d-4f98-952e-9f4850e00392.jpg', 2003, '2024-10-20 18:14:00', 20, 'active'),
-(39, 28, 11, 'Haluks', 'Największy Haluks w mieście', '../uploads/_352c8360-0981-4fdd-87f2-83bf15cc2497.jpg', 500, '2024-10-22 13:14:00', NULL, 'active');
+(45, 28, 4, 'Karma dla psów ', 'Wysokiej jakości karma z naturalnych składników, idealna dla psów wszystkich ras.gdfgdgdfgdfgdfg', '../uploads/_f4db675e-9dcd-4a5d-baae-8db910eea07b.jpg', 120, '2024-10-31 16:27:00', NULL, 'active'),
+(48, 18, 3, 'Piłka', 'Profesjonalna piłka skórzana, idealna do gry na parkiecie.', '../uploads/pobrane (2).jpeg', 80, '2024-11-01 20:37:00', NULL, 'active'),
+(50, 29, 6, 'Bezprzewodowe słuchawki', 'Słuchawki z technologią Bluetooth, doskonała jakość dźwięku i komfort noszenia.', '../uploads/pobrane (4).jpeg', 300, '2024-11-01 10:36:00', NULL, 'active'),
+(59, 23, 4, 'Plecak miejski', 'Stylowy plecak z wieloma kieszeniami, idealny na co dzień.', '../uploads/pobrane (13).jpeg', 120, '2024-10-31 14:43:00', NULL, 'active'),
+(61, 28, 7, 'Klocki konstrukcyjne', 'Zestaw kolorowych klocków rozwijających wyobraźnię i zdolności manualne.', '../uploads/pobrane (15).jpeg', 150, '2024-10-31 11:47:00', NULL, 'active'),
+(62, 21, 8, 'Maty do ćwiczeń', 'Wygodna mata do ćwiczeń, idealna do fitnessu i jogi.', '../uploads/pobrane (16).jpeg', 80, '2024-10-31 17:03:00', NULL, 'active'),
+(63, 20, 9, 'Album z muzyką klasyczną', 'Kolekcja największych dzieł muzyki klasycznej w wysokiej jakości.', '../uploads/pobrane (17).jpeg', 60, '2024-10-31 22:51:00', NULL, 'active'),
+(64, 15, 10, 'Zestaw narzędzi ogrodowych', 'Komplet narzędzi do pielęgnacji ogrodu, w tym łopata, grabie i sekator.', '../uploads/pobrane (18).jpeg', 110, '2024-10-31 23:24:00', NULL, 'active'),
+(65, 18, 11, 'Peeling do ciała', 'Naturalny peeling z solą morską i olejkami eterycznymi.', '../uploads/pobrane (19).jpeg', 40, '2024-11-01 09:51:00', NULL, 'active'),
+(66, 24, 1, 'Transporter dla zwierząt', 'Wygodny transporter dla psów i kotów, idealny do podróży.', '../uploads/pobrane (20).jpeg', 150, '2024-11-01 11:30:00', NULL, 'active'),
+(67, 23, 2, 'Zestaw opon letnich', 'Komplet opon letnich, zapewniających doskonałą przyczepność na drodze.', '../uploads/pobrane (21).jpeg', 1200, '2024-11-01 14:22:00', NULL, 'active'),
+(68, 31, 3, 'Rower górski', 'Wytrzymały rower górski z amortyzacją, idealny do jazdy w terenie.', '../uploads/pobrane (22).jpeg', 1500, '2024-11-01 17:24:00', NULL, 'active'),
+(69, 32, 4, 'Kurtka puchowa', 'Lekka kurtka puchowa, idealna na zimowe dni.', '../uploads/pobrane (23).jpeg', 300, '2024-11-01 19:53:00', NULL, 'active'),
+(70, 27, 7, 'laptop gamingowy dsadasdadasdasdasdasdasdasda', 'Wydajny laptop z kartą graficzną, idealny do grania i pracy. i nic nie robienia pozdrot', '../uploads/_3a571eb7-8740-4eea-bb12-8148c33509fc.jpg', 3500, '2024-11-01 21:21:00', NULL, 'active'),
+(71, 29, 7, 'Rowerek biegowy', 'Idealny dla najmłodszych, rozwijający równowagę i koordynację.', '../uploads/pobrane (25).jpeg', 250, '2024-11-01 23:28:00', NULL, 'active'),
+(72, 20, 8, 'Ciśnieniomierz elektroniczny', 'Niezawodny ciśnieniomierz na ramię, idealny do monitorowania zdrowia w domu.', '../uploads/pobrane (26).jpeg', 200, '2024-11-02 10:22:00', NULL, 'active'),
+(73, 31, 9, 'Puzzle 1000 elementów', 'Kolorowe puzzle przedstawiające panoramę miasta, idealne na długie wieczory.', '../uploads/pobrane (27).jpeg', 50, '2024-11-02 13:09:00', NULL, 'active'),
+(74, 17, 10, 'Zestaw dekoracyjnych świec zapachowych', 'Komplet świec w różnych zapachach, które wprowadzą przytulną atmosferę do każdego pomieszczenia.', '../uploads/pobrane (28).jpeg', 70, '2024-11-02 18:43:00', NULL, 'active'),
+(75, 17, 11, 'Olejek arganowy do włosów', 'Naturalny olejek nawilżający, nadający włosom blask i miękkość.', '../uploads/pobrane (29).jpeg', 35, '2024-11-02 22:37:00', NULL, 'active');
 
 -- --------------------------------------------------------
 
@@ -117,7 +119,22 @@ CREATE TABLE `completed_auctions` (
 
 INSERT INTO `completed_auctions` (`id`, `title`, `image`, `description`, `end_time`, `price`, `status`, `id_user`, `highest_bidder_id`, `payment_status`, `delivery_status`, `is_send`) VALUES
 (15, 'Pies', '../uploads/pies.jpg', 'vbdfgndfgngfdnnfgnn', '2024-06-17 10:27:51', 99.99, 'completed', 20, 24, 'zaplacone', 'odebrane', 'tak'),
-(16, 'lambo', '../uploads/_0e078736-0ae0-4f31-9662-a46dcb69d1a2.jpg', 'super szybki samochod', '2024-06-17 10:45:30', 200000.00, 'completed', 21, NULL, 'niezaplacone', 'nieodebrane', 'nie');
+(43, 'asdasdasd', '../uploads/_f4db675e-9dcd-4a5d-baae-8db910eea07b.jpg', 'sdfsfsf', '2024-10-30 10:30:00', 323.00, 'completed', 33, 30, 'niezaplacone', 'nieodebrane', 'nie'),
+(47, 'Zestaw do detailingu samochodu', '../uploads/pobrane (1).jpeg', 'Komplet akcesoriów do pielęgnacji samochodu, w tym woski, środki czyszczące i ściereczki.', '2024-10-30 16:34:00', 150.00, 'completed', 30, NULL, 'niezaplacone', 'nieodebrane', 'nie'),
+(49, 'T-shirt ', '../uploads/pobrane (3).jpeg', 'Wygodny bawełniany T-shirt z oryginalnym nadrukiem.', '2024-10-30 01:37:00', 50.00, 'completed', 25, NULL, 'niezaplacone', 'nieodebrane', 'nie'),
+(51, 'Zabawka edukacyjna dla dzieci', '../uploads/pobrane (5).jpeg', 'Interaktywna zabawka rozwijająca zdolności manualne i logiczne myślenie.', '2024-10-31 04:38:00', 70.00, 'completed', 28, NULL, 'niezaplacone', 'nieodebrane', 'nie'),
+(52, 'Suplement diety z witaminą D', '../uploads/pobrane (6).jpeg', 'Wspiera układ odpornościowy i zdrowie kości.', '2024-10-29 18:40:00', 47.00, 'completed', 15, 31, 'niezaplacone', 'nieodebrane', 'nie'),
+(53, 'Gra planszowa Wiedźmin', '../uploads/pobrane (7).jpeg', 'Epicka gra planszowa osadzona w uniwersum Wiedźmina.', '2024-10-29 20:43:00', 202.00, 'completed', 27, 28, 'niezaplacone', 'nieodebrane', 'nie'),
+(54, 'Doniczka z systemem nawadniania', '../uploads/pobrane (8).jpeg', 'Nowoczesna doniczka, która automatycznie nawadnia rośliny.', '2024-10-29 23:42:00', 90.00, 'completed', 32, NULL, 'niezaplacone', 'nieodebrane', 'nie'),
+(55, 'Krem nawilżający do twarzy', '../uploads/pobrane (9).jpeg', 'Lekki krem z naturalnymi składnikami, doskonały dla wszystkich typów skóry.', '2024-10-30 11:41:00', 75.00, 'completed', 16, NULL, 'niezaplacone', 'nieodebrane', 'nie'),
+(56, 'Zabawka dla kota', '../uploads/pobrane (10).jpeg', 'Interaktywna zabawka w formie myszki, zachęcająca do zabawy.', '2024-10-30 19:44:00', 25.00, 'completed', 15, NULL, 'niezaplacone', 'nieodebrane', 'nie'),
+(57, 'Odtwarzacz multimedialny do samochodu', '../uploads/pobrane (11).jpeg', 'Nowoczesny odtwarzacz z ekranem dotykowym, Bluetooth i GPS.', '2024-10-30 20:09:00', 450.00, 'completed', 25, NULL, 'niezaplacone', 'nieodebrane', 'nie'),
+(58, 'Mata szmata', '../uploads/pobrane (12).jpeg', 'Antypoślizgowa mata, idealna do ćwiczeń w domu i na zewnątrz.', '2024-10-30 11:17:00', 100.00, 'completed', 27, NULL, 'niezaplacone', 'nieodebrane', 'nie'),
+(60, 'Smartwatch', '../uploads/pobrane (14).jpeg', 'Inteligentny zegarek z funkcjami monitorowania zdrowia i aktywności fizycznej.', '2024-10-31 07:48:00', 600.00, 'completed', 32, NULL, 'niezaplacone', 'nieodebrane', 'nie'),
+(77, 'Piłka', '../uploads/_f4db675e-9dcd-4a5d-baae-8db910eea07b.jpg', 'ddsvbbn fhfnhfnhfghnfgn', '2024-10-29 19:09:00', 301.00, 'completed', 29, 20, 'niezaplacone', 'nieodebrane', 'nie'),
+(78, 'Panie co tak drogo', '../uploads/_eee8c321-bd0c-45fc-8d6e-db13b047106a.jpg', 'sdsfdasdfsdfsfsdfds', '2024-10-29 17:38:00', 4.00, 'completed', 31, 28, 'zaplacone', 'odebrane', 'tak'),
+(79, 'dasdasdadsasd', '../uploads/_f4db675e-9dcd-4a5d-baae-8db910eea07b.jpg', 'sdasdasdasdasdasd', '2024-10-29 20:07:00', 34.00, 'completed', 20, 31, 'niezaplacone', 'nieodebrane', 'nie'),
+(80, 'kwas', '../uploads/_2fa9aca3-ab82-4f5b-9c64-7e70ea5217f7.jpg', 'wedfgfgbsdf dbvcbbv', '2024-10-29 23:13:00', 45.00, 'completed', 31, 30, 'zaplacone', 'odebrane', 'tak');
 
 -- --------------------------------------------------------
 
@@ -131,18 +148,6 @@ CREATE TABLE `favorites` (
   `id_auction` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Dumping data for table `favorites`
---
-
-INSERT INTO `favorites` (`id_favorite`, `id_user`, `id_auction`) VALUES
-(9, 20, 23),
-(7, 23, 16),
-(5, 23, 32),
-(6, 23, 34),
-(11, 24, 26),
-(14, 28, 27);
-
 -- --------------------------------------------------------
 
 --
@@ -151,20 +156,20 @@ INSERT INTO `favorites` (`id_favorite`, `id_user`, `id_auction`) VALUES
 
 CREATE TABLE `reviews` (
   `id_review` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL,
-  `rating` int(1) NOT NULL,
-  `comment` varchar(1000) NOT NULL,
-  `date` datetime NOT NULL,
-  `id_auction` int(11) NOT NULL
+  `completed_auction_id` int(11) NOT NULL,
+  `reviewer_id` int(11) NOT NULL,
+  `reviewed_user_id` int(11) NOT NULL,
+  `rating` tinyint(4) NOT NULL CHECK (`rating` between 1 and 5),
+  `comment` varchar(1000) DEFAULT NULL,
+  `review_date` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `reviews`
 --
 
-INSERT INTO `reviews` (`id_review`, `id_user`, `rating`, `comment`, `date`, `id_auction`) VALUES
-(0, 24, 3, 'badziew', '2024-10-21 23:04:59', 0),
-(0, 24, 3, 'uszkodzona paczka', '2024-10-21 23:10:41', 0);
+INSERT INTO `reviews` (`id_review`, `completed_auction_id`, `reviewer_id`, `reviewed_user_id`, `rating`, `comment`, `review_date`) VALUES
+(3, 81, 22, 31, 5, 'badziew', '2024-10-30 11:04:06');
 
 -- --------------------------------------------------------
 
@@ -217,7 +222,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id_user`, `firstName`, `lastName`, `email`, `id_role`, `pass`, `passwordrepeat`, `city`, `street`, `house_number`, `postal_code`, `phone_number`, `profile_image`, `reset_token`, `token_expiry`, `bank_account_number`) VALUES
 (1, 'Kuba', 'Zguba', 'kuba@wp.pl', 3, '123', '', NULL, NULL, NULL, NULL, NULL, '../uploads/user-3331256_1280.png', NULL, NULL, NULL),
-(2, 'Kacper', 'łokieć', 'loki@wp.pl', 1, '123', '', NULL, NULL, NULL, NULL, NULL, '../uploads/user-3331256_1280.png', NULL, NULL, NULL),
+(2, 'Kacper', 'łokieć', 'loki@wp.pl', 1, '123', '', 'Zielona gora', 'jakas', '31', '62-987', '987654321', '../uploads/6720a3d534d02.jpg', NULL, NULL, 'PL90783088396620068851478172'),
 (3, 'marek', 'farek', 'marek@wp.pl', 1, '$2y$10$Ih/xQrlORgk6myj.tShom..qQbpI/VlUXnM.kJfAiw2Zgcuu7J0MC', '', NULL, NULL, NULL, NULL, NULL, '../uploads/user-3331256_1280.png', NULL, NULL, NULL),
 (4, 'dsa', 'dsa', 'fra@dsa.pl', 1, '123456789', '', NULL, NULL, NULL, NULL, NULL, '../uploads/user-3331256_1280.png', NULL, NULL, NULL),
 (7, 'piotr', 'jak', 'jak@wp.pl', 1, '$2y$10$MRCyAdsh.3ut/Ai66326Demi7Wf8/tzrOJMqQkCHGcbdMoRMhoV2S', '', NULL, NULL, NULL, NULL, NULL, '../uploads/user-3331256_1280.png', NULL, NULL, NULL),
@@ -237,10 +242,15 @@ INSERT INTO `users` (`id_user`, `firstName`, `lastName`, `email`, `id_role`, `pa
 (22, 'Firma', 'Farmaceutyczna', 'farm@wp.pl', 1, '$2y$10$4McZ8/7ZcwJ6Odc7UxjjL.pje6VRzQy3Ai64TYyWQjCwMN8QhiLa.', '$2y$10$4McZ8/7ZcwJ6Odc7UxjjL.pje6VRzQy3Ai64TYyWQjCwMN8QhiLa.', NULL, NULL, NULL, NULL, NULL, '../uploads/user-3331256_1280.png', NULL, NULL, NULL),
 (23, 'biblioteka', 'poznanska', 'biblio@wp.pl', 3, '$2y$10$2aU0pqSutdJpxVPwV4kE0ONK9a.rW5AzgdyohwruyPo9cceVMDBaG', '$2y$10$2aU0pqSutdJpxVPwV4kE0ONK9a.rW5AzgdyohwruyPo9cceVMDBaG', NULL, NULL, NULL, NULL, NULL, '../uploads/user-3331256_1280.png', NULL, NULL, NULL),
 (24, 'Basia', 'Kowal', 'kowal@wp.pl', 1, '$2y$10$JDAh8aYZIErcu.NOpQZms.zoyrJuKv58zxRNZz.eVzYJatXAIx6wG', '$2y$10$JDAh8aYZIErcu.NOpQZms.zoyrJuKv58zxRNZz.eVzYJatXAIx6wG', 'Poznan', 'Polna', '5', '60-600', '867768590', '../uploads/user-3331256_1280.png', NULL, NULL, NULL),
-(25, 'Jakub', 'walek', 'walek@interia.pl', 1, '$2y$10$0uA0A0W05H5vQKWeDyLlYOJ0ZKIbDaWA5Hv3/U.BkONd9tQ4hx5K.', '$2y$10$0uA0A0W05H5vQKWeDyLlYOJ0ZKIbDaWA5Hv3/U.BkONd9tQ4hx5K.', NULL, NULL, NULL, NULL, NULL, '../uploads/user-3331256_1280.png', NULL, NULL, NULL),
+(25, 'Jakub', 'walek', 'walek@interia.pl', 1, '$2y$10$0uA0A0W05H5vQKWeDyLlYOJ0ZKIbDaWA5Hv3/U.BkONd9tQ4hx5K.', '$2y$10$0uA0A0W05H5vQKWeDyLlYOJ0ZKIbDaWA5Hv3/U.BkONd9tQ4hx5K.', 'Krakow', 'jakas', '9', '56-500', '987654321', '../uploads/6720a2f15410b.jpg', NULL, NULL, 'PL53867519625366832828787461'),
 (26, 'Kuba', 'Kumer', 'jakubkumer@interia.pl', 1, '$2y$10$WJfEvZob6alKMwgmWXVyxuxiMDLNn8h8UvtSkJBmBgV0xDI/T9j1W', '$2y$10$2Zt2U3rtBGzK.vsPsHDOfO1g91uv.HB32mE5yszc8qQ5k2/T6IUrS', 'chojnice', 'prochowa', '32', '98-606', '888999000', '../uploads/user-3331256_1280.png', NULL, NULL, 'PL03109024029849819558446237'),
-(27, 'Jakub', 'Kumer', 'freezsky7@interia.pl', 1, '$2y$10$gYE0r/lOKCRu.9bhKO69sOHigrZHw33ykkhnsvHUwbUUwZ9KatjYi', '$2y$10$gYE0r/lOKCRu.9bhKO69sOHigrZHw33ykkhnsvHUwbUUwZ9KatjYi', NULL, NULL, NULL, NULL, NULL, '../uploads/user-3331256_1280.png', NULL, NULL, NULL),
-(28, 'Juleczka', 'Kuleczka', 'julka@wp.pl', 1, '$2y$10$yFWsqKvnmoXZUSRzpVG0LuI3TClRicg15K0frl/wdWH4usDML9cei', '$2y$10$yFWsqKvnmoXZUSRzpVG0LuI3TClRicg15K0frl/wdWH4usDML9cei', NULL, NULL, NULL, NULL, NULL, '../uploads/user-3331256_1280.png', NULL, NULL, NULL);
+(27, 'Jakub', 'Kumer', 'freezsky7@interia.pl', 1, '$2y$10$mdX50HmES2r5Ogc3YbfCX.QF5kNovZ4P6XASsqI7gPcOW9aIdvRee', '$2y$10$gYE0r/lOKCRu.9bhKO69sOHigrZHw33ykkhnsvHUwbUUwZ9KatjYi', 'Poznan', 'Winiarska', '24', '32-422', '321123321', '../uploads/user-3331256_1280.png', NULL, NULL, 'PL527831821617923857128398556666'),
+(28, 'Juleczka', 'Kuleczka', 'julka@wp.pl', 1, '$2y$10$yFWsqKvnmoXZUSRzpVG0LuI3TClRicg15K0frl/wdWH4usDML9cei', '$2y$10$yFWsqKvnmoXZUSRzpVG0LuI3TClRicg15K0frl/wdWH4usDML9cei', 'Gdańsk', 'Portowa', '32', '32-234', '432567098', '../uploads/user-3331256_1280.png', NULL, NULL, 'PL12292993487740609636947886'),
+(29, 'Bartek', 'Beton', 'bartek@wp.pl', 1, '$2y$10$IBZZyTvh.VsGYxKVW3gBzeaEJc9CmfRYRtr3DgT4c0XH1/x8mjAs6', '$2y$10$IBZZyTvh.VsGYxKVW3gBzeaEJc9CmfRYRtr3DgT4c0XH1/x8mjAs6', 'Warszawa', 'Złota', '44', '53-321', '123456789', '../uploads/6720f47f2a145.jpg', NULL, NULL, 'PL93441206962999825288861751'),
+(30, 'Marian', 'Kwas', 'marian@wp.pl', 1, '$2y$10$tkTgQJCC7XMCfWOq/jdQK.XaS8YTcDkyUhZz06dJRgHSKd1UgPCJ2', '$2y$10$tkTgQJCC7XMCfWOq/jdQK.XaS8YTcDkyUhZz06dJRgHSKd1UgPCJ2', 'Warocław', 'szybka', '5', '54-879', '321456789', '../uploads/6720d4a6cb0ac.jpg', NULL, NULL, 'PL12104484348704793456684775'),
+(31, 'Grzegorz', 'kowalski', 'grzegorz@wp.pl', 1, '$2y$10$8zygwWRK6TSjZxoCdINtUOp55XLl11C0Jb6FGEE3bDifBkf4zK8Te', '$2y$10$8zygwWRK6TSjZxoCdINtUOp55XLl11C0Jb6FGEE3bDifBkf4zK8Te', 'Chojnice', 'Prochowa', '3', '89-675', '321456987', '../uploads/67210f021c193.jpg', NULL, NULL, 'PL92250654312603302168021823'),
+(32, '3212', '3212', '3212@wp.pl', 1, '$2y$10$gJ3SguzOWst00xIZA0wGkOMpzgPjnpf3WAEkrM.b.mstCpX3PoHGO', '$2y$10$gJ3SguzOWst00xIZA0wGkOMpzgPjnpf3WAEkrM.b.mstCpX3PoHGO', NULL, NULL, NULL, NULL, NULL, '../uploads/user-3331256_1280.png', NULL, NULL, NULL),
+(33, 'Karol', 'Kot', 'availablemadelaine@navalcadets.com', 1, '$2y$10$RCPOfN7USXOHv7gCK1kdwOa0tgtB/0vVW5oeBQ2GyMHigXmVrENvm', '$2y$10$5.E2oUfuBr4gKXcBnrITIerdxA9eoNXrRsq1udlfIDh9Ebi6FW1RO', NULL, NULL, NULL, NULL, NULL, '../uploads/user-3331256_1280.png', NULL, NULL, NULL);
 
 --
 -- Indeksy dla zrzutów tabel
@@ -276,6 +286,15 @@ ALTER TABLE `favorites`
   ADD KEY `id_auction` (`id_auction`);
 
 --
+-- Indeksy dla tabeli `reviews`
+--
+ALTER TABLE `reviews`
+  ADD PRIMARY KEY (`id_review`),
+  ADD KEY `completed_auction_id` (`completed_auction_id`),
+  ADD KEY `reviewer_id` (`reviewer_id`),
+  ADD KEY `reviewed_user_id` (`reviewed_user_id`);
+
+--
 -- Indeksy dla tabeli `role`
 --
 ALTER TABLE `role`
@@ -298,19 +317,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `auctions`
 --
 ALTER TABLE `auctions`
-  MODIFY `id_auction` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id_auction` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id_category` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_category` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `id_favorite` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_favorite` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT for table `reviews`
+--
+ALTER TABLE `reviews`
+  MODIFY `id_review` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `role`
@@ -322,7 +347,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- Constraints for dumped tables
