@@ -205,8 +205,8 @@ if (isset($_SESSION['id_user']) && isset($_SESSION['email'])) {
     </ul>
 
     <!-- Filtry -->
-    <div class="bg-gray-300 p-4 mt-4 rounded-lg m-auto">
-        <h2 class="font-bold">Filtry</h2>
+    <div class="bg-gray-200 p-4 mt-4 rounded-lg m-auto">
+        <h2 class="font-bold text-center">Filtry</h2>
         <form method="GET" action="loggin.php">
             <div class="m-auto">
                 <label>Cena (zł)</label><br>
