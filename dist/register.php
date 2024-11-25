@@ -68,7 +68,7 @@ unset($_SESSION['success']);
                     <input type="checkbox" name="checkbox" id="checkbox">
                     <span>Akceptuję regulamin</span>
                 </div>    
-                <div class="g-recaptcha" data-sitekey="6LcFomomAAAAAJhwaC5dkkcCNcaBDahjIbH-w5-s"></div>
+                <div class="g-recaptcha" data-sitekey="6LexgokqAAAAAF7MHc0tpyye-i8B2TkqiAD4pXfD"></div>
                 <input type="submit" name="submit" id="submit" value="Zarejestruj">
                 <div class="links">
                     <a href="login.php">Logowanie</a>                   

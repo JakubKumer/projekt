@@ -12,7 +12,7 @@ if (isset($_POST["email"])) {
     $pass1 = $_POST['password1'];
     $pass2 = $_POST['password2'];
     $passhash = password_hash($pass1, PASSWORD_DEFAULT);
-    $secretkey = "6LcFomomAAAAAHfg3GSrse9LrfPD5h91WEIAgPx6";
+    $secretkey = "6LexgokqAAAAAFhdt8_dRiMFDCgpFSOcYOh2TZzy";
     $check = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=' . $secretkey . '&response=' . $_POST['g-recaptcha-response']);
     $replay = json_decode($check, true);
 
@@ -54,6 +54,9 @@ if (isset($_POST["email"])) {
     if (!$replay['success']) {
         $fine = false;
         $errors[] = "Potwierdź, że nie jesteś botem.";
+        if (isset($replay['error-codes'])) {
+            $errors[] = "Błąd reCAPTCHA: " . implode(', ', $replay['error-codes']);
+        }
     }
 
     require_once "connect.php";
