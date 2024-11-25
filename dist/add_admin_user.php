@@ -55,7 +55,7 @@
     </div>
 
     <div class="main">
-        <h1 class="font-bold text-lg">Nowu użytkownik</h1>
+        <h1 class="font-bold text-lg">Nowy użytkownik</h1>
         <?php if (!empty($errors)) { ?>
             <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 w-1/2 m-auto" role="alert">
                 <p class="font-bold">Błąd</p>

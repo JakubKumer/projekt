@@ -51,8 +51,8 @@ $auctions = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <th>Tytuł</th>
                 <th>Opis</th>
                 <th>Zdjęcie</th>
-                <th>kategoria</th>
-                <th>Cena początkowa</th>
+                <th>Kategoria</th>
+                <th>Cena aktualna</th>
                 <th>Akcje</th>
             </tr>
             <?php foreach ($auctions as $auction): ?>

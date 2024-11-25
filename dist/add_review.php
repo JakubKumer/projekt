@@ -119,9 +119,11 @@ echo "<p class='text-red-500'>Wystąpił błąd podczas dodawania opinii.</p>";
                 <label for="comment" class="block text-sm font-medium text-gray-700">Komentarz:</label>
                 <textarea name="comment" id="comment" rows="4" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
             </div>
+            <div>
             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Dodaj opinię
             </button>
+            </div>
         </form>
     </main>
 </body>
