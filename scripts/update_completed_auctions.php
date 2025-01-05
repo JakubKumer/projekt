@@ -58,14 +58,12 @@ try {
         $conn->commit();
         header("Location: ../dist/finished_auction_admin.php?success=Pomyślnie+zaktualizowano+" . $stmtInsert->rowCount() . "+aukcji");
     } else {
-        // Cofnięcie zmian, jeśli nie było wierszy do przeniesienia
         $conn->rollBack();
         header("Location: ../dist/finished_auction_admin.php?error=Brak+aukcji+do+zaktualizowania");
     }
     exit();
 
 } catch (Exception $e) {
-    // Cofnięcie zmian w przypadku błędu
     $conn->rollBack();
     header("Location: ../dist/finished_auction_admin.php?error=Wystąpił+błąd+podczas+aktualizacji+aukcji". urlencode("Błąd: " . $e->getMessage()));
     exit();
