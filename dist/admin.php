@@ -56,6 +56,19 @@
     <div class="main">
     <h1 class="text-5xl">Panel Administratora</h1>
         <h2 id="uzytkownicy">Użytkownicy</h2>
+        <?php if (isset($_GET['success'])): ?>
+        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 w-auto m-auto lg:w-1/3" role="alert">
+            <p class="font-bold">Sukces</p>
+            <p><?php echo htmlspecialchars($_GET['success']); ?></p>
+        </div>
+        <?php endif; ?>
+
+        <?php if (isset($_GET['error'])): ?>
+        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 w-auto m-auto lg:w-1/3" role="alert">
+            <p class="font-bold">Błąd</p>
+            <p><?php echo htmlspecialchars($_GET['error']); ?></p>
+        </div>
+        <?php endif; ?>
         <div class="flex justify-end mr-5"><button type="button" class="ml-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"><a href="add_admin_user.php">Dodaj użytkownika</a></button></div>
         <table>
             <tr>

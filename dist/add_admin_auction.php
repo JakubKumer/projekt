@@ -49,10 +49,14 @@ try {
 </head>
 <body>
 <div class="sidebar">
-    <a href="admin.php"><i class="fa fa-fw fa-user"></i> Użytkownicy</a>
-    <a href="auctions_admin.php"><i class="fa fa-clipboard"></i> Aukcje</a>
-    <a href="category_admin.php"><i class="fa fa-clipboard"></i> Kategorie</a>
-</div>
+    <div class="text-white"></div>
+        <a href="admin.php"><i class="fa fa-fw fa-user"></i> Użytkownicy</a>
+        <a href="auctions_admin.php"><i class="fa fa-clipboard"></i> Aukcje</a>
+        <a href="category_admin.php"><i class="fa fa-clipboard"></i> Kategorie</a>
+        <a href="finished_auction_admin.php"><i class="fa fa-clipboard"></i> Zakończone aukcje</a>
+        <a href="admin_reviews.php"><i class="fa fa-clipboard"></i> Opinie</a>
+        <a href="../scripts/logout.php"><i class="fa fa-clipboard"></i> Wyloguj</a>
+    </div>
 <div class="kontener">
     <h1 class="font-bold text-lg">Dodaj Aukcje</h1>
 
