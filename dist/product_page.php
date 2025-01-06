@@ -95,7 +95,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bid_amount'])) {
             $auction['start_price'] = $newBid;
             $auction['highest_bidder_id'] = $currentUserId;
             $auction['highest_bidder_first_name'] = $_SESSION['firstName'];
-            $auction['highest_bidder_last_name'] = $_SESSION['lastName'];
 
             $successMessage = "Twoja oferta jest aktualnie najwyższa: {$newBid} zł";
         } else {
