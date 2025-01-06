@@ -66,6 +66,14 @@ include_once "../scripts/admin_filtr.php";
 <div class="main">
 <h1 class="text-5xl">Panel Administratora</h1>
     <h2>Opinie</h2>
+    <?php
+    if (isset($_GET['success']) && $_GET['success'] == 1) {
+        echo "<div class='bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4' role='alert'>
+                <p class='font-bold'>Sukces</p>
+                <p>Opinia została pomyślnie usunięta.</p>
+            </div>";
+    }
+    ?>
     <table>
         <tr>
             <th>ID Opinii</th>
